@@ -1,0 +1,38 @@
+language: objective-c
+xcode_project: disney.xcodeproj
+osx_image: xcode8
+xcode_sdk: iphonesimulator10.0
+xcode_scheme: disney
+
+env:
+  matrix:
+    - TEST_TYPE=BUILD
+    - TEST_TYPE=TEST
+
+before_install:
+- |
+
+    if ! which swiftlint >/dev/null; then
+      brew install swiftlint
+    fi
+    gem install xcpretty -N --no-ri --no-rdoc
+#  - brew update
+#  - brew install carthage
+#  - gem install cocoapods
+install:
+- |
+    carthage bootstrap --platform iOS --no-use-binaries
+
+script:
+- |
+    if [ "$TEST_TYPE" = BUILD ]; then
+      xcodebuild build -scheme 'disney' -destination "platform=iOS Simulator,name=iPhone 7 Plus" -sdk iphonesimulator | xcpretty
+    elif [ "$TEST_TYPE" = TEST ]; then
+      xcodebuild clean test -scheme 'disney' -destination "platform=iOS Simulator,name=iPhone 7 Plus" -sdk iphonesimulator -enableCodeCoverage YES | xcpretty
+    fi
+
+# after_success:
+# - |
+#     if [ "$TEST_TYPE" = iOS ]; then
+#         bash <(curl -s https://codecov.io/bash) -J 'disney'
+#     fi
