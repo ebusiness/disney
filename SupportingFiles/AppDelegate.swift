@@ -16,6 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // swiftlint:disable:next line_length
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+
+        if !isVisitorTagAssigned() {
+            // 用户选择标签
+            let visitorTagVC = VisitorTagVC()
+            let navigationVC = NavigationVC(rootViewController: visitorTagVC)
+
+            window?.rootViewController = navigationVC
+            window?.makeKeyAndVisible()
+        } else {
+            // 主功能
+            let tabVC = TabVC()
+
+            window?.rootViewController = tabVC
+            window?.makeKeyAndVisible()
+        }
         return true
     }
 
@@ -32,6 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+    }
+
+    func isVisitorTagAssigned() -> Bool {
+        return false
     }
 
 }
