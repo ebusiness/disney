@@ -31,5 +31,5 @@ file_header:
                     \/\/  disney
                     \/\/
                     \/\/  Created by .*? on \d{4}\/\d{1,2}\/\d{1,2}\.
-                    \/\/  Copyright © \d{4} e-business\. All rights reserved\.
+                    \/\/  Copyright © \d{4}\w? e-business\. All rights reserved\.
                     \/\/

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// swiftlint:disable line_length
 class VisitorTagVC: UIViewController {
 
     var collectionView: UICollectionView!
@@ -68,9 +69,7 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         return numbers[section].count
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
 
@@ -82,35 +81,29 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         return CGSize(width: width, height: height)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
             as? VisitorTagCell else {
-            fatalError("Cell should be a member of VisitorTagCell!")
+            fatalError("Unexpected cell class")
         }
         cell.content.text = "\(numbers[indexPath.section][indexPath.item])"
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let width = UIScreen.main.bounds.width
         let height = CGFloat(24)
         return CGSize(width: width, height: height)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
             guard let headerView =
                 collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                 withReuseIdentifier: headerCellIdentifier,
-                                                                for: indexPath)
-                    as? VisitorTagHeaderCell else {
-                        fatalError("Cell should be a member of VisitorTagHeaderCell!")
+                                                                for: indexPath) as? VisitorTagHeaderCell else {
+                fatalError("Unexpected cell class")
             }
 
             return headerView
@@ -119,7 +112,6 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         }
     }
 
-    // swiftlint:disable:next line_length
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 
         let temp = numbers[sourceIndexPath.section].remove(at: sourceIndexPath.item)
@@ -131,7 +123,6 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
         switch gesture.state {
         case .began:
-            // swiftlint:disable:next line_length
             guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
                 break
             }
