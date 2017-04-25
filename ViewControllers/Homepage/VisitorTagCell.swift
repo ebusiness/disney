@@ -32,9 +32,24 @@ class VisitorTagCell: UICollectionViewCell {
 
 class VisitorTagHeaderCell: UICollectionReusableView {
 
+    var title = "" {
+        didSet {
+            textLabel.text = title
+        }
+    }
+
+    private let textLabel = UILabel()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.blue
+        backgroundColor = #colorLiteral(red: 0.9364776858, green: 0.9635409852, blue: 1, alpha: 1)
+
+        textLabel.font = UIFont.systemFont(ofSize: 12)
+        addSubview(textLabel)
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        textLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
+        textLabel.layoutIfNeeded()
     }
 
     required init?(coder aDecoder: NSCoder) {

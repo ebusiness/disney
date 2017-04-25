@@ -12,6 +12,7 @@
 		1FA811321EADDB92000A7F2D /* NavigationBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811311EADDB92000A7F2D /* NavigationBackground.swift */; };
 		1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */; };
 		1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */; };
+		1FF1C4DE1EAEF03C005A87A9 /* VisitorTag.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E01EAEF03C005A87A9 /* VisitorTag.strings */; };
 		D0340C5F1EA98A1000BD8428 /* DisneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0340C5E1EA98A1000BD8428 /* DisneyTests.swift */; };
 		D0340C6B1EA98AB800BD8428 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0340C6A1EA98AB800BD8428 /* Reveal.framework */; };
 		D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0340C6E1EA98B7200BD8428 /* AppDelegate.swift */; };
@@ -35,6 +36,10 @@
 		1FA811311EADDB92000A7F2D /* NavigationBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBackground.swift; sourceTree = "<group>"; };
 		1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagVC.swift; sourceTree = "<group>"; };
 		1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagCell.swift; sourceTree = "<group>"; };
+		1FF1C4DF1EAEF03C005A87A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/VisitorTag.strings; sourceTree = "<group>"; };
+		1FF1C4E11EAEF042005A87A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
+		1FF1C4E21EAEF047005A87A9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
+		1FF1C4E31EAEF048005A87A9 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/VisitorTag.strings; sourceTree = "<group>"; };
 		D0340C461EA98A0F00BD8428 /* disney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = disney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0340C5A1EA98A1000BD8428 /* disneyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = disneyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0340C5E1EA98A1000BD8428 /* DisneyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisneyTests.swift; sourceTree = "<group>"; };
@@ -115,6 +120,7 @@
 				D0340C6E1EA98B7200BD8428 /* AppDelegate.swift */,
 				D0340C6C1EA98B5700BD8428 /* Cartfile */,
 				D0340C6A1EA98AB800BD8428 /* Reveal.framework */,
+				1FF1C4E01EAEF03C005A87A9 /* VisitorTag.strings */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -241,6 +247,9 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
+				"zh-Hant",
+				ja,
 			);
 			mainGroup = D0340C3D1EA98A0F00BD8428;
 			productRefGroup = D0340C471EA98A0F00BD8428 /* Products */;
@@ -260,6 +269,7 @@
 			files = (
 				D0340C791EA98E2200BD8428 /* Assets.xcassets in Resources */,
 				D0340C8A1EA98E4F00BD8428 /* LaunchScreen.storyboard in Resources */,
+				1FF1C4DE1EAEF03C005A87A9 /* VisitorTag.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,11 +336,26 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		1FF1C4E01EAEF03C005A87A9 /* VisitorTag.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FF1C4DF1EAEF03C005A87A9 /* Base */,
+				1FF1C4E11EAEF042005A87A9 /* zh-Hans */,
+				1FF1C4E21EAEF047005A87A9 /* zh-Hant */,
+				1FF1C4E31EAEF048005A87A9 /* ja */,
+			);
+			name = VisitorTag.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		D0340C611EA98A1000BD8428 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -383,6 +408,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

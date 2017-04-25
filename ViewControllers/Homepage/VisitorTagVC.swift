@@ -11,6 +11,8 @@ import UIKit
 // swiftlint:disable line_length
 class VisitorTagVC: UIViewController {
 
+    let localizeFileName = "VisitorTag"
+
     var collectionView: UICollectionView!
     var longPressGesture: UILongPressGestureRecognizer!
     let cellIdentifier = "cellIdentifier"
@@ -62,60 +64,77 @@ class VisitorTagVC: UIViewController {
 }
 
 extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+
         return 2
+
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
         return numbers[section].count
+
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+
         return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
         let width = (UIScreen.main.bounds.width - 48) / 4
         let height = width / 5 * 4
         return CGSize(width: width, height: height)
+
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
-            as? VisitorTagCell else {
+
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? VisitorTagCell else {
             fatalError("Unexpected cell class")
         }
         cell.content.text = "\(numbers[indexPath.section][indexPath.item])"
+
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+
         let width = UIScreen.main.bounds.width
         let height = CGFloat(24)
         return CGSize(width: width, height: height)
+
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
         switch kind {
         case UICollectionElementKindSectionHeader:
-            guard let headerView =
-                collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                withReuseIdentifier: headerCellIdentifier,
-                                                                for: indexPath) as? VisitorTagHeaderCell else {
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                   withReuseIdentifier: headerCellIdentifier,
+                                                                                   for: indexPath) as? VisitorTagHeaderCell else {
                 fatalError("Unexpected cell class")
             }
 
+            if indexPath.section == 0 {
+                headerView.title = NSLocalizedString("selectedTags", tableName: localizeFileName, comment: "")
+            } else {
+                headerView.title = NSLocalizedString("unselectedTags", tableName: localizeFileName, comment: "")
+            }
             return headerView
         default:
             fatalError("Unexpected element kind")
         }
+
     }
 
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 
         let temp = numbers[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         numbers[destinationIndexPath.section].insert(temp, at: destinationIndexPath.item)
+
     }
 
     @objc
@@ -134,5 +153,7 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         default:
             collectionView.cancelInteractiveMovement()
         }
+
     }
+
 }

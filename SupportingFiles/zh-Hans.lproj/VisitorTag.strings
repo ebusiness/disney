@@ -1,0 +1,9 @@
+/* 
+  VisitorTag.strings
+  disney
+
+  Created by ebuser on 2017/4/25.
+  Copyright © 2017年 e-business. All rights reserved.
+*/
+"selectedTags" = "关注标签";
+"unselectedTags" = "点击或拖动添加更多标签";
