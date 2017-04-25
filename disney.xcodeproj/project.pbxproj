@@ -13,6 +13,9 @@
 		1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */; };
 		1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */; };
 		1FF1C4DE1EAEF03C005A87A9 /* VisitorTag.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E01EAEF03C005A87A9 /* VisitorTag.strings */; };
+		1FF1C4E91EAF2C25005A87A9 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E81EAF2C25005A87A9 /* SettingVC.swift */; };
+		1FF1C4EB1EAF2C4B005A87A9 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */; };
+		1FF1C4ED1EAF2C5E005A87A9 /* AttractionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4EC1EAF2C5E005A87A9 /* AttractionVC.swift */; };
 		D0340C5F1EA98A1000BD8428 /* DisneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0340C5E1EA98A1000BD8428 /* DisneyTests.swift */; };
 		D0340C6B1EA98AB800BD8428 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0340C6A1EA98AB800BD8428 /* Reveal.framework */; };
 		D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0340C6E1EA98B7200BD8428 /* AppDelegate.swift */; };
@@ -40,6 +43,9 @@
 		1FF1C4E11EAEF042005A87A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
 		1FF1C4E21EAEF047005A87A9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
 		1FF1C4E31EAEF048005A87A9 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/VisitorTag.strings; sourceTree = "<group>"; };
+		1FF1C4E81EAF2C25005A87A9 /* SettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
+		1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		1FF1C4EC1EAF2C5E005A87A9 /* AttractionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionVC.swift; sourceTree = "<group>"; };
 		D0340C461EA98A0F00BD8428 /* disney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = disney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0340C5A1EA98A1000BD8428 /* disneyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = disneyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0340C5E1EA98A1000BD8428 /* DisneyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisneyTests.swift; sourceTree = "<group>"; };
@@ -76,10 +82,41 @@
 			isa = PBXGroup;
 			children = (
 				1FA8112D1EADA8AA000A7F2D /* HomepageVC.swift */,
+			);
+			path = Homepage;
+			sourceTree = "<group>";
+		};
+		1FF1C4E41EAF2A8C005A87A9 /* Attraction */ = {
+			isa = PBXGroup;
+			children = (
+				1FF1C4EC1EAF2C5E005A87A9 /* AttractionVC.swift */,
+			);
+			path = Attraction;
+			sourceTree = "<group>";
+		};
+		1FF1C4E51EAF2A9B005A87A9 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		1FF1C4E61EAF2AA8005A87A9 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				1FF1C4E81EAF2C25005A87A9 /* SettingVC.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		1FF1C4E71EAF2BAB005A87A9 /* VisitorTag */ = {
+			isa = PBXGroup;
+			children = (
 				1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */,
 				1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */,
 			);
-			path = Homepage;
+			path = VisitorTag;
 			sourceTree = "<group>";
 		};
 		D0340C3D1EA98A0F00BD8428 = {
@@ -136,9 +173,13 @@
 		D0340C771EA98CFE00BD8428 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1FF1C4E41EAF2A8C005A87A9 /* Attraction */,
 				1FA8112C1EADA871000A7F2D /* Homepage */,
 				D0340C7B1EA98E4F00BD8428 /* LaunchScreen */,
 				D0340C801EA98E4F00BD8428 /* Main */,
+				1FF1C4E51EAF2A9B005A87A9 /* Map */,
+				1FF1C4E61EAF2AA8005A87A9 /* Setting */,
+				1FF1C4E71EAF2BAB005A87A9 /* VisitorTag */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -310,9 +351,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA811301EADA8BC000A7F2D /* Main.swift in Sources */,
+				1FF1C4E91EAF2C25005A87A9 /* SettingVC.swift in Sources */,
 				1FA811321EADDB92000A7F2D /* NavigationBackground.swift in Sources */,
 				D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */,
 				1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */,
+				1FF1C4EB1EAF2C4B005A87A9 /* MapVC.swift in Sources */,
+				1FF1C4ED1EAF2C5E005A87A9 /* AttractionVC.swift in Sources */,
 				1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */,
 				1FA8112E1EADA8AA000A7F2D /* HomepageVC.swift in Sources */,
 			);

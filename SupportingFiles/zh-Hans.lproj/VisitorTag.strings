@@ -7,3 +7,5 @@
 */
 "selectedTags" = "关注标签";
 "unselectedTags" = "点击或拖动添加更多标签";
+
+"save" = "保存";

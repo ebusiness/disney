@@ -51,8 +51,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
     }
 
-    func isVisitorTagAssigned() -> Bool {
+    private func isVisitorTagAssigned() -> Bool {
         return false
+    }
+
+    func switchToHomepage() {
+        let tabVC = TabVC()
+        guard let window = window else { return }
+        UIView.transition(with: window,
+                          duration: 0.3,
+                          options: [.curveEaseInOut, .transitionCrossDissolve],
+                          animations: {
+                            self.window?.rootViewController = tabVC
+                          },
+                          completion: nil)
     }
 
 }

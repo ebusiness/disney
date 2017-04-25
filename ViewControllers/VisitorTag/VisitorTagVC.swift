@@ -24,11 +24,11 @@ class VisitorTagVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        createCollectionView()
-
+        addSubCollectionView()
+        addSubNextButton()
     }
 
-    private func createCollectionView() {
+    private func addSubCollectionView() {
         // Init collection view
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
@@ -57,9 +57,26 @@ class VisitorTagVC: UIViewController {
 
         for i in 0...9 {
             groupA.append(i)
-            groupB.append(9 + i)
+            groupB.append(10 + i)
         }
         numbers = [groupA, groupB]
+    }
+
+    private func addSubNextButton() {
+        // Init next button
+        let save = UIBarButtonItem(title: NSLocalizedString("save", tableName: localizeFileName, comment: ""),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(handleNextButton(sender:)))
+        navigationItem.setRightBarButton(save, animated: false)
+    }
+
+    @objc
+    func handleNextButton(sender: UIBarButtonItem) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        appDelegate.switchToHomepage()
     }
 }
 
@@ -154,6 +171,27 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
             collectionView.cancelInteractiveMovement()
         }
 
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: false)
+
+        // Move selected tag to the alternative section.
+        if indexPath.section == 0 {
+            let destination = IndexPath(item: 0, section: 1)
+            let temp = numbers[indexPath.section].remove(at: indexPath.item)
+            numbers[destination.section].insert(temp, at: destination.item)
+
+            collectionView.moveItem(at: indexPath, to: destination)
+
+        } else {
+            let destination = IndexPath(item: collectionView.numberOfItems(inSection: 0), section: 0)
+            let temp = numbers[indexPath.section].remove(at: indexPath.item)
+            numbers[destination.section].insert(temp, at: destination.item)
+
+            collectionView.moveItem(at: indexPath, to: destination)
+
+        }
     }
 
 }

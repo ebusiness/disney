@@ -14,6 +14,7 @@ class NavigationVC: UINavigationController {
         navigationBar.barStyle = .black
         let background = NavigationBackground.image
         navigationBar.setBackgroundImage(background, for: .default)
+        navigationBar.tintColor = UIColor.white
     }
 }
 
@@ -24,7 +25,16 @@ class TabVC: UITabBarController {
         let homepageVC = HomepageVC()
         let homepageNavi = NavigationVC(rootViewController: homepageVC)
 
-        let vcs = [homepageNavi]
+        let attractionVC = AttractionVC()
+        let attractionNavi = NavigationVC(rootViewController: attractionVC)
+
+        let mapVC = MapVC()
+        let mapNavi = NavigationVC(rootViewController: mapVC)
+
+        let settingVC = SettingVC()
+        let settingNavi = NavigationVC(rootViewController: settingVC)
+
+        let vcs = [homepageNavi, attractionNavi, mapNavi, settingNavi]
         setViewControllers(vcs, animated: false)
     }
 }
