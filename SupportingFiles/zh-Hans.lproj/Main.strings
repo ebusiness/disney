@@ -1,0 +1,12 @@
+/* 
+  Main.strings
+  disney
+
+  Created by ebuser on 2017/4/25.
+  Copyright © 2017年 e-business. All rights reserved.
+*/
+
+"TabbarPlan" = "推荐计划";
+"TabbarAttraction" = "游乐项目";
+"TabbarMap" = "地图";
+"TabbarSetting" = "个人设置";
