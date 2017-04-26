@@ -6,15 +6,22 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import Alamofire
 import SwiftyJSON
 
 protocol SwiftJSONSerializable {
     init(_ json: JSON)
-    static func arraySerialize<T: SwiftJSONSerializable>(_ json: JSON) -> [T]?
+    init(_ json: DataResponse<JSON>)
+    static func arraySerialize<T: SwiftJSONSerializable>(_ json: DataResponse<JSON>) -> [T]
 }
 
 extension SwiftJSONSerializable {
-    static func arraySerialize<T: SwiftJSONSerializable>(_ json: JSON) -> [T]? {
-        return json.array?.map { T($0) }
+
+    init(_ json: DataResponse<JSON>) {
+        self.init(json.result.value!)
+    }
+
+    static func arraySerialize<T: SwiftJSONSerializable>(_ json: DataResponse<JSON>) -> [T] {
+        return json.result.value?.array?.map { T($0) } ?? [T]()
     }
 }

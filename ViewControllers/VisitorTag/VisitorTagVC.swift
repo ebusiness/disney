@@ -17,9 +17,17 @@ class VisitorTagVC: UIViewController {
     var longPressGesture: UILongPressGestureRecognizer!
     let cellIdentifier = "cellIdentifier"
     let headerCellIdentifier = "headerCellIdentifier"
-    fileprivate var groupA = [Int]()
-    fileprivate var groupB = [Int]()
-    fileprivate var numbers = [[Int]]()
+
+    /// tags from server
+    fileprivate var allTags = [VisitorTagModel]()
+    fileprivate let defaultTagIds = ["58faed6067847695d6cfee06",
+                                     "58fd5a2867847695d6cfee0d"]
+
+    /// tags in collection view
+    /// 0: empty
+    /// 1: selected
+    /// 2: unselected
+    fileprivate var shownTags = [[VisitorTagModel]]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +40,11 @@ class VisitorTagVC: UIViewController {
     }
 
     private func setupLogo() {
+
         let imageView = UIImageView(image: #imageLiteral(resourceName: "Logo"))
         let logo = UIBarButtonItem(customView: imageView)
         navigationItem.leftBarButtonItem = logo
+
     }
 
     private func addSubCollectionView() {
@@ -63,12 +73,6 @@ class VisitorTagVC: UIViewController {
         // Add gestures
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
         collectionView.addGestureRecognizer(longPressGesture)
-
-        for i in 0...9 {
-            groupA.append(i)
-            groupB.append(10 + i)
-        }
-        numbers = [groupA, groupB]
     }
 
     private func addSubNextButton() {
@@ -90,8 +94,28 @@ class VisitorTagVC: UIViewController {
 
     private func requestVisitorTags() {
         let tagsRequest = API.Visitor.tags
-        tagsRequest.request { data in
-            print(data.result.value ?? "nothing")
+        tagsRequest.request { [weak self] data in
+
+            self?.allTags = VisitorTagModel.arraySerialize(data)
+            let empty = [VisitorTagModel]()
+            var selectedGroup = [VisitorTagModel]()
+            var unselectedGroup = [VisitorTagModel]()
+            guard let defaultTagIds = self?.defaultTagIds else { return }
+
+            self?.allTags.forEach { model in
+
+                if defaultTagIds.contains(model.id) {
+                    selectedGroup.append(model)
+                } else {
+                    unselectedGroup.append(model)
+                }
+            }
+
+            self?.shownTags.append(empty)
+            self?.shownTags.append(selectedGroup)
+            self?.shownTags.append(unselectedGroup)
+
+            self?.collectionView.reloadSections(IndexSet(integersIn: 1...2))
         }
     }
 }
@@ -100,12 +124,23 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
 
-        return 2
+        return 3
 
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        return numbers[section].count
+        switch section {
+        case 0:
+            return 2
+        case 1, 2:
+            if shownTags.isEmpty {
+                return 0
+            } else {
+                return shownTags[section].count
+            }
+        default:
+            fatalError()
+        }
 
     }
 
@@ -118,7 +153,7 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = (UIScreen.main.bounds.width - 48) / 4
-        let height = width / 5 * 4
+        let height = width / 5 * 2
         return CGSize(width: width, height: height)
 
     }
@@ -128,7 +163,14 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? VisitorTagCell else {
             fatalError("Unexpected cell class")
         }
-        cell.content.text = "\(numbers[indexPath.section][indexPath.item])"
+        switch indexPath.section {
+        case 0:
+            cell.visitorTag = nil
+        case 1, 2:
+            cell.visitorTag = shownTags[indexPath.section][indexPath.item]
+        default:
+            fatalError()
+        }
 
         return cell
     }
@@ -152,6 +194,8 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
             }
 
             if indexPath.section == 0 {
+                headerView.title = NSLocalizedString("essentialInfo", tableName: localizeFileName, comment: "")
+            } else if indexPath.section == 1 {
                 headerView.title = NSLocalizedString("selectedTags", tableName: localizeFileName, comment: "")
             } else {
                 headerView.title = NSLocalizedString("unselectedTags", tableName: localizeFileName, comment: "")
@@ -165,8 +209,8 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 
-        let temp = numbers[sourceIndexPath.section].remove(at: sourceIndexPath.item)
-        numbers[destinationIndexPath.section].insert(temp, at: destinationIndexPath.item)
+        let temp = shownTags[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        shownTags[destinationIndexPath.section].insert(temp, at: destinationIndexPath.item)
 
     }
 
@@ -175,11 +219,14 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
         switch gesture.state {
         case .began:
-            guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+            guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)), selectedIndexPath.section > 0 else {
                 break
             }
             collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case .changed:
+            guard let destinationIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)), destinationIndexPath.section > 0 else {
+                break
+            }
             collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
         case .ended:
             collectionView.endInteractiveMovement()
@@ -193,17 +240,19 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         collectionView.deselectItem(at: indexPath, animated: false)
 
         // Move selected tag to the alternative section.
-        if indexPath.section == 0 {
-            let destination = IndexPath(item: 0, section: 1)
-            let temp = numbers[indexPath.section].remove(at: indexPath.item)
-            numbers[destination.section].insert(temp, at: destination.item)
+        if indexPath.section == 1 {
+
+            let destination = IndexPath(item: 0, section: 2)
+            let temp = shownTags[indexPath.section].remove(at: indexPath.item)
+            shownTags[destination.section].insert(temp, at: destination.item)
 
             collectionView.moveItem(at: indexPath, to: destination)
 
-        } else {
-            let destination = IndexPath(item: collectionView.numberOfItems(inSection: 0), section: 0)
-            let temp = numbers[indexPath.section].remove(at: indexPath.item)
-            numbers[destination.section].insert(temp, at: destination.item)
+        } else if indexPath.section == 2 {
+
+            let destination = IndexPath(item: collectionView.numberOfItems(inSection: 1), section: 1)
+            let temp = shownTags[indexPath.section].remove(at: indexPath.item)
+            shownTags[destination.section].insert(temp, at: destination.item)
 
             collectionView.moveItem(at: indexPath, to: destination)
 

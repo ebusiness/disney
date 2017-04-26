@@ -9,20 +9,38 @@
 import UIKit
 
 class VisitorTagCell: UICollectionViewCell {
-    var content: UILabel!
+
+    var visitorTag: VisitorTagModel? {
+        didSet {
+            if let tag = visitorTag {
+                contentLabel.text = tag.localize()
+                layer.borderColor = UIColor(hex: tag.color).cgColor
+            } else {
+                contentLabel.text = ""
+                layer.borderColor = UIColor.gray.cgColor
+            }
+        }
+    }
+
+    private var contentLabel: UILabel!
     override init(frame: CGRect) {
+
         super.init(frame: frame)
 
-        layer.borderColor = UIColor.gray.cgColor
         layer.borderWidth = 1
         layer.cornerRadius = 3
 
-        content = UILabel()
-        addSubview(content)
-        content.translatesAutoresizingMaskIntoConstraints = false
-        content.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        content.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        content.layoutIfNeeded()
+        contentLabel = UILabel()
+        contentLabel.font = UIFont.systemFont(ofSize: 13)
+        contentLabel.textAlignment = .center
+        contentLabel.numberOfLines = 0
+        addSubview(contentLabel)
+        contentLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: -12.0).isActive = true
+        contentLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        contentLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        contentLabel.layoutIfNeeded()
+
     }
 
     required init?(coder aDecoder: NSCoder) {

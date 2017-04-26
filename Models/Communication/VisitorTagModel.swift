@@ -9,21 +9,23 @@
 import Foundation
 import SwiftyJSON
 
-struct VisitorTagModel: SwiftJSONSerializable {
+struct VisitorTagModel: SwiftJSONSerializable, Localizable {
 
     let id: String
     let JA: String
     let CN: String
     let EN: String
     let TW: String
+    let color: String
 
     init(_ json: JSON) {
 
-        id = json["ID"].stringValue
+        id = json["_id"].stringValue
         JA = json["Ja"].stringValue
         CN = json["Cn"].stringValue
         EN = json["En"].stringValue
         TW = json["Tw"].stringValue
+        color = json["color"].stringValue
 
     }
 }
