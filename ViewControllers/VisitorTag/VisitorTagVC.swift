@@ -24,8 +24,17 @@ class VisitorTagVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupLogo()
         addSubCollectionView()
         addSubNextButton()
+
+        requestVisitorTags()
+    }
+
+    private func setupLogo() {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "Logo"))
+        let logo = UIBarButtonItem(customView: imageView)
+        navigationItem.leftBarButtonItem = logo
     }
 
     private func addSubCollectionView() {
@@ -77,6 +86,13 @@ class VisitorTagVC: UIViewController {
             return
         }
         appDelegate.switchToHomepage()
+    }
+
+    private func requestVisitorTags() {
+        let tagsRequest = API.Visitor.tags
+        tagsRequest.request { data in
+            print(data.result.value ?? "nothing")
+        }
     }
 }
 

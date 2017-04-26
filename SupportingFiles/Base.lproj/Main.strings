@@ -6,7 +6,7 @@
   Copyright © 2017年 e-business. All rights reserved.
 */
 
-"TabbarPlan" = "";
-"TabbarAttraction" = "";
-"TabbarMap" = "";
-"TabbarSetting" = "";
+"TabbarPlan" = "推荐计划";
+"TabbarAttraction" = "游乐项目";
+"TabbarMap" = "地图";
+"TabbarSetting" = "个人设置";

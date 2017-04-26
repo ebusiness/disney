@@ -60,8 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let window = window else { return }
         UIView.transition(with: window,
                           duration: 0.3,
-                          options: [.curveEaseInOut, .transitionCrossDissolve],
-                          animations: {
+                          options: [.curveEaseInOut, .transitionFlipFromRight],
+                          animations: { [unowned self] in
                             self.window?.rootViewController = tabVC
                           },
                           completion: nil)
