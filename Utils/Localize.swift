@@ -13,8 +13,6 @@ protocol Localizable {
     var CN: String { get }
     var JA: String { get }
     var TW: String { get }
-
-    func localize() -> String
 }
 
 extension Localizable {
@@ -35,5 +33,17 @@ extension Localizable {
             }
         }
         return EN
+    }
+}
+
+protocol FileLocalizable {
+    var localizeFileName: String { get }
+}
+
+extension FileLocalizable {
+    func localize(for key: String) -> String {
+        return NSLocalizedString(key,
+                                 tableName: localizeFileName,
+                                 comment: "")
     }
 }

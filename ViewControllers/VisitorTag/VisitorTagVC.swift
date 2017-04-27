@@ -9,13 +9,15 @@
 import UIKit
 
 // swiftlint:disable line_length
-class VisitorTagVC: UIViewController {
+class VisitorTagVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "VisitorTag"
 
     var collectionView: UICollectionView!
     var longPressGesture: UILongPressGestureRecognizer!
-    let cellIdentifier = "cellIdentifier"
+
+    let essentialCellIdentifier = "essentialCellIdentifier"
+    let tagCellIdentifier = "tagCellIdentifier"
     let headerCellIdentifier = "headerCellIdentifier"
 
     /// tags from server
@@ -52,7 +54,8 @@ class VisitorTagVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
-        collectionView.register(VisitorTagCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        collectionView.register(VisitorTagCell.self, forCellWithReuseIdentifier: tagCellIdentifier)
+        collectionView.register(VisitorEssentialInfoCell.self, forCellWithReuseIdentifier: essentialCellIdentifier)
         collectionView.register(VisitorTagHeaderCell.self,
                                 forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
                                 withReuseIdentifier: headerCellIdentifier)
@@ -77,7 +80,7 @@ class VisitorTagVC: UIViewController {
 
     private func addSubNextButton() {
         // Init next button
-        let save = UIBarButtonItem(title: NSLocalizedString("save", tableName: localizeFileName, comment: ""),
+        let save = UIBarButtonItem(title: localize(for: "save"),
                                    style: .plain,
                                    target: self,
                                    action: #selector(handleNextButton(sender:)))
@@ -96,7 +99,7 @@ class VisitorTagVC: UIViewController {
         let tagsRequest = API.Visitor.tags
         tagsRequest.request { [weak self] data in
 
-            self?.allTags = VisitorTagModel.arraySerialize(data)
+            self?.allTags = VisitorTagModel.array(data)
             let empty = [VisitorTagModel]()
             var selectedGroup = [VisitorTagModel]()
             var unselectedGroup = [VisitorTagModel]()
@@ -146,33 +149,63 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 
-        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        if section == 0 {
+            return UIEdgeInsets.zero
+        } else {
+            return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        }
+
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+
+        if section == 0 {
+            return 0
+        } else {
+            return 10
+        }
 
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = (UIScreen.main.bounds.width - 48) / 4
-        let height = width / 5 * 2
-        return CGSize(width: width, height: height)
+        if indexPath.section == 0 {
+            // Essential info cells
+            let width = UIScreen.main.bounds.width
+            let height = CGFloat(52)
+            return CGSize(width: width, height: height)
+        } else {
+            // Tag cells
+            let width = (UIScreen.main.bounds.width - 48) / 4
+            let height = width / 5 * 2
+            return CGSize(width: width, height: height)
+        }
 
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? VisitorTagCell else {
-            fatalError("Unexpected cell class")
-        }
         switch indexPath.section {
         case 0:
-            cell.visitorTag = nil
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: essentialCellIdentifier, for: indexPath) as? VisitorEssentialInfoCell else {
+                fatalError("Unexpected cell class")
+            }
+            if indexPath.item == 0 {
+                cell.spec = .park
+            } else {
+                cell.spec = .date
+            }
+            return cell
         case 1, 2:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagCellIdentifier, for: indexPath) as? VisitorTagCell else {
+                fatalError("Unexpected cell class")
+            }
             cell.visitorTag = shownTags[indexPath.section][indexPath.item]
+            return cell
         default:
             fatalError()
         }
 
-        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -194,11 +227,11 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
             }
 
             if indexPath.section == 0 {
-                headerView.title = NSLocalizedString("essentialInfo", tableName: localizeFileName, comment: "")
+                headerView.title = localize(for: "essentialInfo")
             } else if indexPath.section == 1 {
-                headerView.title = NSLocalizedString("selectedTags", tableName: localizeFileName, comment: "")
+                headerView.title = localize(for: "selectedTags")
             } else {
-                headerView.title = NSLocalizedString("unselectedTags", tableName: localizeFileName, comment: "")
+                headerView.title = localize(for: "unselectedTags")
             }
             return headerView
         default:
