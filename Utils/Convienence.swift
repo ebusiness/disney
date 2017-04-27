@@ -8,6 +8,24 @@
 
 import UIKit
 
+enum UserDefaultKeys: String {
+    case isTagPicked = "is_tag_picked"
+    case visitDate = "visit_date"
+    case visitPark = "visit_park"
+    case visitorTags = "visitor_tags"
+}
+
+extension UserDefaults {
+    subscript(key: UserDefaultKeys) -> Any? {
+        get {
+            return object(forKey: key.rawValue)
+        }
+        set(newValue) {
+            set(newValue, forKey: key.rawValue)
+        }
+    }
+}
+
 extension UIColor {
     convenience init(hex: String) {
         guard let hexInt = Int(hex, radix: 16) else {
@@ -33,40 +51,20 @@ extension UIColor {
     }
 }
 
-enum TokyoDisneyPark: String, Localizable {
+enum TokyoDisneyPark: String, FileLocalizable {
     case land = "1"
     case sea = "2"
 
-    var EN: String {
-        switch self {
-        case .land:
-            return "Tokyo Disneyland"
-        case .sea:
-            return "Tokyo DisneySea"
-        }
+    var localizeFileName: String {
+        return "Main"
     }
-    var CN: String {
+
+    func localize() -> String {
         switch self {
         case .land:
-            return "东京迪士尼乐园"
-        case .sea:
-            return "东京迪士尼海洋"
-        }
-    }
-    var TW: String {
-        switch self {
-        case .land:
-            return "東京迪士尼樂園"
-        case .sea:
-            return "東京迪士尼海洋"
-        }
-    }
-    var JA: String {
-        switch self {
-        case .land:
-            return "東京ディズニーランド"
-        case .sea:
-            return "東京ディズニーシー"
+            return localize(for: "TokyoDisneyPark.land")
+        case.sea:
+            return localize(for: "TokyoDisneyPark.sea")
         }
     }
 }

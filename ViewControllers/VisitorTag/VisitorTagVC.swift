@@ -6,6 +6,7 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import RxSwift
 import UIKit
 
 // swiftlint:disable line_length
@@ -13,12 +14,12 @@ class VisitorTagVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "VisitorTag"
 
-    var collectionView: UICollectionView!
-    var longPressGesture: UILongPressGestureRecognizer!
+    fileprivate var collectionView: UICollectionView!
+    fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
-    let essentialCellIdentifier = "essentialCellIdentifier"
-    let tagCellIdentifier = "tagCellIdentifier"
-    let headerCellIdentifier = "headerCellIdentifier"
+    fileprivate let essentialCellIdentifier = "essentialCellIdentifier"
+    fileprivate let tagCellIdentifier = "tagCellIdentifier"
+    fileprivate let headerCellIdentifier = "headerCellIdentifier"
 
     /// tags from server
     fileprivate var allTags = [VisitorTagModel]()
@@ -30,6 +31,9 @@ class VisitorTagVC: UIViewController, FileLocalizable {
     /// 1: selected
     /// 2: unselected
     fileprivate var shownTags = [[VisitorTagModel]]()
+
+    fileprivate var visitPark = TokyoDisneyPark.land
+    fileprivate var visitDate = Date(timeIntervalSinceNow: 24 * 60 * 60)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +96,13 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
+        UserDefaults.standard[.isTagPicked] = true
+        UserDefaults.standard[.visitDate] = visitDate
+        UserDefaults.standard[.visitPark] = visitPark.rawValue
+        if shownTags.count >= 3 {
+            UserDefaults.standard[.visitorTags] = shownTags[1].map { $0.id }
+        }
+
         appDelegate.switchToHomepage()
     }
 
@@ -121,8 +132,34 @@ class VisitorTagVC: UIViewController, FileLocalizable {
             self?.collectionView.reloadSections(IndexSet(integersIn: 1...2))
         }
     }
+
+    fileprivate func presentParkPicker() {
+        let parkpicker = VisitparkPickVC(park: visitPark)
+        parkpicker.subject.subscribe { [unowned self] parkEvent in
+            guard let park = parkEvent.element else {
+                return
+            }
+            self.visitPark = park
+            self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
+        }.disposed(by: parkpicker.disposeBag)
+        present(parkpicker, animated: false, completion: nil)
+    }
+
+    fileprivate func presentDatePicker() {
+        let datepicker = VisitdatePickVC(date: visitDate)
+        datepicker.subject.subscribe { [unowned self] dateEvent in
+            guard let date = dateEvent.element else {
+                return
+            }
+            self.visitDate = date
+            self.collectionView.reloadItems(at: [IndexPath(row: 1, section: 0)])
+        }.disposed(by: datepicker.disposeBag)
+        present(datepicker, animated: false, completion: nil)
+    }
+
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
 extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -130,6 +167,7 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         return 3
 
     }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         switch section {
@@ -191,9 +229,9 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
                 fatalError("Unexpected cell class")
             }
             if indexPath.item == 0 {
-                cell.spec = .park(.land)
+                cell.spec = .park(visitPark)
             } else {
-                cell.spec = .date(Date())
+                cell.spec = .date(visitDate)
             }
             return cell
         case 1, 2:
@@ -280,7 +318,17 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         collectionView.deselectItem(at: indexPath, animated: false)
 
         // Move selected tag to the alternative section.
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
+
+            if indexPath.item == 0 {
+                // Park selector
+                presentParkPicker()
+            } else {
+                // Date selector
+                presentDatePicker()
+            }
+
+        } else if indexPath.section == 1 {
 
             let destination = IndexPath(item: 0, section: 2)
             let temp = shownTags[indexPath.section].remove(at: indexPath.item)

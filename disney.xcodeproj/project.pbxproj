@@ -14,6 +14,8 @@
 		1F7634441EB0827F00509B38 /* VisitorTagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7634431EB0827F00509B38 /* VisitorTagModel.swift */; };
 		1F90DD0C1EB036DB004463B9 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F90DD0B1EB036DB004463B9 /* Network.swift */; };
 		1F90DD0E1EB04919004463B9 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F90DD0D1EB04919004463B9 /* API.swift */; };
+		1FA096B31EB1ED8600A26174 /* VisitparkPickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA096B21EB1ED8600A26174 /* VisitparkPickVC.swift */; };
+		1FA096B61EB200D400A26174 /* VisitdatePickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA096B51EB200D400A26174 /* VisitdatePickVC.swift */; };
 		1FA8112E1EADA8AA000A7F2D /* HomepageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA8112D1EADA8AA000A7F2D /* HomepageVC.swift */; };
 		1FA811301EADA8BC000A7F2D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA8112F1EADA8BC000A7F2D /* Main.swift */; };
 		1FA811321EADDB92000A7F2D /* NavigationBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811311EADDB92000A7F2D /* NavigationBackground.swift */; };
@@ -51,6 +53,8 @@
 		1F7634431EB0827F00509B38 /* VisitorTagModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagModel.swift; sourceTree = "<group>"; };
 		1F90DD0B1EB036DB004463B9 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		1F90DD0D1EB04919004463B9 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		1FA096B21EB1ED8600A26174 /* VisitparkPickVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitparkPickVC.swift; sourceTree = "<group>"; };
+		1FA096B51EB200D400A26174 /* VisitdatePickVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitdatePickVC.swift; sourceTree = "<group>"; };
 		1FA8112D1EADA8AA000A7F2D /* HomepageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomepageVC.swift; sourceTree = "<group>"; };
 		1FA8112F1EADA8BC000A7F2D /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		1FA811311EADDB92000A7F2D /* NavigationBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBackground.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 			children = (
 				1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */,
 				1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */,
+				1FA096B21EB1ED8600A26174 /* VisitparkPickVC.swift */,
+				1FA096B51EB200D400A26174 /* VisitdatePickVC.swift */,
 			);
 			path = VisitorTag;
 			sourceTree = "<group>";
@@ -201,11 +207,11 @@
 		D0340C761EA98CFE00BD8428 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				1FA811311EADDB92000A7F2D /* NavigationBackground.swift */,
-				1F90DD0B1EB036DB004463B9 /* Network.swift */,
 				1F90DD0D1EB04919004463B9 /* API.swift */,
 				1F6D19FF1EB0AC0800A9C70F /* Convienence.swift */,
 				1F6D1A011EB0BBFC00A9C70F /* Localize.swift */,
+				1FA811311EADDB92000A7F2D /* NavigationBackground.swift */,
+				1F90DD0B1EB036DB004463B9 /* Network.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -399,11 +405,13 @@
 				1FA811321EADDB92000A7F2D /* NavigationBackground.swift in Sources */,
 				D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */,
 				1F6D1A001EB0AC0800A9C70F /* Convienence.swift in Sources */,
+				1FA096B61EB200D400A26174 /* VisitdatePickVC.swift in Sources */,
 				1F7634401EB07FE100509B38 /* BaseModel.swift in Sources */,
 				1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */,
 				1FF1C4EB1EAF2C4B005A87A9 /* MapVC.swift in Sources */,
 				1FF1C4ED1EAF2C5E005A87A9 /* AttractionVC.swift in Sources */,
 				1F6D1A021EB0BBFC00A9C70F /* Localize.swift in Sources */,
+				1FA096B31EB1ED8600A26174 /* VisitparkPickVC.swift in Sources */,
 				1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */,
 				1FA8112E1EADA8AA000A7F2D /* HomepageVC.swift in Sources */,
 			);

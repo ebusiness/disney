@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func isVisitorTagAssigned() -> Bool {
-        return false
+        return UserDefaults.standard[.isTagPicked] as? Bool ?? false
     }
 
     func switchToHomepage() {

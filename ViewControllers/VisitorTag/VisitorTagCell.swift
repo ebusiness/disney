@@ -147,11 +147,11 @@ class VisitorTagHeaderCell: UICollectionReusableView {
 
         super.init(frame: frame)
 
-        textLabel.font = UIFont.systemFont(ofSize: 13)
-        textLabel.textColor = UIColor.darkGray
+        textLabel.font = UIFont.systemFont(ofSize: 14)
+        textLabel.textColor = #colorLiteral(red: 0.7105842829, green: 0.7105842829, blue: 0.7105842829, alpha: 1)
         addSubview(textLabel)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
+        textLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
         textLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
         textLabel.layoutIfNeeded()
     }
