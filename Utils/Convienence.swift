@@ -11,7 +11,7 @@ import UIKit
 extension UIColor {
     convenience init(hex: String) {
         guard let hexInt = Int(hex, radix: 16) else {
-            fatalError("Failed to convert hex string to a color")
+            fatalError("Invalid hex string")
         }
         self.init(rgb: hexInt)
     }
@@ -30,5 +30,43 @@ extension UIColor {
             green: (rgb >> 8) & 0xFF,
             blue: rgb & 0xFF
         )
+    }
+}
+
+enum TokyoDisneyPark: String, Localizable {
+    case land = "1"
+    case sea = "2"
+
+    var EN: String {
+        switch self {
+        case .land:
+            return "Tokyo Disneyland"
+        case .sea:
+            return "Tokyo DisneySea"
+        }
+    }
+    var CN: String {
+        switch self {
+        case .land:
+            return "东京迪士尼乐园"
+        case .sea:
+            return "东京迪士尼海洋"
+        }
+    }
+    var TW: String {
+        switch self {
+        case .land:
+            return "東京迪士尼樂園"
+        case .sea:
+            return "東京迪士尼海洋"
+        }
+    }
+    var JA: String {
+        switch self {
+        case .land:
+            return "東京ディズニーランド"
+        case .sea:
+            return "東京ディズニーシー"
+        }
     }
 }

@@ -150,7 +150,7 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 
         if section == 0 {
-            return UIEdgeInsets.zero
+            return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         } else {
             return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         }
@@ -160,7 +160,7 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 
         if section == 0 {
-            return 0
+            return 4
         } else {
             return 10
         }
@@ -171,8 +171,8 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
         if indexPath.section == 0 {
             // Essential info cells
-            let width = UIScreen.main.bounds.width
-            let height = CGFloat(52)
+            let width = UIScreen.main.bounds.width - 16
+            let height = CGFloat(72)
             return CGSize(width: width, height: height)
         } else {
             // Tag cells
@@ -191,9 +191,9 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
                 fatalError("Unexpected cell class")
             }
             if indexPath.item == 0 {
-                cell.spec = .park
+                cell.spec = .park(.land)
             } else {
-                cell.spec = .date
+                cell.spec = .date(Date())
             }
             return cell
         case 1, 2:
@@ -210,9 +210,15 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        let width = UIScreen.main.bounds.width
-        let height = CGFloat(24)
-        return CGSize(width: width, height: height)
+        if section == 1 {
+            let width = UIScreen.main.bounds.width
+            let height = CGFloat(48)
+            return CGSize(width: width, height: height)
+        } else {
+            let width = UIScreen.main.bounds.width
+            let height = CGFloat(24)
+            return CGSize(width: width, height: height)
+        }
 
     }
 
@@ -257,10 +263,11 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
             }
             collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case .changed:
-            guard let destinationIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)), destinationIndexPath.section > 0 else {
-                break
+            var destinationLocation = gesture.location(in: collectionView)
+            if let limitTop = collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionElementKindSectionHeader, at: IndexPath(item: 0, section: 1))?.frame.maxY, destinationLocation.y < limitTop {
+                destinationLocation.y = limitTop
             }
-            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+            collectionView.updateInteractiveMovementTargetPosition(destinationLocation)
         case .ended:
             collectionView.endInteractiveMovement()
         default:
