@@ -21,7 +21,7 @@ before_install:
 #  - gem install cocoapods
 install:
 - |
-    carthage bootstrap --platform iOS
+    carthage update --platform iOS
 
 script:
 - |
