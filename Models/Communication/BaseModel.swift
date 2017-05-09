@@ -10,17 +10,21 @@ import Alamofire
 import SwiftyJSON
 
 protocol SwiftJSONSerializable {
-    init(_ json: JSON)
-    init(_ json: DataResponse<JSON>)
+    init?(_ json: JSON)
+    init?(_ json: DataResponse<JSON>)
 }
 
 extension SwiftJSONSerializable {
 
-    init(_ json: DataResponse<JSON>) {
-        self.init(json.result.value!)
+    init?(_ json: DataResponse<JSON>) {
+        if let value = json.result.value {
+            self.init(value)
+        } else {
+            return nil
+        }
     }
 
-    static func array<T: SwiftJSONSerializable>(_ json: DataResponse<JSON>) -> [T] {
-        return json.result.value?.array?.map { T($0) } ?? [T]()
+    static func array<T: SwiftJSONSerializable>(_ json: DataResponse<JSON>) -> [T?]? {
+        return json.result.value?.array?.map { T($0) }
     }
 }

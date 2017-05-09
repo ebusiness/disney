@@ -12,7 +12,44 @@ import SwiftyJSON
 
 struct NetworkConstants {
     static let host = URL(string: "https://api.dev.genbatomo.com/")
-    static let version = "v1"
+    static let version = "v1/"
+
+    static var language: String = {
+
+        guard let syslang = NSLocale.preferredLanguages.first else {
+            return "en/"
+        }
+        switch syslang {
+        case "en/":
+            return "en/"
+        case "zh-Hant":
+            return "tw/"
+        case "ja":
+            return "ja/"
+        case "zh-Hans":
+            return "cn/"
+        default:
+            return "en/"
+        }
+
+    }()
+
+    static var park: String = {
+        if let visitPark = UserDefaults.standard[.visitPark] as? String {
+
+            switch visitPark {
+            case "land":
+                return "land/"
+            case "sea":
+                return "sea/"
+            default:
+                return "land/"
+            }
+        } else {
+            return "land/"
+        }
+
+    }()
 }
 
 /**
@@ -43,7 +80,8 @@ protocol Requestable: URLRequestConvertible {
 
 extension Requestable {
     func asURLRequest() throws -> URLRequest {
-        guard let url = URL(string: NetworkConstants.version + path, relativeTo: NetworkConstants.host) else {
+        let urlString = NetworkConstants.version + NetworkConstants.language + NetworkConstants.park + path
+        guard let url = URL(string: urlString, relativeTo: NetworkConstants.host) else {
             throw URLError(URLError.badURL)
         }
         var urlRequest = URLRequest(url: url)

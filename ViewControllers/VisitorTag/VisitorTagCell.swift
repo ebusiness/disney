@@ -96,7 +96,7 @@ class VisitorTagCell: UICollectionViewCell {
     var visitorTag: VisitorTagModel? {
         didSet {
             if let tag = visitorTag {
-                contentLabel.text = tag.localize()
+                contentLabel.text = tag.name
                 backgroundColor = UIColor(hex: tag.color)
             } else {
                 contentLabel.text = ""

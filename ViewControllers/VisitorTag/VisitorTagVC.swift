@@ -96,9 +96,10 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        UserDefaults.standard[.isTagPicked] = true
+
         UserDefaults.standard[.visitDate] = visitDate
         UserDefaults.standard[.visitPark] = visitPark.rawValue
+        NetworkConstants.park = visitPark.rawValue + "/"
         if shownTags.count >= 3 {
             UserDefaults.standard[.visitorTags] = shownTags[1].map { $0.id }
         }
@@ -110,7 +111,10 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         let tagsRequest = API.Visitor.tags
         tagsRequest.request { [weak self] data in
 
-            self?.allTags = VisitorTagModel.array(data)
+            guard let models: [VisitorTagModel?] = VisitorTagModel.array(data) else {
+                return
+            }
+            self?.allTags = models.filter { $0 != nil }.map { $0! }
             let empty = [VisitorTagModel]()
             var selectedGroup = [VisitorTagModel]()
             var unselectedGroup = [VisitorTagModel]()

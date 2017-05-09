@@ -9,7 +9,6 @@
 import UIKit
 
 enum UserDefaultKeys: String {
-    case isTagPicked = "is_tag_picked"
     case visitDate = "visit_date"
     case visitPark = "visit_park"
     case visitorTags = "visitor_tags"
@@ -52,8 +51,8 @@ extension UIColor {
 }
 
 enum TokyoDisneyPark: String, FileLocalizable {
-    case land = "1"
-    case sea = "2"
+    case land
+    case sea
 
     var localizeFileName: String {
         return "Main"
@@ -67,4 +66,10 @@ enum TokyoDisneyPark: String, FileLocalizable {
             return localize(for: "TokyoDisneyPark.sea")
         }
     }
+}
+
+enum SpotCategory: String {
+    case show
+    case meeting
+    case attraction
 }

@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct API {}
+struct API {
+}
 
 // MARK: - Visitor Tag
 extension API {
@@ -18,7 +19,7 @@ extension API {
         var path: String {
             switch self {
             case .tags:
-                return "/visitor/tags"
+                return "visitor/tags/"
             }
         }
 
@@ -32,6 +33,34 @@ extension API {
         var parameters: [String : Any]? {
             switch self {
             case .tags:
+                return nil
+            }
+        }
+    }
+}
+
+// MARK: - Attraction
+extension API {
+    enum Attraction: Requestable {
+        case list
+
+        var path: String {
+            switch self {
+            case .list:
+                return "attractions/"
+            }
+        }
+
+        var method: RouteMethod {
+            switch self {
+            case .list:
+                return .GET
+            }
+        }
+
+        var parameters: [String: Any]? {
+            switch self {
+            case .list:
                 return nil
             }
         }

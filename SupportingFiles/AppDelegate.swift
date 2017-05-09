@@ -52,10 +52,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func isVisitorTagAssigned() -> Bool {
-        return UserDefaults.standard[.isTagPicked] as? Bool ?? false
+        guard UserDefaults.standard[.visitDate] as? Date != nil else {
+            return false
+        }
+        guard UserDefaults.standard[.visitPark] as? String != nil else {
+            return false
+        }
+        return true
     }
 
     func switchToHomepage() {
+
         let tabVC = TabVC()
         guard let window = window else { return }
         UIView.transition(with: window,
@@ -65,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             self.window?.rootViewController = tabVC
                           },
                           completion: nil)
+
     }
 
 }
