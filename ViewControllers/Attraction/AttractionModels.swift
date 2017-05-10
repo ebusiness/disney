@@ -15,6 +15,8 @@ struct AttractionListSpot: SwiftJSONSerializable {
     let name: String
     let area: String
     let thum: String
+    let realtime: Realtime?
+    let introductions: String
 
     init?(_ json: JSON) {
         guard let id = json["str_id"].string else {
@@ -41,5 +43,54 @@ struct AttractionListSpot: SwiftJSONSerializable {
             return nil
         }
         self.thum = thum
+
+        realtime = Realtime(json["realtime"])
+
+        guard let introductions = json["introductions"].string else {
+            return nil
+        }
+        self.introductions = introductions
+    }
+
+    struct Realtime: SwiftJSONSerializable {
+        let statusInfo: String
+        let available: Bool
+        let fastpassAvailable: Bool
+
+        let operationStart: Date?
+        let operationEnd: Date?
+        let fastpassStart: Date?
+        let fastpassEnd: Date?
+
+        let waitTime: Int?
+
+        init?(_ json: JSON) {
+            guard let statusInfo = json["statusInfo"].string else {
+                return nil
+            }
+            self.statusInfo = statusInfo
+
+            guard let available = json["available"].bool else {
+                return nil
+            }
+            self.available = available
+
+            guard let fastpassAvailable = json["fastpassAvailable"].bool else {
+                return nil
+            }
+            self.fastpassAvailable = fastpassAvailable
+
+            operationStart = Date(iso8601str: json["operation_start"].string)
+            operationEnd = Date(iso8601str: json["operation_end"].string)
+            fastpassStart = Date(iso8601str: json["fastpass_start"].string)
+            fastpassEnd = Date(iso8601str: json["fastpass_end"].string)
+
+            if let waitTimeStr = json["waitTime"].string {
+                waitTime = Int(waitTimeStr)
+            } else {
+                waitTime = nil
+            }
+
+        }
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F059F701EC32F8C000162C1 /* Attraction.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F059F721EC32F8C000162C1 /* Attraction.strings */; };
 		1F1536301EB34ADF00831646 /* AttractionBriefCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */; };
 		1F24C3F51EAF360A00953463 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F24C3F71EAF360A00953463 /* Main.strings */; };
 		1F6559501EC16C7A005BC235 /* AttractionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F65594F1EC16C7A005BC235 /* AttractionModels.swift */; };
@@ -45,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F059F711EC32F8C000162C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Attraction.strings; sourceTree = "<group>"; };
+		1F059F731EC32F90000162C1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Attraction.strings"; sourceTree = "<group>"; };
+		1F059F741EC32F92000162C1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Attraction.strings"; sourceTree = "<group>"; };
+		1F059F751EC32F92000162C1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Attraction.strings; sourceTree = "<group>"; };
 		1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionBriefCell.swift; sourceTree = "<group>"; };
 		1F24C3F61EAF360A00953463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Main.strings; sourceTree = "<group>"; };
 		1F24C3F81EAF360C00953463 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -206,6 +211,7 @@
 				D0340C6A1EA98AB800BD8428 /* Reveal.framework */,
 				1FF1C4E01EAEF03C005A87A9 /* VisitorTag.strings */,
 				1F24C3F71EAF360A00953463 /* Main.strings */,
+				1F059F721EC32F8C000162C1 /* Attraction.strings */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -360,6 +366,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F059F701EC32F8C000162C1 /* Attraction.strings in Resources */,
 				D0340C791EA98E2200BD8428 /* Assets.xcassets in Resources */,
 				1F24C3F51EAF360A00953463 /* Main.strings in Resources */,
 				D0340C8A1EA98E4F00BD8428 /* LaunchScreen.storyboard in Resources */,
@@ -444,6 +451,17 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1F059F721EC32F8C000162C1 /* Attraction.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1F059F711EC32F8C000162C1 /* Base */,
+				1F059F731EC32F90000162C1 /* zh-Hans */,
+				1F059F741EC32F92000162C1 /* zh-Hant */,
+				1F059F751EC32F92000162C1 /* ja */,
+			);
+			name = Attraction.strings;
+			sourceTree = "<group>";
+		};
 		1F24C3F71EAF360A00953463 /* Main.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

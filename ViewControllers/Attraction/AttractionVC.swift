@@ -36,8 +36,11 @@ class AttractionVC: UIViewController {
     private func addSubTableView() {
         // Init collection view
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 300
         tableView.register(AttractionBriefCell.self, forCellReuseIdentifier: cellIdentifer)
-        tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor(hex: "E1E2E1")
 
         view.addSubview(tableView)
 
@@ -56,6 +59,7 @@ class AttractionVC: UIViewController {
 
     private func requestAttractionList() {
         let attractionListRequest = API.Attraction.list
+
         attractionListRequest.request { [weak self] data in
             guard let list = data.result.value?.array else {
                 return
@@ -96,11 +100,8 @@ extension AttractionVC: UITableViewDelegate, UITableViewDataSource {
         cell.data = data
         return cell
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 34
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerSize = CGSize(width: tableView.frame.size.width, height: 30)
@@ -110,5 +111,8 @@ extension AttractionVC: UITableViewDelegate, UITableViewDataSource {
         header.text = Array(listData.keys)[section]
 
         return header
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

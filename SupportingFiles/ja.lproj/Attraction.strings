@@ -1,0 +1,10 @@
+/* 
+  Attraction.strings
+  disney
+
+  Created by ebuser on 2017/5/10.
+  Copyright © 2017年 e-business. All rights reserved.
+*/
+
+"waitTime" = "待ち時間:";
+"waitTimeUnit" = "分";

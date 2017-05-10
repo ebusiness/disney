@@ -70,6 +70,23 @@ enum TokyoDisneyPark: String, FileLocalizable {
 
 enum SpotCategory: String {
     case show
-    case meeting
+    case greeting
     case attraction
+}
+
+extension Date {
+    init?(iso8601str: String?) {
+        guard let iso8601str = iso8601str else {
+            return nil
+        }
+        let formatterA = DateFormatter()
+        formatterA.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        let formatterB = DateFormatter()
+        formatterB.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        if let date = formatterA.date(from: iso8601str) ?? formatterB.date(from: iso8601str) {
+            self = date
+        } else {
+            return nil
+        }
+    }
 }
