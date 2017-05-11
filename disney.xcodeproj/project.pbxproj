@@ -10,6 +10,7 @@
 		1F059F701EC32F8C000162C1 /* Attraction.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F059F721EC32F8C000162C1 /* Attraction.strings */; };
 		1F1536301EB34ADF00831646 /* AttractionBriefCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */; };
 		1F24C3F51EAF360A00953463 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F24C3F71EAF360A00953463 /* Main.strings */; };
+		1F43F7AD1EC433E4009D0104 /* AttractionDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F43F7AC1EC433E4009D0104 /* AttractionDetailVC.swift */; };
 		1F6559501EC16C7A005BC235 /* AttractionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F65594F1EC16C7A005BC235 /* AttractionModels.swift */; };
 		1F6559521EC1CB4E005BC235 /* VisitorTagModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6559511EC1CB4E005BC235 /* VisitorTagModels.swift */; };
 		1F6D1A001EB0AC0800A9C70F /* Convienence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D19FF1EB0AC0800A9C70F /* Convienence.swift */; };
@@ -55,6 +56,7 @@
 		1F24C3F81EAF360C00953463 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		1F24C3F91EAF360C00953463 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		1F24C3FA1EAF360D00953463 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		1F43F7AC1EC433E4009D0104 /* AttractionDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionDetailVC.swift; sourceTree = "<group>"; };
 		1F65594F1EC16C7A005BC235 /* AttractionModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionModels.swift; sourceTree = "<group>"; };
 		1F6559511EC1CB4E005BC235 /* VisitorTagModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagModels.swift; sourceTree = "<group>"; };
 		1F6D19FF1EB0AC0800A9C70F /* Convienence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convienence.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				1FF1C4EC1EAF2C5E005A87A9 /* AttractionVC.swift */,
 				1F65594F1EC16C7A005BC235 /* AttractionModels.swift */,
 				1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */,
+				1F43F7AC1EC433E4009D0104 /* AttractionDetailVC.swift */,
 			);
 			path = Attraction;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F43F7AD1EC433E4009D0104 /* AttractionDetailVC.swift in Sources */,
 				1F90DD0E1EB04919004463B9 /* API.swift in Sources */,
 				1F90DD0C1EB036DB004463B9 /* Network.swift in Sources */,
 				1FA811301EADA8BC000A7F2D /* Main.swift in Sources */,

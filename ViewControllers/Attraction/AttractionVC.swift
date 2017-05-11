@@ -9,10 +9,13 @@
 import UIKit
 
 // swiftlint:disable line_length
-class AttractionVC: UIViewController {
+class AttractionVC: UIViewController, FileLocalizable {
+
+    let localizeFileName = "Attraction"
 
     fileprivate var tableView: UITableView!
     fileprivate let cellIdentifer = "cellIdentifier"
+    fileprivate var refreshControl: UIRefreshControl!
 
     var listData = [String: [AttractionListSpot]]()
 
@@ -55,31 +58,56 @@ class AttractionVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
+        // Add refreshControl
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: localize(for: "dragToRefresh"),
+                                                            attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
+        refreshControl.addTarget(self,
+                                 action: #selector(handleRefreshControl(sender:)),
+                                 for: .valueChanged)
+
+        tableView.addSubview(refreshControl)
+        tableView.sendSubview(toBack: refreshControl)
+
     }
 
-    private func requestAttractionList() {
+    fileprivate func requestAttractionList(completionHandler: ((Bool) -> Void)? = nil) {
         let attractionListRequest = API.Attraction.list
 
         attractionListRequest.request { [weak self] data in
             guard let list = data.result.value?.array else {
+                completionHandler?(false)
                 return
             }
+            self?.listData = [String: [AttractionListSpot]]()
             list.forEach { json in
                 guard let spot = AttractionListSpot(json) else {
+                    completionHandler?(false)
                     return
                 }
-                if self?.listData == nil {
-                    return
-                }
-                var area = self!.listData[spot.area]
-                if area == nil {
-                    area = [spot]
+                if let strongSelf = self {
+                    var area = strongSelf.listData[spot.area]
+                    if area == nil {
+                        area = [spot]
+                    } else {
+                        area!.append(spot)
+                    }
+                    strongSelf.listData[spot.area] = area
                 } else {
-                    area!.append(spot)
+                    completionHandler?(false)
+                    return
                 }
-                self!.listData[spot.area] = area
             }
             self?.tableView.reloadData()
+            completionHandler?(true)
+        }
+    }
+
+    @objc
+    private func handleRefreshControl(sender: UIRefreshControl) {
+        if sender.isRefreshing {
+            sender.attributedTitle = NSAttributedString(string: localize(for: "releaseToRefresh"),
+                                                        attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
         }
     }
 }
@@ -114,5 +142,18 @@ extension AttractionVC: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if refreshControl.isRefreshing {
+            refreshControl.attributedTitle = NSAttributedString(string: localize(for: "refreshing"),
+                                                                attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
+            requestAttractionList { [weak self] _ in
+                if let strongSelf = self {
+                    strongSelf.refreshControl.endRefreshing()
+                    strongSelf.refreshControl.attributedTitle = NSAttributedString(string: strongSelf.localize(for: "dragToRefresh"),
+                                                                                   attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
+                }
+            }
+        }
     }
 }

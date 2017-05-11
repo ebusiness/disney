@@ -61,6 +61,8 @@ struct AttractionListSpot: SwiftJSONSerializable {
         let operationEnd: Date?
         let fastpassStart: Date?
         let fastpassEnd: Date?
+        let fastpassInfo: String?
+        let fastpassRunning: Bool
 
         let waitTime: Int?
 
@@ -84,6 +86,9 @@ struct AttractionListSpot: SwiftJSONSerializable {
             operationEnd = Date(iso8601str: json["operation_end"].string)
             fastpassStart = Date(iso8601str: json["fastpass_start"].string)
             fastpassEnd = Date(iso8601str: json["fastpass_end"].string)
+
+            fastpassInfo = json["fastpassInfo"].string
+            fastpassRunning = fastpassInfo == "発券中"
 
             if let waitTimeStr = json["waitTime"].string {
                 waitTime = Int(waitTimeStr)

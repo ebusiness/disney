@@ -31,7 +31,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                                                                            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
                                                                            documentAttributes: nil) {
                         attributedName.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 18),
-                                                      NSForegroundColorAttributeName: UIColor.white],
+                                                      NSForegroundColorAttributeName: Color.white],
                                                      range: NSRange(location: 0, length: attributedName.string.characters.count))
                         title.attributedText = attributedName
                     }
@@ -41,60 +41,93 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                 switch data.category {
                 case .attraction:
                     categoryImageView.image = #imageLiteral(resourceName: "ListAttraction")
-                    categoryImageView.backgroundColor = UIColor(hex: "2196F3")
+                    categoryImageView.backgroundColor = Color(hex: "2196F3")
                 case .greeting:
                     categoryImageView.image = #imageLiteral(resourceName: "ListGreeting")
-                    categoryImageView.backgroundColor = UIColor(hex: "673AB7")
+                    categoryImageView.backgroundColor = Color(hex: "673AB7")
                 case .show:
                     categoryImageView.image = #imageLiteral(resourceName: "ListParade")
-                    categoryImageView.backgroundColor = UIColor(hex: "F44336")
+                    categoryImageView.backgroundColor = Color(hex: "F44336")
                 }
 
                 // 景点事实信息
                 if let realtime = data.realtime {
                     let fullText = NSMutableAttributedString()
 
-                    // 运营状态
-                    if realtime.available, let startTime = realtime.operationStart, let endTime = realtime.operationEnd {
-                        let statusText = NSMutableAttributedString(string: realtime.statusInfo,
-                                                                   attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                                NSForegroundColorAttributeName: UIColor(hex: "4CAF50")])
-                        let formatter = DateFormatter()
-                        formatter.dateFormat = "HH:mm"
-                        let startText = formatter.string(from: startTime)
-                        let endText = formatter.string(from: endTime)
-                        let periodText = NSMutableAttributedString(string: ": \(startText) - \(endText)",
-                            attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                         NSForegroundColorAttributeName: UIColor(hex: "4CAF50")])
-
-                        fullText.append(statusText)
-                        fullText.append(periodText)
-                    } else {
-                        let statusText = NSMutableAttributedString(string: realtime.statusInfo,
-                                                                   attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                                NSForegroundColorAttributeName: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
-                        fullText.append(statusText)
-                    }
-
                     // 等待时间
-                    if realtime.available, let waitTime = realtime.waitTime {
-                        let lineBreak = NSAttributedString(string: "\n")
-                        let waitTimePrompt = NSMutableAttributedString(string: localize(for: "waitTime"),
-                                                                       attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                                    NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)])
-                        let waitTimeText = NSMutableAttributedString(string: " \(waitTime)",
-                                                                     attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 35),
-                                                                                  NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)])
-                        let waitTimeUnit = NSMutableAttributedString(string: localize(for: "waitTimeUnit"),
-                                                                     attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                                  NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)])
-                        fullText.append(lineBreak)
+                    if realtime.available,
+                        let waitTime = realtime.waitTime {
+                        let waitTimePrompt = NSAttributedString(string: localize(for: "waitTime"),
+                                                                attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
+                                                                             NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)])
+                        let waitTimeColor = WaitTimeColor(waitTime: waitTime)
+                        let waitTimeText = NSAttributedString(string: " \(waitTime)",
+                            attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 35),
+                                         NSForegroundColorAttributeName: waitTimeColor.value])
+                        let waitTimeUnit = NSAttributedString(string: localize(for: "waitTimeUnit"),
+                                                              attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
+                                                                           NSForegroundColorAttributeName: waitTimeColor.value])
+
                         fullText.append(waitTimePrompt)
                         fullText.append(waitTimeText)
                         fullText.append(waitTimeUnit)
                     }
 
+                    // 运营状态
+                    if realtime.available,
+                        let startTime = realtime.operationStart,
+                        let endTime = realtime.operationEnd {
+                        let statusText = NSAttributedString(string: realtime.statusInfo,
+                                                                   attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
+                                                                                NSForegroundColorAttributeName: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "HH:mm"
+                        let startText = formatter.string(from: startTime)
+                        let endText = formatter.string(from: endTime)
+                        let periodText = NSAttributedString(string: ": \(startText) - \(endText)",
+                            attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
+                                         NSForegroundColorAttributeName: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
+
+                        fullText.appendLineBreakIfNotEmpty()
+                        fullText.append(statusText)
+                        fullText.append(periodText)
+                    } else {
+                        let statusText = NSAttributedString(string: realtime.statusInfo,
+                                                                   attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
+                                                                                NSForegroundColorAttributeName: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
+                        fullText.appendLineBreakIfNotEmpty()
+                        fullText.append(statusText)
+                    }
+
                     // 快速通道
+                    if realtime.available, realtime.fastpassAvailable,
+                        let fastpassInfo = realtime.fastpassInfo,
+                        let startTime = realtime.fastpassStart,
+                        let endTime = realtime.fastpassEnd {
+                        let icon = NSTextAttachment()
+                        icon.image = #imageLiteral(resourceName: "FastPass")
+                        icon.bounds = CGRect(x: 0, y: -3, width: #imageLiteral(resourceName: "FastPass").size.width, height: #imageLiteral(resourceName: "FastPass").size.height)
+                        let iconText = NSAttributedString(attachment: icon)
+                        let statusText = NSAttributedString(string: " " + fastpassInfo + " ",
+                                                            attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
+                                                                         NSForegroundColorAttributeName: Color(hex: "F44336")])
+
+                        fullText.appendLineBreakIfNotEmpty()
+                        fullText.append(iconText)
+                        fullText.append(statusText)
+
+                        if realtime.fastpassRunning {
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "HH:mm"
+                            let startText = formatter.string(from: startTime)
+                            let endText = formatter.string(from: endTime)
+                            let periodText = NSAttributedString(string: "(\(startText) - \(endText))",
+                                attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
+                                             NSForegroundColorAttributeName: Color(hex: "F44336")])
+                            fullText.append(periodText)
+                        }
+
+                    }
                     realtimeMessage.attributedText = fullText
                 } else {
                     if let htmlStringData = data.introductions.data(using: .unicode) {
@@ -137,7 +170,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
         realtimeMessage = UILabel(frame: CGRect.zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = Color(hex: "E1E2E1")
         selectionStyle = .none
 
         addBackgroundImage()
@@ -193,7 +226,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
 
     private func addCategoryImage() {
         categoryImageView.contentMode = .center
-        categoryImageView.tintColor = UIColor.white
+        categoryImageView.tintColor = Color.white
         addSubview(categoryImageView)
         categoryImageView.translatesAutoresizingMaskIntoConstraints = false
         categoryImageView.leftAnchor.constraint(equalTo: backgroundImage.leftAnchor, constant: 2).isActive = true
@@ -242,7 +275,7 @@ class AttractionBriefHeader: UIView {
 
         addSubview(label)
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = UIColor(hex: "000000")
+        label.textColor = Color(hex: "000000")
         label.sizeToFit()
 
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -298,5 +331,65 @@ private class CategoryImageView: UIImageView {
         let maskLayer = CAShapeLayer()
         maskLayer.path = path.cgPath
         layer.mask = maskLayer
+    }
+}
+
+private extension NSMutableAttributedString {
+    func appendLineBreakIfNotEmpty() {
+        if !string.isEmpty {
+            let lineBreak = NSAttributedString(string: "\n")
+            self.append(lineBreak)
+        }
+    }
+}
+
+private enum WaitTimeColor {
+    case nobody
+    case prettyVacant
+    case vacant
+    case normal
+    case littleCrowded
+    case crowded
+    case prettyCrowded
+    case deadly
+    init(waitTime: Int) {
+        switch waitTime {
+        case _ where waitTime < 15:
+            self = .nobody
+        case 15...24:
+            self = .prettyVacant
+        case 25...34:
+            self = .vacant
+        case 35...39:
+            self = .normal
+        case 40...49:
+            self = .littleCrowded
+        case 50...59:
+            self = .crowded
+        case 60...69:
+            self = .prettyCrowded
+        default:
+            self = .deadly
+        }
+    }
+    var value: Color {
+        switch self {
+        case .nobody:
+            return Color(hex: "4CAF50")
+        case .prettyVacant:
+            return Color(hex: "8BC34A")
+        case .vacant:
+            return Color(hex: "CDDC39")
+        case .normal:
+            return Color(hex: "FFEB3B")
+        case .littleCrowded:
+            return Color(hex: "FFC107")
+        case .crowded:
+            return Color(hex: "FF9800")
+        case .prettyCrowded:
+            return Color(hex: "FF5722")
+        case .deadly:
+            return Color(hex: "F44336")
+        }
     }
 }

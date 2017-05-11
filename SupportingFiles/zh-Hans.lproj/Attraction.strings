@@ -7,4 +7,8 @@
 */
 
 "waitTime" = "等待时间:";
-"weitTimeUnit" = "分钟";
+"waitTimeUnit" = "分钟";
+
+"dragToRefresh" = "下拉更新数据";
+"refreshing" = "正在更新数据";
+"releaseToRefresh" = "松开更新数据";
