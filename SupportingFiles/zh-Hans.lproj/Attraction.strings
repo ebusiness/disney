@@ -6,7 +6,7 @@
   Copyright © 2017年 e-business. All rights reserved.
 */
 
-"waitTime" = "等待时间:";
+"waitTime" = "等待时间";
 "waitTimeUnit" = "分钟";
 
 "dragToRefresh" = "下拉更新数据";

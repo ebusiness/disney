@@ -51,7 +51,7 @@ class AttractionVC: UIViewController, FileLocalizable {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
 
         // Add delegates
@@ -110,6 +110,11 @@ class AttractionVC: UIViewController, FileLocalizable {
                                                         attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
         }
     }
+
+    fileprivate func pushToDetail(attractionId: String, thum: String) {
+        let destination = AttractionDetailVC(attractionId: attractionId, thum: thum)
+        navigationController?.pushViewController(destination, animated: true)
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -142,6 +147,8 @@ extension AttractionVC: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        let data = listData[Array(listData.keys)[indexPath.section]]![indexPath.row]
+        pushToDetail(attractionId: data.id, thum: data.thum)
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if refreshControl.isRefreshing {

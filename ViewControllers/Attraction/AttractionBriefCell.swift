@@ -41,13 +41,13 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                 switch data.category {
                 case .attraction:
                     categoryImageView.image = #imageLiteral(resourceName: "ListAttraction")
-                    categoryImageView.backgroundColor = Color(hex: "2196F3")
+                    categoryImageView.backgroundColor = UIColor(hex: "2196F3")
                 case .greeting:
                     categoryImageView.image = #imageLiteral(resourceName: "ListGreeting")
-                    categoryImageView.backgroundColor = Color(hex: "673AB7")
+                    categoryImageView.backgroundColor = UIColor(hex: "673AB7")
                 case .show:
                     categoryImageView.image = #imageLiteral(resourceName: "ListParade")
-                    categoryImageView.backgroundColor = Color(hex: "F44336")
+                    categoryImageView.backgroundColor = UIColor(hex: "F44336")
                 }
 
                 // 景点事实信息
@@ -57,7 +57,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                     // 等待时间
                     if realtime.available,
                         let waitTime = realtime.waitTime {
-                        let waitTimePrompt = NSAttributedString(string: localize(for: "waitTime"),
+                        let waitTimePrompt = NSAttributedString(string: localize(for: "waitTime") + ":",
                                                                 attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
                                                                              NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)])
                         let waitTimeColor = WaitTimeColor(waitTime: waitTime)
@@ -101,29 +101,29 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
 
                     // 快速通道
                     if realtime.available, realtime.fastpassAvailable,
-                        let fastpassInfo = realtime.fastpassInfo,
-                        let startTime = realtime.fastpassStart,
-                        let endTime = realtime.fastpassEnd {
+                        let fastpassInfo = realtime.fastpassInfo {
                         let icon = NSTextAttachment()
                         icon.image = #imageLiteral(resourceName: "FastPass")
                         icon.bounds = CGRect(x: 0, y: -3, width: #imageLiteral(resourceName: "FastPass").size.width, height: #imageLiteral(resourceName: "FastPass").size.height)
                         let iconText = NSAttributedString(attachment: icon)
                         let statusText = NSAttributedString(string: " " + fastpassInfo + " ",
                                                             attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                         NSForegroundColorAttributeName: Color(hex: "F44336")])
+                                                                         NSForegroundColorAttributeName: UIColor(hex: "F44336")])
 
                         fullText.appendLineBreakIfNotEmpty()
                         fullText.append(iconText)
                         fullText.append(statusText)
 
-                        if realtime.fastpassRunning {
+                        if realtime.fastpassRunning ,
+                            let startTime = realtime.fastpassStart,
+                            let endTime = realtime.fastpassEnd {
                             let formatter = DateFormatter()
                             formatter.dateFormat = "HH:mm"
                             let startText = formatter.string(from: startTime)
                             let endText = formatter.string(from: endTime)
                             let periodText = NSAttributedString(string: "(\(startText) - \(endText))",
                                 attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                             NSForegroundColorAttributeName: Color(hex: "F44336")])
+                                             NSForegroundColorAttributeName: UIColor(hex: "F44336")])
                             fullText.append(periodText)
                         }
 
@@ -170,7 +170,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
         realtimeMessage = UILabel(frame: CGRect.zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        backgroundColor = Color(hex: "E1E2E1")
+        backgroundColor = UIColor(hex: "E1E2E1")
         selectionStyle = .none
 
         addBackgroundImage()
@@ -275,7 +275,7 @@ class AttractionBriefHeader: UIView {
 
         addSubview(label)
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = Color(hex: "000000")
+        label.textColor = UIColor(hex: "000000")
         label.sizeToFit()
 
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -375,21 +375,21 @@ private enum WaitTimeColor {
     var value: Color {
         switch self {
         case .nobody:
-            return Color(hex: "4CAF50")
+            return UIColor(hex: "4CAF50")
         case .prettyVacant:
-            return Color(hex: "8BC34A")
+            return UIColor(hex: "8BC34A")
         case .vacant:
-            return Color(hex: "CDDC39")
+            return UIColor(hex: "CDDC39")
         case .normal:
-            return Color(hex: "FFEB3B")
+            return UIColor(hex: "FFEB3B")
         case .littleCrowded:
-            return Color(hex: "FFC107")
+            return UIColor(hex: "FFC107")
         case .crowded:
-            return Color(hex: "FF9800")
+            return UIColor(hex: "FF9800")
         case .prettyCrowded:
-            return Color(hex: "FF5722")
+            return UIColor(hex: "FF5722")
         case .deadly:
-            return Color(hex: "F44336")
+            return UIColor(hex: "F44336")
         }
     }
 }

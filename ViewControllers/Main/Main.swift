@@ -12,9 +12,13 @@ class NavigationVC: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.barStyle = .black
-        let background = NavigationBackground.image
-        navigationBar.setBackgroundImage(background, for: .default)
+        navigationBar.isTranslucent = true
+        navigationBar.barTintColor = UIColor(hex: "0091EA")
         navigationBar.tintColor = UIColor.white
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
 

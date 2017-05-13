@@ -69,7 +69,7 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        collectionView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
         collectionView.layoutIfNeeded()
 
@@ -111,10 +111,10 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         let tagsRequest = API.Visitor.tags
         tagsRequest.request { [weak self] data in
 
-            guard let models: [VisitorTagModel?] = VisitorTagModel.array(data) else {
+            guard let models: [VisitorTagModel] = VisitorTagModel.array(dataResponse: data) else {
                 return
             }
-            self?.allTags = models.filter { $0 != nil }.map { $0! }
+            self?.allTags = models
             let empty = [VisitorTagModel]()
             var selectedGroup = [VisitorTagModel]()
             var unselectedGroup = [VisitorTagModel]()

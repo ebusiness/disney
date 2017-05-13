@@ -48,6 +48,16 @@ extension UIColor {
             blue: rgb & 0xFF
         )
     }
+
+    convenience init(baseColor: UIColor, alpha: CGFloat) {
+        assert(alpha >= 0 && alpha <= 1, "Invalid alpha value")
+
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        baseColor.getRed(&red, green: &green, blue: &blue, alpha: nil)
+        self.init(red: red, green: green, blue: blue, alpha: alpha)
+    }
 }
 
 enum TokyoDisneyPark: String, FileLocalizable {

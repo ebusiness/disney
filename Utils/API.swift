@@ -43,26 +43,26 @@ extension API {
 extension API {
     enum Attraction: Requestable {
         case list
+        case detail(String)
+        case waitTime(String)
 
         var path: String {
             switch self {
             case .list:
                 return "attractions/"
+            case .detail(let id):
+                return "attractions/\(id)/"
+            case .waitTime(let id):
+                return "attractions/\(id)/waittimes/"
             }
         }
 
         var method: RouteMethod {
-            switch self {
-            case .list:
-                return .GET
-            }
+            return .GET
         }
 
         var parameters: [String: Any]? {
-            switch self {
-            case .list:
-                return nil
-            }
+            return nil
         }
     }
 }

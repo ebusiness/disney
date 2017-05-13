@@ -5,11 +5,3 @@
   Created by ebuser on 2017/4/25.
   Copyright © 2017年 e-business. All rights reserved.
 */
-
-"essentialInfo" = "基本计划";
-"chooseDate" = "游园日期";
-"choosePark" = "游玩园区";
-"selectedTags" = "关注标签";
-"unselectedTags" = "点击或拖动添加更多标签";
-
-"save" = "保存";

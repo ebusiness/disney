@@ -11,7 +11,6 @@ import SwiftyJSON
 
 protocol SwiftJSONSerializable {
     init?(_ json: JSON)
-    init?(_ json: DataResponse<JSON>)
 }
 
 extension SwiftJSONSerializable {
@@ -24,7 +23,11 @@ extension SwiftJSONSerializable {
         }
     }
 
-    static func array<T: SwiftJSONSerializable>(_ json: DataResponse<JSON>) -> [T?]? {
-        return json.result.value?.array?.map { T($0) }
+    static func array<T: SwiftJSONSerializable>(dataResponse: DataResponse<JSON>) -> [T]? {
+        return dataResponse.result.value?.array?.map { T($0) } .filter { $0 != nil } .map { $0! }
+    }
+
+    static func array<T: SwiftJSONSerializable>(_ json: JSON) -> [T]? {
+        return json.array?.map { T($0) } .filter { $0 != nil } .map { $0! }
     }
 }
