@@ -325,6 +325,7 @@ private class ChartBase: UIView {
         }
     }
 
+    // swiftlint:disable:next function_body_length
     private func drawSimPart(from: Int, to: Int) {
         let context = UIGraphicsGetCurrentContext()!
         guard let dataSource = dataSource, to >= from else {

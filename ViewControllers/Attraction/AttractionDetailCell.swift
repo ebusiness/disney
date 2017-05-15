@@ -44,6 +44,8 @@ class AttractionDetailChartCell: UITableViewCell, FileLocalizable {
         chart = WaitTimeChart(frame: CGRect.zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        selectionStyle = .none
+
         configChart()
         configImage()
 

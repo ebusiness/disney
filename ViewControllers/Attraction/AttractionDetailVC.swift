@@ -45,6 +45,7 @@ class AttractionDetailVC: UIViewController {
     private func addSubTableView() {
         tableView.register(AttractionDetailChartCell.self, forCellReuseIdentifier: chartCellIdentifier)
         tableView.backgroundColor = UIColor(hex: "E1E2E1")
+        tableView.separatorStyle = .none
 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100

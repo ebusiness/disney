@@ -258,6 +258,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
                 }
             }
 
+            // 如果最后一条可用信息时，项目处于停运状态
             if !lastRunning {
                 return [firstIndex, lastIndex, lastIndex]
             }
@@ -377,7 +378,7 @@ fileprivate extension Date {
             return nil
         }
         let secondsSinceOpen = hour * 3600 + minute * 60 - 8 * 3600
-        guard secondsSinceOpen > 0 else {
+        if secondsSinceOpen < 0 {
             return nil
         }
         let index = Int(floor( Double(secondsSinceOpen) / Double(60 * 15) ))
