@@ -111,8 +111,8 @@ class AttractionVC: UIViewController, FileLocalizable {
         }
     }
 
-    fileprivate func pushToDetail(attractionId: String, thum: String) {
-        let destination = AttractionDetailVC(attractionId: attractionId, thum: thum)
+    fileprivate func pushToDetail(attractionId: String, thums: [String]) {
+        let destination = AttractionDetailVC(attractionId: attractionId, thums: thums)
         navigationController?.pushViewController(destination, animated: true)
     }
 }
@@ -148,7 +148,7 @@ extension AttractionVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         let data = listData[Array(listData.keys)[indexPath.section]]![indexPath.row]
-        pushToDetail(attractionId: data.id, thum: data.thum)
+        pushToDetail(attractionId: data.id, thums: data.thums)
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if refreshControl.isRefreshing {

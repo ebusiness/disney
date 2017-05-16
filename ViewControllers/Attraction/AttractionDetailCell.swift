@@ -9,7 +9,7 @@
 import CoreGraphics
 import UIKit
 
-// swiftlint:disable line_length
+// swiftlint:disable line_length file_length
 class AttractionDetailChartCell: UITableViewCell, FileLocalizable {
 
     let localizeFileName = "Attraction"
@@ -199,4 +199,302 @@ extension AttractionDetailChartCell: WaitTimeChartDelegate, WaitTimeChartDataSou
         }
     }
 
+}
+
+class AttractionDetailInfoCell: UITableViewCell, FileLocalizable {
+
+    var data: AttractionDetail.CardInfo? {
+        didSet {
+            if let data = data {
+                // title
+                titleLabel.text = data.title
+
+                // content
+                if let htmlStringData = data.content.data(using: .unicode) {
+                    if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
+                                                                           options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                                           documentAttributes: nil) {
+                        let range = (attributedName.string as NSString).range(of: attributedName.string)
+                        attributedName.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15),
+                                                      NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)],
+                                                     range: range)
+                        contentLabel.attributedText = attributedName
+                    }
+                } else {
+                    contentLabel.attributedText = nil
+                }
+
+                // type
+                switch data.cardType {
+                case .introduction:
+                    icon.image = #imageLiteral(resourceName: "AttractionDetailIntroduction")
+                    icon.backgroundColor = UIColor(hex: "2196F3")
+                    icon.layoutIfNeeded()
+                case .duration:
+                    icon.image = #imageLiteral(resourceName: "AttractionDetailDuration")
+                    icon.backgroundColor = UIColor(hex: "E91E63")
+                    icon.layoutIfNeeded()
+                case .capacity:
+                    icon.image = #imageLiteral(resourceName: "AttractionDetailCapcity")
+                    icon.backgroundColor = UIColor(hex: "03A9F4")
+                    icon.layoutIfNeeded()
+                case .appropriateFor:
+                    icon.image = #imageLiteral(resourceName: "AttractionDetailAppropriateFor")
+                    icon.backgroundColor = UIColor(hex: "8BC34A")
+                    icon.layoutIfNeeded()
+                case .attractionType:
+                    icon.image = #imageLiteral(resourceName: "AttractionDetailAttractionType")
+                    icon.backgroundColor = UIColor(hex: "607D8B")
+                    icon.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    let localizeFileName = "Attraction"
+
+    private let borderImageView: UIImageView
+    private let leadColorView: LeadColorView
+    private let icon: IconImageView
+
+    private let titleLabel: UILabel
+    private let contentLabel: UILabel
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        borderImageView = UIImageView(frame: CGRect.zero)
+        leadColorView = LeadColorView(frame: CGRect.zero)
+        icon = IconImageView(frame: CGRect.zero)
+        titleLabel = UILabel(frame: CGRect.zero)
+        contentLabel = UILabel(frame: CGRect.zero)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        selectionStyle = .none
+
+        addSubBorderImageView()
+        addSubLeadColorView()
+        addIcon()
+        addTitleLabel()
+        addContentLabel()
+
+        backgroundColor = UIColor(hex: "E1E2E1")
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubBorderImageView() {
+        addSubview(borderImageView)
+        borderImageView.translatesAutoresizingMaskIntoConstraints = false
+        borderImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        borderImageView.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        borderImageView.topAnchor.constraint(equalTo: topAnchor, constant: 4).isActive = true
+        borderImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
+        borderImageView.image = #imageLiteral(resourceName: "card")
+        borderImageView.layoutIfNeeded()
+    }
+
+    private func addSubLeadColorView() {
+        leadColorView.backgroundColor = UIColor(hex: "2196F3")
+        addSubview(leadColorView)
+        leadColorView.translatesAutoresizingMaskIntoConstraints = false
+        leadColorView.leftAnchor.constraint(equalTo: borderImageView.leftAnchor, constant: 2).isActive = true
+        leadColorView.topAnchor.constraint(equalTo: borderImageView.topAnchor, constant: 2).isActive = true
+        leadColorView.bottomAnchor.constraint(equalTo: borderImageView.bottomAnchor, constant: -4).isActive = true
+        leadColorView.widthAnchor.constraint(equalToConstant: 6).isActive = true
+    }
+
+    private func addIcon() {
+        addSubview(icon)
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.leftAnchor.constraint(equalTo: leadColorView.rightAnchor, constant: 12).isActive = true
+        icon.topAnchor.constraint(equalTo: borderImageView.topAnchor, constant: 14).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        let bottomConstraint = icon.bottomAnchor.constraint(lessThanOrEqualTo: borderImageView.bottomAnchor, constant: -16)
+        bottomConstraint.priority = 999
+        bottomConstraint.isActive = true
+    }
+
+    private func addTitleLabel() {
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.topAnchor.constraint(equalTo: icon.topAnchor).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 12).isActive = true
+    }
+
+    private func addContentLabel() {
+        contentLabel.font = UIFont.systemFont(ofSize: 15)
+        contentLabel.numberOfLines = 0
+        addSubview(contentLabel)
+        contentLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4).isActive = true
+        contentLabel.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 12).isActive = true
+        contentLabel.rightAnchor.constraint(equalTo: borderImageView.rightAnchor, constant: -14).isActive = true
+        contentLabel.bottomAnchor.constraint(lessThanOrEqualTo: borderImageView.bottomAnchor, constant: -16).isActive = true
+    }
+}
+
+private class IconImageView: UIImageView {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        tintColor = UIColor.white
+        contentMode = .center
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = min(bounds.height, bounds.width) / 2
+    }
+}
+
+private class LeadColorView: UIView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let path = UIBezierPath(roundedRect: bounds,
+                                byRoundingCorners: [.bottomLeft, .topLeft],
+                                cornerRadii: CGSize(width: 2, height: 2))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        layer.mask = maskLayer
+    }
+}
+
+class AttractionDetailThumsCell: UITableViewCell {
+
+    var thums: [String] = [String]() {
+        didSet {
+            updatePageControl()
+            collectionView.reloadData()
+        }
+    }
+
+    fileprivate let collectionView: UICollectionView
+    fileprivate let collectionCellIdentifier = "collectionCellIdentifier"
+    private let pageControl: UIPageControl
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+
+        pageControl = UIPageControl(frame: .zero)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        backgroundColor = UIColor(hex: "E1E2E1")
+
+        addSubCollectionView()
+        addSubPageControl()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.allowsSelection = false
+        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = UIColor(hex: "E1E2E1")
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.layer.cornerRadius = 2.0
+        collectionView.layer.masksToBounds = true
+        collectionView.register(AttractionDetailThumsCollectionCell.self, forCellWithReuseIdentifier: collectionCellIdentifier)
+        addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
+        let heightConstraint = collectionView.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 24) / 2)
+        heightConstraint.priority = 999
+        heightConstraint.isActive = true
+    }
+
+    private func addSubPageControl() {
+        updatePageControl()
+        pageControl.isUserInteractionEnabled = false
+        addSubview(pageControl)
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        pageControl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    }
+    fileprivate func updatePageControl(to currentPage: Int = 0) {
+        pageControl.numberOfPages = thums.count
+        pageControl.currentPage = currentPage
+    }
+}
+
+extension AttractionDetailThumsCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return thums.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionCellIdentifier, for: indexPath) as? AttractionDetailThumsCollectionCell else {
+            fatalError("Unknown cell type")
+        }
+        cell.imageUrl = thums[indexPath.item]
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width - 24, height: (UIScreen.main.bounds.width - 24) / 2)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == collectionView {
+            let contentOffsetX = scrollView.contentOffset.x
+            let pageWidth = UIScreen.main.bounds.width - 24
+            let page = Int(contentOffsetX / pageWidth)
+            updatePageControl(to: page)
+        }
+    }
+}
+
+private class AttractionDetailThumsCollectionCell: UICollectionViewCell {
+
+    var imageUrl: String? {
+        didSet {
+            if let imageUrl = imageUrl {
+                let url = URL(string: imageUrl)
+                imageView.kf.setImage(with: url)
+            } else {
+                imageView.kf.setImage(with: nil)
+            }
+        }
+    }
+
+    private let imageView: UIImageView
+
+    override init(frame: CGRect) {
+        imageView = UIImageView(frame: .zero)
+        super.init(frame: frame)
+
+        backgroundColor = UIColor(hex: "E1E2E1")
+
+        addSubImageView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubImageView() {
+        addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.addAllConstraints(equalTo: self)
+    }
 }

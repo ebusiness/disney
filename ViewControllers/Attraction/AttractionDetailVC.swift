@@ -9,21 +9,25 @@
 import UIKit
 
 // swiftlint:disable line_length
-class AttractionDetailVC: UIViewController {
+class AttractionDetailVC: UIViewController, FileLocalizable {
+
+    let localizeFileName = "Attraction"
 
     let attractionId: String
-    let thum: String
+    let thums: [String]
     let tableView: UITableView
 
     fileprivate var timeInfo: AttractionDetailWaitTime?
     fileprivate var detailInfo: AttractionDetail?
 
     fileprivate let chartCellIdentifier = "chartCellIdentifier"
+    fileprivate let infoCellIdentifer = "infoCellIdentifier"
+    fileprivate let thumsCellIdentifier = "thumsCellIdentifier"
 
-    init(attractionId: String, thum: String) {
+    init(attractionId: String, thums: [String]) {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
         self.attractionId = attractionId
-        self.thum = thum
+        self.thums = thums
 
         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
@@ -44,6 +48,8 @@ class AttractionDetailVC: UIViewController {
 
     private func addSubTableView() {
         tableView.register(AttractionDetailChartCell.self, forCellReuseIdentifier: chartCellIdentifier)
+        tableView.register(AttractionDetailInfoCell.self, forCellReuseIdentifier: infoCellIdentifer)
+        tableView.register(AttractionDetailThumsCell.self, forCellReuseIdentifier: thumsCellIdentifier)
         tableView.backgroundColor = UIColor(hex: "E1E2E1")
         tableView.separatorStyle = .none
 
@@ -87,7 +93,7 @@ class AttractionDetailVC: UIViewController {
 
     private func updateInfo() {
         navigationItem.title = detailInfo?.name
-        tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        tableView.reloadSections(IndexSet(integer: 1), with: .fade)
     }
 
     private func updateTime() {
@@ -101,20 +107,38 @@ extension AttractionDetailVC: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return timeInfo == nil ? 0 : 1
+            return 1
         } else if section == 1 {
-            return 0
+            if let detailInfo = detailInfo {
+                return detailInfo.analysis.count
+            } else {
+                return 0
+            }
         } else {
             return 0
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: chartCellIdentifier, for: indexPath) as? AttractionDetailChartCell else {
+            if let timeInfo = timeInfo {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: chartCellIdentifier, for: indexPath) as? AttractionDetailChartCell else {
+                    fatalError("Unknown cell type")
+                }
+                cell.thum = thums[0]
+                cell.data = timeInfo
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: thumsCellIdentifier, for: indexPath) as? AttractionDetailThumsCell else {
+                    fatalError("Unknown cell type")
+                }
+                cell.thums = thums
+                return cell
+            }
+        } else if indexPath.section == 1 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: infoCellIdentifer, for: indexPath) as? AttractionDetailInfoCell else {
                 fatalError("Unknown cell type")
             }
-            cell.thum = thum
-            cell.data = timeInfo
+            cell.data = detailInfo?.analysis[indexPath.row]
             return cell
         }
         return UITableViewCell()

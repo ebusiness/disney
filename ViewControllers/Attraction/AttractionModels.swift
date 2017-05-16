@@ -9,12 +9,13 @@
 import Foundation
 import SwiftyJSON
 
+// swiftlint:disable file_length
 struct AttractionListSpot: SwiftJSONSerializable {
     let id: String
     let category: SpotCategory
     let name: String
     let area: String
-    let thum: String
+    let thums: [String]
     let realtime: Realtime?
     let introductions: String
 
@@ -39,10 +40,10 @@ struct AttractionListSpot: SwiftJSONSerializable {
         }
         self.area = area
 
-        guard let thum = json["images"].array?.first?.string else {
+        guard let thums = json["images"].array else {
             return nil
         }
-        self.thum = thum
+        self.thums = thums.map { $0.string } .filter { $0 != nil } .map { $0! }
 
         realtime = Realtime(json["realtime"])
 
@@ -100,13 +101,18 @@ struct AttractionListSpot: SwiftJSONSerializable {
     }
 }
 
-struct AttractionDetail: SwiftJSONSerializable {
+struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
+
+    let localizeFileName = "Attraction"
+
     let id: String
     let name: String
-    let thum: String
+    let introductions: String
 
     let summaries: [Summary]?
     let summaryTags: [SummaryTag]?
+
+    private(set) var analysis = [CardInfo]()
 
     init?(_ json: JSON) {
         guard let id = json["str_id"].string else {
@@ -119,13 +125,72 @@ struct AttractionDetail: SwiftJSONSerializable {
         }
         self.name = name
 
-        guard let thum = json["images"].array?.first?.string else {
+        guard let introductions = json["introductions"].string else {
             return nil
         }
-        self.thum = thum
+        self.introductions = introductions
 
         summaries = Summary.array(json["summaries"])
         summaryTags = SummaryTag.array(json["summary_tags"])
+
+        analyse()
+    }
+
+    private mutating func analyse() {
+        // 项目简介
+        let cardIntroduction = CardInfo(cardType: .introduction,
+                                        title: localize(for: "AttractionDetailCellInfo"),
+                                        content: introductions)
+        analysis.append(cardIntroduction)
+
+        // 所需时间
+        let cardTitleDuration = localize(for: "AttractionDetailCellDuration")
+        if let duration = summaries?.first(where: { summary -> Bool in
+            return summary.title == cardTitleDuration
+        }) {
+            let cardDuration = CardInfo(cardType: .duration,
+                                        title: duration.title,
+                                        content: duration.body)
+            analysis.append(cardDuration)
+        }
+
+        // 定员
+        let cardTitleCapacity = localize(for: "AttractionDetailCellCapacity")
+        if let capacity = summaries?.first(where: { summary -> Bool in
+            return summary.title == cardTitleCapacity
+        }) {
+            let cardCapacity = CardInfo(cardType: .capacity,
+                                        title: capacity.title,
+                                        content: capacity.body)
+            analysis.append(cardCapacity)
+        }
+
+        // 搭乘限制（预留）
+
+        // 对象
+        let cardTitleAppropriateFor = localize(for: "AttractionDetailCellAppropriateFor")
+        if let appropriateFor = summaryTags?.first(where: { summaryTag -> Bool in
+            return summaryTag.type == cardTitleAppropriateFor
+        }) {
+            let content = appropriateFor.tags.joined(separator: "<br />")
+            let cardAppropriateFor = CardInfo(cardType: .appropriateFor,
+                                        title: appropriateFor.type,
+                                        content: content)
+            analysis.append(cardAppropriateFor)
+        }
+
+        // 游乐设施分类
+        let cardTitleAttractionType = localize(for: "AttractionDetailCellAttractionType")
+        if let attractionType = summaryTags?.first(where: { summaryTag -> Bool in
+            return summaryTag.type == cardTitleAttractionType
+        }) {
+            let content = attractionType.tags.joined(separator: "<br />")
+            let cardAppropriateFor = CardInfo(cardType: .attractionType,
+                                              title: attractionType.type,
+                                              content: content)
+            analysis.append(cardAppropriateFor)
+        }
+
     }
 
     struct Summary: SwiftJSONSerializable {
@@ -158,7 +223,26 @@ struct AttractionDetail: SwiftJSONSerializable {
             }
             self.tags = tags
         }
+    }
 
+    struct CardInfo {
+        let title: String
+        let content: String
+        let cardType: CardType
+
+        init(cardType: CardType, title: String, content: String) {
+            self.cardType = cardType
+            self.title = title
+            self.content = content
+        }
+    }
+
+    enum CardType {
+        case introduction
+        case duration
+        case capacity
+        case appropriateFor
+        case attractionType
     }
 }
 

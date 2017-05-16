@@ -5,3 +5,9 @@
   Created by ebuser on 2017/5/10.
   Copyright © 2017年 e-business. All rights reserved.
 */
+
+"AttractionDetailCellDuration" = "所需時間";
+"AttractionDetailCellCapacity" = "乘載人數";
+"AttractionDetailCellBoardingRestrictions" = "搭乘限制";
+"AttractionDetailCellAppropriateFor" = "適合對象";
+"AttractionDetailCellAttractionType" = "タイプ";

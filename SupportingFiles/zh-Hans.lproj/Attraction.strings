@@ -12,3 +12,10 @@
 "dragToRefresh" = "下拉更新数据";
 "refreshing" = "正在更新数据";
 "releaseToRefresh" = "松开更新数据";
+
+"AttractionDetailCellInfo" = "项目简介";
+"AttractionDetailCellDuration" = "所需时间";
+"AttractionDetailCellCapacity" = "定员";
+"AttractionDetailCellBoardingRestrictions" = "搭乘限制";
+"AttractionDetailCellAppropriateFor" = "对象";
+"AttractionDetailCellAttractionType" = "游乐设施分类";

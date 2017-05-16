@@ -8,3 +8,9 @@
 
 "waitTime" = "待ち時間:";
 "waitTimeUnit" = "分";
+
+"AttractionDetailCellDuration" = "所要時間";
+"AttractionDetailCellCapacity" = "定員";
+"AttractionDetailCellBoardingRestrictions" = "利用制限";
+"AttractionDetailCellAppropriateFor" = "対象";
+"AttractionDetailCellAttractionType" = "Attraction Type";

@@ -22,7 +22,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                 resetText()
 
                 // 景点图片
-                let url = URL(string: data.thum)
+                let url = URL(string: data.thums[0])
                 mainImageView.kf.setImage(with: url)
 
                 // 景点名称
