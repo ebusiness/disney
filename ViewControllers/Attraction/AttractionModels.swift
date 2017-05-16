@@ -91,11 +91,7 @@ struct AttractionListSpot: SwiftJSONSerializable {
             fastpassInfo = json["fastpassInfo"].string
             fastpassRunning = fastpassInfo == "発券中"
 
-            if let waitTimeStr = json["waitTime"].string {
-                waitTime = Int(waitTimeStr)
-            } else {
-                waitTime = nil
-            }
+            waitTime = json["waitTime"].int
 
         }
     }
@@ -406,7 +402,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
             self.running = running
 
             if running {
-                guard let waitTimeStr = json["waitTime"].string, let waitTimeInt = Int(waitTimeStr) else {
+                guard let waitTimeInt = json["waitTime"].int else {
                     return nil
                 }
                 self.waitTime = waitTimeInt
@@ -430,7 +426,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
         // 从8:00至22:00每15分钟分割
         let index: Int
         init?(_ json: JSON) {
-            guard let waitTimeStr = json["waitTime"].string, let waitTimeInt = Int(waitTimeStr) else {
+            guard let waitTimeInt = json["waitTime"].int else {
                 return nil
             }
             self.waitTime = waitTimeInt

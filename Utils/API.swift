@@ -66,3 +66,24 @@ extension API {
         }
     }
 }
+
+extension API {
+    enum Plan: Requestable {
+        case list
+
+        var path: String {
+            switch self {
+            case .list:
+                return "plans/"
+            }
+        }
+
+        var method: RouteMethod {
+            return .GET
+        }
+
+        var parameters: [String : Any]? {
+            return nil
+        }
+    }
+}

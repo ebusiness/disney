@@ -8,30 +8,56 @@
 
 import UIKit
 
-class HomepageVC: UIViewController {
+// swiftlint:disable line_length
+class HomepageVC: UIViewController, FileLocalizable {
 
-    var tableView: UITableView!
+    let localizeFileName = "Homepage"
+
+    let tableView: UITableView
+    let cellIdentifier = "cellIdentifier"
+
+    var suggestedPlans = [PlanListElement]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        tableView = UITableView(frame: CGRect.zero, style: .plain)
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
 
+        navigationItem.title = localize(for: "Day plans")
+
         addSubTableView()
+
+        requestPlanList()
 
     }
 
     private func addSubTableView() {
-        // Init table view
-        tableView = UITableView(frame: CGRect.zero, style: .plain)
+        tableView.register(HomepageCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.backgroundColor = UIColor.white
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 300
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor(hex: "E1E2E1")
         view.addSubview(tableView)
 
         // Manage Autolayout
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
         tableView.layoutIfNeeded()
 
         // Add delegates
@@ -39,17 +65,32 @@ class HomepageVC: UIViewController {
         tableView.dataSource = self
     }
 
+    private func requestPlanList() {
+        let planListRequest = API.Plan.list
+
+        planListRequest.request { [weak self] data in
+            guard let plans: [PlanListElement] = PlanListElement.array(dataResponse: data) else {
+                return
+            }
+            self?.suggestedPlans = plans
+        }
+    }
+
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return suggestedPlans.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? HomepageCell else {
+            fatalError("Unknown cell type")
+        }
+        cell.data = suggestedPlans[indexPath.row]
+        return cell
     }
 }

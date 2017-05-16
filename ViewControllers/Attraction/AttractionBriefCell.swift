@@ -31,7 +31,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                                                                            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
                                                                            documentAttributes: nil) {
                         attributedName.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 18),
-                                                      NSForegroundColorAttributeName: Color.white],
+                                                      NSForegroundColorAttributeName: UIColor.white],
                                                      range: NSRange(location: 0, length: attributedName.string.characters.count))
                         title.attributedText = attributedName
                     }
@@ -226,7 +226,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
 
     private func addCategoryImage() {
         categoryImageView.contentMode = .center
-        categoryImageView.tintColor = Color.white
+        categoryImageView.tintColor = UIColor.white
         addSubview(categoryImageView)
         categoryImageView.translatesAutoresizingMaskIntoConstraints = false
         categoryImageView.leftAnchor.constraint(equalTo: backgroundImage.leftAnchor, constant: 2).isActive = true
