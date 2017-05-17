@@ -99,7 +99,7 @@ extension Date {
             return nil
         }
     }
-    func format(pattern: String = "yyyy-MM-dd'T'HH:mm:ssZZZZZ") -> String {
+    func format(pattern: String = "yyyy-MM-dd'T'HH:mm:ssZ") -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = pattern
         return formatter.string(from: self)

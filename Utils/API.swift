@@ -70,11 +70,14 @@ extension API {
 extension API {
     enum Plan: Requestable {
         case list
+        case detail(String, String)
 
         var path: String {
             switch self {
             case .list:
                 return "plans/"
+            case .detail(let id, let time):
+                return "plans/\(id)/\(time)/"
             }
         }
 

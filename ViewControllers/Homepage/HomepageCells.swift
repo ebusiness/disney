@@ -6,6 +6,7 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import Kingfisher
 import UIKit
 
 // swiftlint:disable line_length
@@ -25,6 +26,8 @@ class HomepageCell: UITableViewCell, FileLocalizable {
             }
         }
     }
+
+    var itemSelectedHandler: ((_ id: String) -> Void)?
 
     let borderImageView: UIImageView
     let titleLabel: UILabel
@@ -137,6 +140,11 @@ extension HomepageCell: UICollectionViewDelegateFlowLayout, UICollectionViewData
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionCellSize
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let id = data?.id {
+            itemSelectedHandler?(id)
+        }
     }
 }
 

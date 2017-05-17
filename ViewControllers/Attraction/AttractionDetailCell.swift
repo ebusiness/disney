@@ -420,6 +420,7 @@ class AttractionDetailThumsCell: UITableViewCell {
     private func addSubPageControl() {
         updatePageControl()
         pageControl.isUserInteractionEnabled = false
+        pageControl.hidesForSinglePage = true
         addSubview(pageControl)
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true

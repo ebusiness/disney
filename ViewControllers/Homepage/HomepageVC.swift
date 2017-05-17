@@ -76,6 +76,11 @@ class HomepageVC: UIViewController, FileLocalizable {
         }
     }
 
+    fileprivate func pushToNext(plan: String) {
+        let destination = HomepageDetailVC(plan: plan)
+        navigationController?.pushViewController(destination, animated: true)
+    }
+
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -91,6 +96,13 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
             fatalError("Unknown cell type")
         }
         cell.data = suggestedPlans[indexPath.row]
+        cell.itemSelectedHandler = { [weak self] id in
+            self?.pushToNext(plan: id)
+        }
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        pushToNext(plan: suggestedPlans[indexPath.row].id)
     }
 }

@@ -19,16 +19,14 @@ struct NetworkConstants {
         guard let syslang = NSLocale.preferredLanguages.first else {
             return "en/"
         }
-        switch syslang {
-        case "en/":
-            return "en/"
-        case "zh-Hant":
-            return "tw/"
-        case "ja":
+
+        if syslang.hasPrefix("ja") {
             return "ja/"
-        case "zh-Hans":
+        } else if syslang.hasPrefix("zh-Hant") {
+            return "tw/"
+        } else if syslang.hasPrefix("zh-Hans") {
             return "cn/"
-        default:
+        } else {
             return "en/"
         }
 

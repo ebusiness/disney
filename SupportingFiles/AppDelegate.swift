@@ -52,10 +52,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func isVisitorTagAssigned() -> Bool {
-        guard UserDefaults.standard[.visitDate] as? Date != nil else {
+        guard let date = UserDefaults.standard[.visitDate] as? Date else {
             return false
         }
         guard UserDefaults.standard[.visitPark] as? String != nil else {
+            return false
+        }
+        let now = Date()
+        if date < now {
             return false
         }
         return true
