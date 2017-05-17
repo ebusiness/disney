@@ -214,9 +214,12 @@ class AttractionDetailInfoCell: UITableViewCell, FileLocalizable {
                     if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
                                                                            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
                                                                            documentAttributes: nil) {
+                        let paragraphStyle = NSMutableParagraphStyle()
+                        paragraphStyle.paragraphSpacing = 6.0
                         let range = (attributedName.string as NSString).range(of: attributedName.string)
                         attributedName.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15),
-                                                      NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)],
+                                                      NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1),
+                                                      NSParagraphStyleAttributeName: paragraphStyle],
                                                      range: range)
                         contentLabel.attributedText = attributedName
                     }
@@ -237,6 +240,10 @@ class AttractionDetailInfoCell: UITableViewCell, FileLocalizable {
                 case .capacity:
                     icon.image = #imageLiteral(resourceName: "AttractionDetailCapcity")
                     icon.backgroundColor = UIColor(hex: "03A9F4")
+                    icon.layoutIfNeeded()
+                case .restriction:
+                    icon.image = #imageLiteral(resourceName: "AttractionDetailRestriction")
+                    icon.backgroundColor = UIColor(hex: "FF9800")
                     icon.layoutIfNeeded()
                 case .appropriateFor:
                     icon.image = #imageLiteral(resourceName: "AttractionDetailAppropriateFor")

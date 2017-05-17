@@ -108,6 +108,8 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
     let summaries: [Summary]?
     let summaryTags: [SummaryTag]?
 
+    let restrictions: [String]?
+
     private(set) var analysis = [CardInfo]()
 
     init?(_ json: JSON) {
@@ -128,6 +130,17 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
 
         summaries = Summary.array(json["summaries"])
         summaryTags = SummaryTag.array(json["summary_tags"])
+
+        if let limitArray = json["limited"].array {
+            let limits = limitArray.map { $0.string } .filter { $0 != nil } .map { $0! }
+            if !limits.isEmpty {
+                self.restrictions = limits
+            } else {
+                self.restrictions = nil
+            }
+        } else {
+            self.restrictions = nil
+        }
 
         analyse()
     }
@@ -162,6 +175,13 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
         }
 
         // 搭乘限制（预留）
+        if let restrictions = restrictions {
+            let content = restrictions.joined(separator: "<br />")
+            let cardRestrictions = CardInfo(cardType: .restriction,
+                                            title: localize(for: "AttractionDetailCellBoardingRestrictions"),
+                                            content: content)
+            analysis.append(cardRestrictions)
+        }
 
         // 对象
         let cardTitleAppropriateFor = localize(for: "AttractionDetailCellAppropriateFor")
@@ -237,6 +257,7 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
         case introduction
         case duration
         case capacity
+        case restriction
         case appropriateFor
         case attractionType
     }
