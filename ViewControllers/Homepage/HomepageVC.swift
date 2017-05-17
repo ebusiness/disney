@@ -97,7 +97,9 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
         }
         cell.data = suggestedPlans[indexPath.row]
         cell.itemSelectedHandler = { [weak self] id in
-            self?.pushToNext(plan: id)
+            if self?.navigationController?.topViewController == self {
+                self?.pushToNext(plan: id)
+            }
         }
         return cell
     }
