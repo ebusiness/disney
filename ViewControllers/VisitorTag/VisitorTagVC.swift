@@ -9,7 +9,6 @@
 import RxSwift
 import UIKit
 
-// swiftlint:disable line_length
 class VisitorTagVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "VisitorTag"

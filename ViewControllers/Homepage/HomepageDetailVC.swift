@@ -8,7 +8,6 @@
 
 import UIKit
 
-// swiftlint:disable line_length
 class HomepageDetailVC: UIViewController {
 
     private let planId: String
@@ -114,8 +113,9 @@ extension HomepageDetailVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let data = planDetail?.routes[indexPath.row] {
-            let destination = AttractionDetailVC(attractionId: data.id, thums: data.images)
+        if let planDetail = planDetail {
+            let data = planDetail.routes[indexPath.row]
+            let destination = AttractionDetailVC(attractionId: data.id, thums: data.images, date: planDetail.start)
             navigationController?.pushViewController(destination, animated: true)
         }
     }

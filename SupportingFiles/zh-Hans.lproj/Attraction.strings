@@ -15,6 +15,7 @@
 
 "AttractionDetailCellInfo" = "项目简介";
 "AttractionDetailCellDuration" = "所需时间";
+"AttractionDetailCellShowDuration" = "演出时间";
 "AttractionDetailCellCapacity" = "定员";
 "AttractionDetailCellBoardingRestrictions" = "搭乘限制";
 "AttractionDetailCellAppropriateFor" = "对象";

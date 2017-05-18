@@ -8,13 +8,13 @@
 
 import UIKit
 
-// swiftlint:disable line_length
 class AttractionDetailVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "Attraction"
 
     let attractionId: String
     let thums: [String]
+    let date: Date?
     let tableView: UITableView
 
     fileprivate var timeInfo: AttractionDetailWaitTime?
@@ -24,10 +24,11 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
     fileprivate let infoCellIdentifer = "infoCellIdentifier"
     fileprivate let thumsCellIdentifier = "thumsCellIdentifier"
 
-    init(attractionId: String, thums: [String]) {
+    init(attractionId: String, thums: [String], date: Date? = nil) {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
         self.attractionId = attractionId
         self.thums = thums
+        self.date = date
 
         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
@@ -70,7 +71,7 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
     }
 
     private func requestAttractionDetail() {
-        let detailInfoRequest = API.Attraction.detail(attractionId)
+        let detailInfoRequest = API.Attraction.detail(id: attractionId)
 
         detailInfoRequest.request { [weak self] data in
             if let retrieved = AttractionDetail(data) {
@@ -81,7 +82,8 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
     }
 
     private func requestWaitTime() {
-        let timeInfoRequest = API.Attraction.waitTime(attractionId)
+        let dateString = date?.format(pattern: "yyyy-MM-dd")
+        let timeInfoRequest = API.Attraction.waitTime(id: attractionId, date: dateString)
 
         timeInfoRequest.request { [weak self] data in
             if let retrieved = AttractionDetailWaitTime(data) {

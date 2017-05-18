@@ -8,7 +8,7 @@
 
 import UIKit
 
-// swiftlint:disable line_length
+// swiftlint:disable file_length
 class WaitTimeChart: UIView {
 
     var title: String? {
@@ -116,6 +116,7 @@ extension WaitTimeChartDataSource {
     }
 }
 
+// swiftlint:disable type_body_length
 private class ChartBase: UIView {
 
     weak var delegate: WaitTimeChartDelegate?
@@ -251,9 +252,14 @@ private class ChartBase: UIView {
         }
         drawRealPart(from: 0, to: dataSource.numberOfHorizontalAxis() - 1)
     }
-    private func drawTrendSimOnly() {
 
+    private func drawTrendSimOnly() {
+        guard let dataSource = dataSource else {
+                return
+        }
+        drawSimPartOnly(from: 0, to: dataSource.numberOfHorizontalAxis() - 1)
     }
+
     private func drawTrendMix() {
         guard let dataSource = dataSource,
             let firstIndex = dataSource.firstIndex,
@@ -395,4 +401,64 @@ private class ChartBase: UIView {
         context.restoreGState()
     }
 
+    private func drawSimPartOnly(from: Int, to: Int) {
+        let context = UIGraphicsGetCurrentContext()!
+        if let dataSource = dataSource, to >= from {
+            // useful values
+            let numberOfValues = dataSource.numberOfHorizontalAxis()
+            let maxValue = dataSource.valueOfMaxVerticalAxis()
+            let minValue = dataSource.valueOfMinVerticalAxis()
+            let distance = bounds.height - referenceLineInset.bottom - referenceLineInset.top
+            let valueDiff = maxValue - minValue
+            let yScale = distance / valueDiff
+            let xGap = (bounds.width - referenceLineInset.left - referenceLineInset.right) / CGFloat(numberOfValues - 1)
+
+            // find first point
+            var minIndex: Int?
+            for index in from...to {
+                if dataSource.simValue(at: index) != nil {
+                    minIndex = index
+                    break
+                }
+            }
+            guard let firstIndex = minIndex, let firstValue = dataSource.simValue(at: firstIndex) else {
+                return
+            }
+
+            // draw first point & line
+            let startPoint = CGPoint(x: referenceLineInset.left + CGFloat(firstIndex) * xGap,
+                                     y: bounds.height - referenceLineInset.bottom)
+            let firstValueHeight = (firstValue - minValue) * yScale
+            let firstPoint = CGPoint(x: referenceLineInset.left + CGFloat(firstIndex) * xGap,
+                                     y: bounds.height - referenceLineInset.bottom - firstValueHeight)
+            let trend = UIBezierPath()
+            trend.move(to: startPoint)
+            trend.addLine(to: firstPoint)
+
+            // lastPoint
+            var lastPoint = firstPoint
+
+            // draw other point & lines
+            if firstIndex + 1 <= to {
+                for index in (firstIndex + 1)...to {
+                    if let value = dataSource.simValue(at: index) {
+                        let valueHeight = (value - minValue) * yScale
+                        let point = CGPoint(x: referenceLineInset.left + CGFloat(index) * xGap,
+                                            y: bounds.height - referenceLineInset.bottom - valueHeight)
+                        trend.addLine(to: point)
+                        lastPoint = point
+                    }
+                }
+            }
+
+            // close & fill
+            let endPoint = CGPoint(x: lastPoint.x, y: startPoint.y)
+            trend.addLine(to: endPoint)
+            tintColor.setStroke()
+            context.saveGState()
+            context.setLineDash(phase: 0, lengths: [2, 2])
+            trend.stroke()
+            context.restoreGState()
+        }
+    }
 }

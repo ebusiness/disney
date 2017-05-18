@@ -103,12 +103,14 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
 
     let id: String
     let name: String
+    let area: String
     let introductions: String
 
     let summaries: [Summary]?
     let summaryTags: [SummaryTag]?
 
     let restrictions: [String]?
+    let mapImages: [String]?
 
     private(set) var analysis = [CardInfo]()
 
@@ -122,6 +124,9 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
             return nil
         }
         self.name = name
+
+        guard let area = json["area"].string else { return nil }
+        self.area = area
 
         guard let introductions = json["introductions"].string else {
             return nil
@@ -142,10 +147,24 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
             self.restrictions = nil
         }
 
+        if let mapArray = json["maps"].array {
+            let maps = mapArray.map { $0.string } .filter { $0 != nil } .map { $0! }
+            if !maps.isEmpty {
+                mapImages = maps
+            } else {
+                mapImages = nil
+            }
+        } else {
+            mapImages = nil
+        }
+
         analyse()
     }
 
+    // swiftlint:disable:next function_body_length
     private mutating func analyse() {
+        // 分区
+
         // 项目简介
         let cardIntroduction = CardInfo(cardType: .introduction,
                                         title: localize(for: "AttractionDetailCellInfo"),
@@ -156,6 +175,17 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
         let cardTitleDuration = localize(for: "AttractionDetailCellDuration")
         if let duration = summaries?.first(where: { summary -> Bool in
             return summary.title == cardTitleDuration
+        }) {
+            let cardDuration = CardInfo(cardType: .duration,
+                                        title: duration.title,
+                                        content: duration.body)
+            analysis.append(cardDuration)
+        }
+
+        // 演出时间
+        let cardTitleShowDuration = localize(for: "AttractionDetailCellShowDuration")
+        if let duration = summaries?.first(where: { summary -> Bool in
+            return summary.title == cardTitleShowDuration
         }) {
             let cardDuration = CardInfo(cardType: .duration,
                                         title: duration.title,
@@ -260,10 +290,13 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
         case restriction
         case appropriateFor
         case attractionType
+//        case
     }
 }
 
 struct AttractionDetailWaitTime: SwiftJSONSerializable {
+
+    let date: Date
 
     // 预测时间与实际时间至少存在一个
     // 从8:00开始至22:00结束，每15分钟一个数据，依次对应数组下标的0...56
@@ -282,6 +315,9 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
     private(set) var scale: Int = 30
 
     init?(_ json: JSON) {
+        guard let date = Date(iso8601str: json["datetime"].string) else { return nil }
+        self.date = date
+
         var emptyPrediction = true
         var emptyRealtime = true
 

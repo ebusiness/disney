@@ -43,8 +43,8 @@ extension API {
 extension API {
     enum Attraction: Requestable {
         case list
-        case detail(String)
-        case waitTime(String)
+        case detail(id: String)
+        case waitTime(id: String, date: String?)
 
         var path: String {
             switch self {
@@ -52,8 +52,12 @@ extension API {
                 return "attractions/"
             case .detail(let id):
                 return "attractions/\(id)/"
-            case .waitTime(let id):
-                return "attractions/\(id)/waittimes/"
+            case .waitTime(let id, let date):
+                if let date = date {
+                    return "attractions/\(id)/waittimes/\(date)/"
+                } else {
+                    return "attractions/\(id)/waittimes/"
+                }
             }
         }
 

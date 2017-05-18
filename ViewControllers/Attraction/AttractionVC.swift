@@ -8,7 +8,6 @@
 
 import UIKit
 
-// swiftlint:disable line_length
 class AttractionVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "Attraction"

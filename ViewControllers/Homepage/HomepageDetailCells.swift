@@ -9,7 +9,6 @@
 import Kingfisher
 import UIKit
 
-// swiftlint:disable line_length
 class HomepageDetailCellTop: HomepageDetailCellBase {
     override var data: PlanDetail.Route? {
         didSet {
@@ -27,16 +26,7 @@ class HomepageDetailCellTop: HomepageDetailCellBase {
         }
     }
 
-    fileprivate let bottomConnector: UIImageView
-    fileprivate let toNextDurationLabel: UILabel
-    fileprivate let toNextDescriptionLabel: UILabel
-    fileprivate let promptImageView: UIImageView
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        toNextDurationLabel = UILabel(frame: .zero)
-        toNextDescriptionLabel = UILabel(frame: .zero)
-        bottomConnector = UIImageView(frame: .zero)
-        promptImageView = UIImageView(frame: .zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         addSubBottomConnector()
@@ -47,43 +37,6 @@ class HomepageDetailCellTop: HomepageDetailCellBase {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    fileprivate func addSubBottomConnector() {
-        bottomConnector.image = #imageLiteral(resourceName: "JoinerLong")
-        addSubview(bottomConnector)
-        bottomConnector.translatesAutoresizingMaskIntoConstraints = false
-        bottomConnector.leftAnchor.constraint(equalTo: sideColorView.rightAnchor, constant: 24).isActive = true
-        bottomConnector.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: -12).isActive = true
-        let lowPriorityConstraint = bottomConnector.bottomAnchor.constraint(equalTo: bottomAnchor)
-        lowPriorityConstraint.priority = 999
-        lowPriorityConstraint.isActive = true
-        bottomConnector.layoutIfNeeded()
-    }
-
-    fileprivate func addSubToNextDurationLabel() {
-        toNextDurationLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        addSubview(toNextDurationLabel)
-        toNextDurationLabel.translatesAutoresizingMaskIntoConstraints = false
-        toNextDurationLabel.leftAnchor.constraint(equalTo: bottomConnector.rightAnchor, constant: 12).isActive = true
-        toNextDurationLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 12).isActive = true
-    }
-    fileprivate func addSubToNextDescriptionLabel() {
-        toNextDescriptionLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        toNextDescriptionLabel.textColor = #colorLiteral(red: 0.4756369591, green: 0.4756369591, blue: 0.4756369591, alpha: 1)
-        addSubview(toNextDescriptionLabel)
-        toNextDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        toNextDescriptionLabel.leftAnchor.constraint(equalTo: toNextDurationLabel.leftAnchor).isActive = true
-        toNextDescriptionLabel.topAnchor.constraint(equalTo: toNextDurationLabel.bottomAnchor, constant: 12).isActive = true
-    }
-
-    fileprivate func addSubPromptImageView() {
-        promptImageView.tintColor = UIColor(hex: "2196F3")
-        promptImageView.image = #imageLiteral(resourceName: "directions_walk")
-        addSubview(promptImageView)
-        promptImageView.translatesAutoresizingMaskIntoConstraints = false
-        promptImageView.rightAnchor.constraint(equalTo: bottomConnector.leftAnchor).isActive = true
-        promptImageView.centerYAnchor.constraint(equalTo: bottomConnector.centerYAnchor, constant: 8).isActive = true
     }
 
 }
@@ -105,18 +58,8 @@ class HomepageDetailCellMid: HomepageDetailCellBase {
         }
     }
 
-    fileprivate let bottomConnector: UIImageView
-    fileprivate let toNextDurationLabel: UILabel
-    fileprivate let toNextDescriptionLabel: UILabel
-    fileprivate let topConnector: UIImageView
-    fileprivate let promptImageView: UIImageView
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        toNextDurationLabel = UILabel(frame: .zero)
-        toNextDescriptionLabel = UILabel(frame: .zero)
-        topConnector = UIImageView(frame: .zero)
-        bottomConnector = UIImageView(frame: .zero)
-        promptImageView = UIImageView(frame: .zero)
+
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         addSubBottomConnector()
@@ -130,58 +73,11 @@ class HomepageDetailCellMid: HomepageDetailCellBase {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate func addSubBottomConnector() {
-        bottomConnector.image = #imageLiteral(resourceName: "JoinerLong")
-        addSubview(bottomConnector)
-        bottomConnector.translatesAutoresizingMaskIntoConstraints = false
-        bottomConnector.leftAnchor.constraint(equalTo: sideColorView.rightAnchor, constant: 24).isActive = true
-        bottomConnector.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: -12).isActive = true
-        let lowPriorityConstraint = bottomConnector.bottomAnchor.constraint(equalTo: bottomAnchor)
-        lowPriorityConstraint.priority = 999
-        lowPriorityConstraint.isActive = true
-        bottomConnector.layoutIfNeeded()
-    }
-
-    fileprivate func addSubToNextDurationLabel() {
-        toNextDurationLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        addSubview(toNextDurationLabel)
-        toNextDurationLabel.translatesAutoresizingMaskIntoConstraints = false
-        toNextDurationLabel.leftAnchor.constraint(equalTo: bottomConnector.rightAnchor, constant: 12).isActive = true
-        toNextDurationLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 12).isActive = true
-    }
-    fileprivate func addSubToNextDescriptionLabel() {
-        toNextDescriptionLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        toNextDescriptionLabel.textColor = #colorLiteral(red: 0.4756369591, green: 0.4756369591, blue: 0.4756369591, alpha: 1)
-        addSubview(toNextDescriptionLabel)
-        toNextDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        toNextDescriptionLabel.leftAnchor.constraint(equalTo: toNextDurationLabel.leftAnchor).isActive = true
-        toNextDescriptionLabel.topAnchor.constraint(equalTo: toNextDurationLabel.bottomAnchor, constant: 12).isActive = true
-    }
-
-    fileprivate func addSubTopConnector() {
-        topConnector.image = #imageLiteral(resourceName: "JoinerShort")
-        addSubview(topConnector)
-        topConnector.translatesAutoresizingMaskIntoConstraints = false
-        topConnector.leftAnchor.constraint(equalTo: sideColorView.rightAnchor, constant: 24).isActive = true
-        topConnector.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        topConnector.layoutIfNeeded()
-    }
-
-    fileprivate func addSubPromptImageView() {
-        promptImageView.tintColor = UIColor(hex: "2196F3")
-        promptImageView.image = #imageLiteral(resourceName: "directions_walk")
-        addSubview(promptImageView)
-        promptImageView.translatesAutoresizingMaskIntoConstraints = false
-        promptImageView.rightAnchor.constraint(equalTo: bottomConnector.leftAnchor).isActive = true
-        promptImageView.centerYAnchor.constraint(equalTo: bottomConnector.centerYAnchor, constant: 8).isActive = true
-    }
 }
 
 class HomepageDetailCellBottom: HomepageDetailCellBase {
-    fileprivate let topConnector: UIImageView
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        topConnector = UIImageView(frame: .zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         addSubTopConnector()
@@ -192,14 +88,6 @@ class HomepageDetailCellBottom: HomepageDetailCellBase {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate func addSubTopConnector() {
-        topConnector.image = #imageLiteral(resourceName: "JoinerShort")
-        addSubview(topConnector)
-        topConnector.translatesAutoresizingMaskIntoConstraints = false
-        topConnector.leftAnchor.constraint(equalTo: sideColorView.rightAnchor, constant: 24).isActive = true
-        topConnector.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        topConnector.layoutIfNeeded()
-    }
     fileprivate func addBottomConstraint() {
         let lowPriorityConstraint = mainImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         lowPriorityConstraint.priority = 999
@@ -250,6 +138,11 @@ class HomepageDetailCellBase: UITableViewCell, FileLocalizable {
     fileprivate let durationLabel: UILabel
     fileprivate let queueLabel: UILabel
     fileprivate let costLabel: UILabel
+    fileprivate let bottomConnector: UIImageView
+    fileprivate let toNextDurationLabel: UILabel
+    fileprivate let toNextDescriptionLabel: UILabel
+    fileprivate let topConnector: UIImageView
+    fileprivate let promptImageView: UIImageView
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         mainImageView = MaskedImageView(frame: .zero)
@@ -258,7 +151,11 @@ class HomepageDetailCellBase: UITableViewCell, FileLocalizable {
         durationLabel = UILabel(frame: .zero)
         queueLabel = UILabel(frame: .zero)
         costLabel = UILabel(frame: .zero)
-
+        toNextDurationLabel = UILabel(frame: .zero)
+        toNextDescriptionLabel = UILabel(frame: .zero)
+        topConnector = UIImageView(frame: .zero)
+        bottomConnector = UIImageView(frame: .zero)
+        promptImageView = UIImageView(frame: .zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         selectionStyle = .none
@@ -327,4 +224,49 @@ class HomepageDetailCellBase: UITableViewCell, FileLocalizable {
         costLabel.bottomAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: -12).isActive = true
     }
 
+    fileprivate func addSubBottomConnector() {
+        bottomConnector.image = #imageLiteral(resourceName: "JoinerLong")
+        addSubview(bottomConnector)
+        bottomConnector.translatesAutoresizingMaskIntoConstraints = false
+        bottomConnector.leftAnchor.constraint(equalTo: sideColorView.rightAnchor, constant: 24).isActive = true
+        bottomConnector.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: -12).isActive = true
+        let lowPriorityConstraint = bottomConnector.bottomAnchor.constraint(equalTo: bottomAnchor)
+        lowPriorityConstraint.priority = 999
+        lowPriorityConstraint.isActive = true
+        bottomConnector.layoutIfNeeded()
+    }
+
+    fileprivate func addSubToNextDurationLabel() {
+        toNextDurationLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        addSubview(toNextDurationLabel)
+        toNextDurationLabel.translatesAutoresizingMaskIntoConstraints = false
+        toNextDurationLabel.leftAnchor.constraint(equalTo: bottomConnector.rightAnchor, constant: 12).isActive = true
+        toNextDurationLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 12).isActive = true
+    }
+    fileprivate func addSubToNextDescriptionLabel() {
+        toNextDescriptionLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        toNextDescriptionLabel.textColor = #colorLiteral(red: 0.4756369591, green: 0.4756369591, blue: 0.4756369591, alpha: 1)
+        addSubview(toNextDescriptionLabel)
+        toNextDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        toNextDescriptionLabel.leftAnchor.constraint(equalTo: toNextDurationLabel.leftAnchor).isActive = true
+        toNextDescriptionLabel.topAnchor.constraint(equalTo: toNextDurationLabel.bottomAnchor, constant: 12).isActive = true
+    }
+
+    fileprivate func addSubTopConnector() {
+        topConnector.image = #imageLiteral(resourceName: "JoinerShort")
+        addSubview(topConnector)
+        topConnector.translatesAutoresizingMaskIntoConstraints = false
+        topConnector.leftAnchor.constraint(equalTo: sideColorView.rightAnchor, constant: 24).isActive = true
+        topConnector.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        topConnector.layoutIfNeeded()
+    }
+
+    fileprivate func addSubPromptImageView() {
+        promptImageView.tintColor = UIColor(hex: "2196F3")
+        promptImageView.image = #imageLiteral(resourceName: "directions_walk")
+        addSubview(promptImageView)
+        promptImageView.translatesAutoresizingMaskIntoConstraints = false
+        promptImageView.rightAnchor.constraint(equalTo: bottomConnector.leftAnchor).isActive = true
+        promptImageView.centerYAnchor.constraint(equalTo: bottomConnector.centerYAnchor, constant: 8).isActive = true
+    }
 }

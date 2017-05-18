@@ -10,6 +10,7 @@
 "waitTimeUnit" = "分";
 
 "AttractionDetailCellDuration" = "所要時間";
+"AttractionDetailCellShowDuration" = "上演時間";
 "AttractionDetailCellCapacity" = "定員";
 "AttractionDetailCellBoardingRestrictions" = "利用制限";
 "AttractionDetailCellAppropriateFor" = "対象";

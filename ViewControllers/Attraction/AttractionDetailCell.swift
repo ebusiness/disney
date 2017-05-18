@@ -9,7 +9,7 @@
 import CoreGraphics
 import UIKit
 
-// swiftlint:disable line_length file_length
+// swiftlint:disable file_length
 class AttractionDetailChartCell: UITableViewCell, FileLocalizable {
 
     let localizeFileName = "Attraction"

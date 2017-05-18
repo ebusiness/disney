@@ -9,7 +9,6 @@
 import Kingfisher
 import UIKit
 
-// swiftlint:disable line_length
 class HomepageCell: UITableViewCell, FileLocalizable {
 
     let localizeFileName = "Main"

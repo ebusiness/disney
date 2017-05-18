@@ -8,7 +8,6 @@
 
 import UIKit
 
-// swiftlint:disable line_length
 class HomepageVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "Homepage"

@@ -1,6 +1,8 @@
 # included:
 #   - Source
 #   - Tests
+disabled_rules:
+  - line_length
 variable_name:
   min_length:
     warning: 2

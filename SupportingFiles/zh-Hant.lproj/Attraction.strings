@@ -7,6 +7,7 @@
 */
 
 "AttractionDetailCellDuration" = "所需時間";
+"AttractionDetailCellShowDuration" = "演出時間";
 "AttractionDetailCellCapacity" = "乘載人數";
 "AttractionDetailCellBoardingRestrictions" = "搭乘限制";
 "AttractionDetailCellAppropriateFor" = "適合對象";
