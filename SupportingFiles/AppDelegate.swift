@@ -18,20 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        if !isVisitorTagAssigned() {
-            // 用户选择标签
-            let visitorTagVC = VisitorTagVC()
-            let navigationVC = NavigationVC(rootViewController: visitorTagVC)
+        let launchScreenVC = LaunchScreenViewController()
+        window?.rootViewController = launchScreenVC
+        window?.makeKeyAndVisible()
 
-            window?.rootViewController = navigationVC
-            window?.makeKeyAndVisible()
-        } else {
-            // 主功能
-            let tabVC = TabVC()
-
-            window?.rootViewController = tabVC
-            window?.makeKeyAndVisible()
-        }
         return true
     }
 
@@ -50,30 +40,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
     }
 
-    private func isVisitorTagAssigned() -> Bool {
-        guard let date = UserDefaults.standard[.visitDate] as? Date else {
-            return false
-        }
-        guard UserDefaults.standard[.visitPark] as? String != nil else {
-            return false
-        }
-        let now = Date()
-        if date < now {
-            return false
-        }
-        return true
-    }
-
     func switchToHomepage() {
 
         let tabVC = TabVC()
-        guard let window = window else { return }
+        guard let window = UIApplication.shared.keyWindow else { return }
         UIView.transition(with: window,
                           duration: 0.3,
                           options: [.curveEaseInOut, .transitionFlipFromRight],
-                          animations: { [unowned self] in
-                            self.window?.rootViewController = tabVC
-                          },
+                          animations: { _ in
+                            window.rootViewController = tabVC
+        },
                           completion: nil)
 
     }

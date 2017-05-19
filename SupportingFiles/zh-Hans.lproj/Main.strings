@@ -11,6 +11,11 @@
 "TabbarMap" = "地图";
 "TabbarSetting" = "个人设置";
 
+"Cannot connect to network" = "无法连接到服务器\n请检查您的网络设置";
+"Server error" = "服务器错误\n应用程序无法启动";
+"App version is too low" = "应用程序版本过低";
+"Press here to update" = "点击此处进行更新";
+
 "TokyoDisneyPark.land" = "东京迪士尼乐园";
 "TokyoDisneyPark.sea" = "东京迪士尼海洋";
 

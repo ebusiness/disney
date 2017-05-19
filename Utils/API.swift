@@ -6,9 +6,29 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import Alamofire
 import Foundation
 
 struct API {
+}
+
+// MARK: - Version Check
+extension API {
+    struct VersionCheck: Requestable {
+        let path = "versions/"
+        let method: RouteMethod = .GET
+        let parameters: [String : Any]? = nil
+
+        func asURLRequest() throws -> URLRequest {
+            guard let url = URL(string: path, relativeTo: NetworkConstants.host) else {
+                throw URLError(URLError.badURL)
+            }
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = method.rawValue
+            urlRequest.timeoutInterval = 30
+            return try Alamofire.URLEncoding.default.encode(urlRequest, with: parameters)
+        }
+    }
 }
 
 // MARK: - Visitor Tag
@@ -71,6 +91,7 @@ extension API {
     }
 }
 
+// MARK: - Plan
 extension API {
     enum Plan: Requestable {
         case list

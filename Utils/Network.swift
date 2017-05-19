@@ -11,8 +11,14 @@ import AlamofireSwiftyJSON
 import SwiftyJSON
 
 struct NetworkConstants {
-    static let host = URL(string: "https://api.dev.genbatomo.com/")
-    static let version = "v1/"
+    static let rawHost = "https://api.dev.genbatomo.com/"
+    static let host = URL(string: rawHost)
+
+    static let rawVersion = "v1"
+    static let version = rawVersion + "/"
+
+    static let appStoreURL = "itms-apps://itunes.apple.com/app/bars/id706081574"
+    static let reachabilityTestURL = "www.genbatomo.com"
 
     static var language: String = {
 

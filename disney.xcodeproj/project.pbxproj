@@ -33,6 +33,7 @@
 		1FA811301EADA8BC000A7F2D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA8112F1EADA8BC000A7F2D /* Main.swift */; };
 		1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */; };
 		1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */; };
+		1FD1CF4C1ECD8C6B004A72B7 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */; };
 		1FF1C4DE1EAEF03C005A87A9 /* VisitorTag.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E01EAEF03C005A87A9 /* VisitorTag.strings */; };
 		1FF1C4E91EAF2C25005A87A9 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E81EAF2C25005A87A9 /* SettingVC.swift */; };
 		1FF1C4EB1EAF2C4B005A87A9 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */; };
@@ -90,6 +91,7 @@
 		1FA8112F1EADA8BC000A7F2D /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagVC.swift; sourceTree = "<group>"; };
 		1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagCell.swift; sourceTree = "<group>"; };
+		1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		1FF1C4DF1EAEF03C005A87A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/VisitorTag.strings; sourceTree = "<group>"; };
 		1FF1C4E11EAEF042005A87A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
 		1FF1C4E21EAEF047005A87A9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				D0340C7C1EA98E4F00BD8428 /* Storyboard */,
+				1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */,
 			);
 			path = LaunchScreen;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FD1CF4C1ECD8C6B004A72B7 /* LaunchScreen.swift in Sources */,
 				1F43F7AD1EC433E4009D0104 /* AttractionDetailVC.swift in Sources */,
 				1F90DD0E1EB04919004463B9 /* API.swift in Sources */,
 				1F90DD0C1EB036DB004463B9 /* Network.swift in Sources */,
