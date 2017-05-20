@@ -12,10 +12,26 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "Attraction"
 
-    let attractionId: String
-    let thums: [String]
-    let date: Date?
+    let previousPage: PreviousPage
     let tableView: UITableView
+
+    lazy var attractionId: String = {
+        switch self.previousPage {
+        case .attractionList(let spot):
+            return spot.id
+        case .planList(let id, _):
+            return id
+        }
+    }()
+
+    lazy var date: Date? = {
+        switch self.previousPage {
+        case .attractionList(let spot):
+            return nil
+        case .planList(_, let date):
+            return date
+        }
+    }()
 
     fileprivate var timeInfo: AttractionDetailWaitTime?
     fileprivate var detailInfo: AttractionDetail?
@@ -24,11 +40,9 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
     fileprivate let infoCellIdentifer = "infoCellIdentifier"
     fileprivate let thumsCellIdentifier = "thumsCellIdentifier"
 
-    init(attractionId: String, thums: [String], date: Date? = nil) {
+    init(_ parameter: PreviousPage) {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
-        self.attractionId = attractionId
-        self.thums = thums
-        self.date = date
+        self.previousPage = parameter
 
         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
@@ -44,7 +58,6 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
         super.viewDidLoad()
 
         requestAttractionDetail()
-        requestWaitTime()
     }
 
     private func addSubTableView() {
@@ -88,18 +101,30 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
         timeInfoRequest.request { [weak self] data in
             if let retrieved = AttractionDetailWaitTime(data) {
                 self?.timeInfo = retrieved
-                self?.updateTime()
             }
+            self?.updateTime()
         }
     }
 
     private func updateInfo() {
-        navigationItem.title = detailInfo?.name
-        tableView.reloadSections(IndexSet(integer: 1), with: .fade)
+        guard let detailInfo = detailInfo else { return }
+
+        navigationItem.title = detailInfo.name
+
+        if detailInfo.isAvailable {
+            requestWaitTime()
+        } else {
+            tableView.reloadData()
+        }
     }
 
     private func updateTime() {
-        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        tableView.reloadData()
+    }
+
+    enum PreviousPage {
+        case attractionList(data: AttractionListSpot)
+        case planList(id: String, date: Date)
     }
 }
 
@@ -109,7 +134,7 @@ extension AttractionDetailVC: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 1
+            return detailInfo != nil ? 1 : 0
         } else if section == 1 {
             if let detailInfo = detailInfo {
                 return detailInfo.analysis.count
@@ -122,18 +147,19 @@ extension AttractionDetailVC: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
+            guard let detailInfo = detailInfo else { fatalError("need detail info to show thumbs") }
             if let timeInfo = timeInfo {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: chartCellIdentifier, for: indexPath) as? AttractionDetailChartCell else {
                     fatalError("Unknown cell type")
                 }
-                cell.thum = thums[0]
+                cell.thum = detailInfo.thums[0]
                 cell.data = timeInfo
                 return cell
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: thumsCellIdentifier, for: indexPath) as? AttractionDetailThumsCell else {
                     fatalError("Unknown cell type")
                 }
-                cell.thums = thums
+                cell.thums = detailInfo.thums
                 return cell
             }
         } else if indexPath.section == 1 {

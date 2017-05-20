@@ -36,10 +36,17 @@ class HomepageVC: UIViewController, FileLocalizable {
 
         navigationItem.title = localize(for: "Day plans")
 
+        addNavigationItems()
+
         addSubTableView()
 
         requestPlanList()
 
+    }
+
+    private func addNavigationItems() {
+        let rightItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newPlanButtonHandler(_:)))
+        navigationItem.rightBarButtonItem = rightItem
     }
 
     private func addSubTableView() {
@@ -78,6 +85,11 @@ class HomepageVC: UIViewController, FileLocalizable {
     fileprivate func pushToNext(plan: String) {
         let destination = HomepageDetailVC(plan: plan)
         navigationController?.pushViewController(destination, animated: true)
+    }
+
+    @objc
+    private func newPlanButtonHandler(_ sender: UIBarButtonItem) {
+
     }
 
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F059F701EC32F8C000162C1 /* Attraction.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F059F721EC32F8C000162C1 /* Attraction.strings */; };
+		1F13D0A01ED01C0000121C80 /* CustomPlanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13D09F1ED01C0000121C80 /* CustomPlanVC.swift */; };
 		1F1536301EB34ADF00831646 /* AttractionBriefCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */; };
 		1F18EB6F1EC6CFFF00FCB523 /* WaittimeChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F18EB6E1EC6CFFF00FCB523 /* WaittimeChart.swift */; };
 		1F24C3F51EAF360A00953463 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F24C3F71EAF360A00953463 /* Main.strings */; };
@@ -60,6 +61,7 @@
 		1F059F731EC32F90000162C1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Attraction.strings"; sourceTree = "<group>"; };
 		1F059F741EC32F92000162C1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Attraction.strings"; sourceTree = "<group>"; };
 		1F059F751EC32F92000162C1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Attraction.strings; sourceTree = "<group>"; };
+		1F13D09F1ED01C0000121C80 /* CustomPlanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlanVC.swift; sourceTree = "<group>"; };
 		1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionBriefCell.swift; sourceTree = "<group>"; };
 		1F18EB6E1EC6CFFF00FCB523 /* WaittimeChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaittimeChart.swift; sourceTree = "<group>"; };
 		1F24C3F61EAF360A00953463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Main.strings; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				1F7DFB811ECAEFE9004FA058 /* HomepageModels.swift */,
 				1F7DFB851ECB2014004FA058 /* HomepageDetailVC.swift */,
 				1F7DFB871ECB258A004FA058 /* HomepageDetailCells.swift */,
+				1F13D09F1ED01C0000121C80 /* CustomPlanVC.swift */,
 			);
 			path = Homepage;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				1F43F7AF1EC47253009D0104 /* AttractionDetailCell.swift in Sources */,
 				D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */,
 				1F6D1A001EB0AC0800A9C70F /* Convienence.swift in Sources */,
+				1F13D0A01ED01C0000121C80 /* CustomPlanVC.swift in Sources */,
 				1FA096B61EB200D400A26174 /* VisitdatePickVC.swift in Sources */,
 				1F7634401EB07FE100509B38 /* BaseModel.swift in Sources */,
 				1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */,

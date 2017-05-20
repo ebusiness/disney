@@ -63,13 +63,11 @@ class HomepageDetailVC: UIViewController {
     }
 
     private func requestPlanDetail() {
+        guard let date = UserDefaults.standard[.visitDate] as? Date else {
+            return
+        }
         let calendar = Calendar.current
-        var dateComponents = DateComponents()
-        dateComponents.year = 2017
-        dateComponents.month = 5
-        dateComponents.day = 19
-        dateComponents.hour = 9
-        dateComponents.timeZone = TimeZone(secondsFromGMT: 9 * 3600)
+        let dateComponents = calendar.dateComponents(in: TimeZone(secondsFromGMT: 9 * 3600)!, from: date)
 
         if let baseTime = calendar.date(from: dateComponents) {
             let planDetailRequest = API.Plan.detail(planId, baseTime.format())
@@ -115,7 +113,8 @@ extension HomepageDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let planDetail = planDetail {
             let data = planDetail.routes[indexPath.row]
-            let destination = AttractionDetailVC(attractionId: data.id, thums: data.images, date: planDetail.start)
+            let parameter = AttractionDetailVC.PreviousPage.planList(id: data.id, date: planDetail.start)
+            let destination = AttractionDetailVC(parameter)
             navigationController?.pushViewController(destination, animated: true)
         }
     }

@@ -14,7 +14,6 @@ class AttractionVC: UIViewController, FileLocalizable {
 
     fileprivate var tableView: UITableView!
     fileprivate let cellIdentifer = "cellIdentifier"
-    fileprivate var refreshControl: UIRefreshControl!
 
     var listData = [String: [AttractionListSpot]]()
 
@@ -23,6 +22,8 @@ class AttractionVC: UIViewController, FileLocalizable {
 
         setupLogo()
         addSubTableView()
+
+        addRefreshTimer()
 
         requestAttractionList()
     }
@@ -57,17 +58,14 @@ class AttractionVC: UIViewController, FileLocalizable {
         tableView.delegate = self
         tableView.dataSource = self
 
-        // Add refreshControl
-        refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: localize(for: "dragToRefresh"),
-                                                            attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
-        refreshControl.addTarget(self,
-                                 action: #selector(handleRefreshControl(sender:)),
-                                 for: .valueChanged)
+    }
 
-        tableView.addSubview(refreshControl)
-        tableView.sendSubview(toBack: refreshControl)
-
+    private func addRefreshTimer() {
+        Timer.scheduledTimer(timeInterval: 1 * 4,
+                             target: self,
+                             selector: #selector(handleRefreshTimer(_:)),
+                             userInfo: nil,
+                             repeats: true)
     }
 
     fileprivate func requestAttractionList(completionHandler: ((Bool) -> Void)? = nil) {
@@ -102,17 +100,17 @@ class AttractionVC: UIViewController, FileLocalizable {
         }
     }
 
-    @objc
-    private func handleRefreshControl(sender: UIRefreshControl) {
-        if sender.isRefreshing {
-            sender.attributedTitle = NSAttributedString(string: localize(for: "releaseToRefresh"),
-                                                        attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
-        }
+    fileprivate func pushToDetail(spot: AttractionListSpot) {
+        let parameter = AttractionDetailVC.PreviousPage.attractionList(data: spot)
+        let destination = AttractionDetailVC(parameter)
+        navigationController?.pushViewController(destination, animated: true)
     }
 
-    fileprivate func pushToDetail(attractionId: String, thums: [String]) {
-        let destination = AttractionDetailVC(attractionId: attractionId, thums: thums)
-        navigationController?.pushViewController(destination, animated: true)
+    @objc
+    private func handleRefreshTimer(_ timer: Timer) {
+        requestAttractionList()
+        let now = Date()
+        print("\(now): timer fired!")
     }
 }
 
@@ -147,19 +145,6 @@ extension AttractionVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         let data = listData[Array(listData.keys)[indexPath.section]]![indexPath.row]
-        pushToDetail(attractionId: data.id, thums: data.thums)
-    }
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if refreshControl.isRefreshing {
-            refreshControl.attributedTitle = NSAttributedString(string: localize(for: "refreshing"),
-                                                                attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
-            requestAttractionList { [weak self] _ in
-                if let strongSelf = self {
-                    strongSelf.refreshControl.endRefreshing()
-                    strongSelf.refreshControl.attributedTitle = NSAttributedString(string: strongSelf.localize(for: "dragToRefresh"),
-                                                                                   attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
-                }
-            }
-        }
+        pushToDetail(spot: data)
     }
 }

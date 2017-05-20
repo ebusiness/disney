@@ -158,7 +158,6 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
     }
 
     fileprivate func switchToNext() {
-        print("switchToNext")
         guard let window = UIApplication.shared.keyWindow else { return }
         var rootVC: UIViewController!
         if !self.isVisitorTagAssigned() {
@@ -176,7 +175,6 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
         iconAnimate { _ in
             window.rootViewController = rootVC
         }
-
     }
 
     fileprivate func iconAnimate(_ completionHandler: @escaping (Bool) -> Void) {
@@ -236,7 +234,29 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
             return false
         }
         let now = Date()
-        if date < now {
+        let calendar = Calendar.current
+        guard let timeZone = TimeZone(secondsFromGMT: 3600 * 9) else {
+            return false
+        }
+        let tagComponents = calendar.dateComponents(in: timeZone, from: date)
+        let nowComponents = calendar.dateComponents(in: timeZone, from: now)
+        guard let tagYear = tagComponents.year, let tagMonth = tagComponents.month, let tagDay = tagComponents.day else {
+            return false
+        }
+        guard let nowYear = nowComponents.year, let nowMonth = nowComponents.month, let nowDay = nowComponents.day else {
+            return false
+        }
+        if tagYear < nowYear {
+            return false
+        } else if tagYear > nowYear {
+            return true
+        }
+        if tagMonth < nowMonth {
+            return false
+        } else if tagMonth > nowMonth {
+            return true
+        }
+        if tagDay < nowDay {
             return false
         }
         return true

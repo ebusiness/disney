@@ -44,6 +44,7 @@ struct AttractionListSpot: SwiftJSONSerializable {
             return nil
         }
         self.thums = thums.map { $0.string } .filter { $0 != nil } .map { $0! }
+        if thums.isEmpty { return nil }
 
         realtime = Realtime(json["realtime"])
 
@@ -105,6 +106,8 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
     let name: String
     let area: String
     let introductions: String
+    let isAvailable: Bool
+    let thums: [String]
 
     let summaries: [Summary]?
     let summaryTags: [SummaryTag]?
@@ -114,6 +117,7 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
 
     private(set) var analysis = [CardInfo]()
 
+    //swiftlint:disable:next cyclomatic_complexity
     init?(_ json: JSON) {
         guard let id = json["str_id"].string else {
             return nil
@@ -132,6 +136,15 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
             return nil
         }
         self.introductions = introductions
+
+        guard let isAvailable = json["is_available"].bool else { return nil }
+        self.isAvailable = isAvailable
+
+        guard let thums = json["images"].array else {
+            return nil
+        }
+        self.thums = thums.map { $0.string } .filter { $0 != nil } .map { $0! }
+        if thums.isEmpty { return nil }
 
         summaries = Summary.array(json["summaries"])
         summaryTags = SummaryTag.array(json["summary_tags"])
