@@ -69,7 +69,7 @@ class AttractionVC: UIViewController, FileLocalizable {
     }
 
     fileprivate func requestAttractionList(completionHandler: ((Bool) -> Void)? = nil) {
-        let attractionListRequest = API.Attraction.list
+        let attractionListRequest = API.Attractions.list
 
         attractionListRequest.request { [weak self] data in
             guard let list = data.result.value?.array else {

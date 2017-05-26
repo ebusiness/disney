@@ -1,3 +1,3 @@
 github "starboychina/AlamofireSwiftyJSON" ~> 0.2
 github "ReactiveX/RxSwift" ~> 3.0
-github "onevcat/Kingfisher" ~> 3.7
+github "onevcat/Kingfisher" ~> 3.0

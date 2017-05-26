@@ -84,7 +84,7 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
     }
 
     private func requestAttractionDetail() {
-        let detailInfoRequest = API.Attraction.detail(id: attractionId)
+        let detailInfoRequest = API.Attractions.detail(id: attractionId)
 
         detailInfoRequest.request { [weak self] data in
             if let retrieved = AttractionDetail(data) {
@@ -96,7 +96,7 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
 
     private func requestWaitTime() {
         let dateString = date?.format(pattern: "yyyy-MM-dd")
-        let timeInfoRequest = API.Attraction.waitTime(id: attractionId, date: dateString)
+        let timeInfoRequest = API.Attractions.waitTime(id: attractionId, date: dateString)
 
         timeInfoRequest.request { [weak self] data in
             if let retrieved = AttractionDetailWaitTime(data) {

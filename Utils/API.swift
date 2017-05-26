@@ -61,7 +61,7 @@ extension API {
 
 // MARK: - Attraction
 extension API {
-    enum Attraction: Requestable {
+    enum Attractions: Requestable {
         case list
         case detail(id: String)
         case waitTime(id: String, date: String?)
