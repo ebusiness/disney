@@ -72,7 +72,7 @@ class HomepageVC: UIViewController, FileLocalizable {
     }
 
     private func requestPlanList() {
-        let planListRequest = API.Plan.list
+        let planListRequest = API.Plans.list
 
         planListRequest.request { [weak self] data in
             guard let plans: [PlanListElement] = PlanListElement.array(dataResponse: data) else {

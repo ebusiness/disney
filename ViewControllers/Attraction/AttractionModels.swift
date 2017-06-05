@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 
 // swiftlint:disable file_length
-struct AttractionListSpot: SwiftJSONSerializable {
+struct AttractionListSpot: SwiftJSONDecodable {
     let id: String
     let category: SpotCategory
     let name: String
@@ -54,7 +54,7 @@ struct AttractionListSpot: SwiftJSONSerializable {
         self.introductions = introductions
     }
 
-    struct Realtime: SwiftJSONSerializable {
+    struct Realtime: SwiftJSONDecodable {
         let statusInfo: String
         let available: Bool
         let fastpassAvailable: Bool
@@ -98,7 +98,7 @@ struct AttractionListSpot: SwiftJSONSerializable {
     }
 }
 
-struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
+struct AttractionDetail: SwiftJSONDecodable, FileLocalizable {
 
     let localizeFileName = "Attraction"
 
@@ -252,7 +252,7 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
 
     }
 
-    struct Summary: SwiftJSONSerializable {
+    struct Summary: SwiftJSONDecodable {
         let title: String
         let body: String
         init?(_ json: JSON) {
@@ -268,7 +268,7 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
         }
     }
 
-    struct SummaryTag: SwiftJSONSerializable {
+    struct SummaryTag: SwiftJSONDecodable {
         let type: String
         let tags: [String]
         init?(_ json: JSON) {
@@ -307,7 +307,7 @@ struct AttractionDetail: SwiftJSONSerializable, FileLocalizable {
     }
 }
 
-struct AttractionDetailWaitTime: SwiftJSONSerializable {
+struct AttractionDetailWaitTime: SwiftJSONDecodable {
 
     let date: Date
 
@@ -334,7 +334,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
         var emptyPrediction = true
         var emptyRealtime = true
 
-        if let ps: [WaitTimeSim] = WaitTimeSim.array(json["prediction"]), !ps.isEmpty {
+        if let ps = WaitTimeSim.array(json["prediction"]), !ps.isEmpty {
             var tps: [WaitTimeSim?] = Array(repeating: nil, count: 57)
             ps.forEach { tps[$0.index] = $0 }
             prediction = tps
@@ -344,7 +344,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
             emptyPrediction = true
         }
 
-        if let rs: [WaitTimeReal] = WaitTimeReal.array(json["realtime"]), !rs.isEmpty {
+        if let rs = WaitTimeReal.array(json["realtime"]), !rs.isEmpty {
             var trs: [WaitTimeReal?] = Array(repeating: nil, count: 57)
             rs.forEach { trs[$0.index] = $0 }
             realtime = trs
@@ -430,7 +430,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
             let skip = lastRealtimeIndex ?? -1
             let simScale = simData.reduce(30) { (res, data) -> Int in
                 if let data = data, data.index > skip, data.waitTime > res {
-                    return res + 30
+                    return ((data.waitTime - 1) / 30 + 1) * 30
                 } else {
                     return res
                 }
@@ -440,7 +440,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
         if let realData = realtime {
             let realScale = realData.reduce(30) { (res, data) -> Int in
                 if let data = data, data.waitTime > res {
-                    return res + 30
+                    return ((data.waitTime - 1) / 30 + 1) * 30
                 } else {
                     return res
                 }
@@ -450,7 +450,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
         return scale
     }
 
-    struct WaitTimeReal: SwiftJSONSerializable {
+    struct WaitTimeReal: SwiftJSONDecodable {
         let waitTime: Int
         let at: Date
         let running: Bool
@@ -489,7 +489,7 @@ struct AttractionDetailWaitTime: SwiftJSONSerializable {
         }
     }
 
-    struct WaitTimeSim: SwiftJSONSerializable {
+    struct WaitTimeSim: SwiftJSONDecodable {
         let waitTime: Int
         let at: Date
 

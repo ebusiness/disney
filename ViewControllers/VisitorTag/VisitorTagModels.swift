@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-struct VisitorTagModel: SwiftJSONSerializable {
+struct VisitorTagModel: SwiftJSONDecodable {
     let id: String
     let name: String
     let color: String

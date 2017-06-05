@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-struct PlanListElement: SwiftJSONSerializable {
+struct PlanListElement: SwiftJSONDecodable {
     let id: String
     let name: String
     let introduction: String
@@ -30,7 +30,7 @@ struct PlanListElement: SwiftJSONSerializable {
         self.routes = routes
     }
 
-    struct Route: SwiftJSONSerializable {
+    struct Route: SwiftJSONDecodable {
         let name: String
         let images: [String]
 
@@ -52,7 +52,7 @@ struct PlanListElement: SwiftJSONSerializable {
     }
 }
 
-struct PlanDetail: SwiftJSONSerializable {
+struct PlanDetail: SwiftJSONDecodable {
     /* 取得属性 */
     let name: String
     private(set) var routes: [Route]
@@ -92,7 +92,7 @@ struct PlanDetail: SwiftJSONSerializable {
         }
     }
 
-    struct Route: SwiftJSONSerializable {
+    struct Route: SwiftJSONDecodable {
         /* 取得属性 */
         let name: String
         let images: [String]

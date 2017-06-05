@@ -9,8 +9,8 @@
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 3,
-          "top" : 2,
+          "bottom" : 1,
+          "top" : 6,
           "right" : 3,
           "left" : 3
         }
@@ -28,8 +28,8 @@
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 6,
-          "top" : 5,
+          "bottom" : 1,
+          "top" : 14,
           "right" : 6,
           "left" : 6
         }
@@ -47,8 +47,8 @@
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 9,
-          "top" : 8,
+          "bottom" : 1,
+          "top" : 22,
           "right" : 9,
           "left" : 9
         }

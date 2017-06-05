@@ -264,7 +264,7 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
 
 }
 
-fileprivate struct VersionStatus: SwiftJSONSerializable {
+fileprivate struct VersionStatus: SwiftJSONDecodable {
     let version: String
     let available: Bool
 

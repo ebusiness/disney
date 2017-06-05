@@ -59,7 +59,7 @@ extension API {
     }
 }
 
-// MARK: - Attraction
+// MARK: - Attractions
 extension API {
     enum Attractions: Requestable {
         case list
@@ -91,9 +91,9 @@ extension API {
     }
 }
 
-// MARK: - Plan
+// MARK: - Plans
 extension API {
-    enum Plan: Requestable {
+    enum Plans: Requestable {
         case list
         case detail(String, String)
 
@@ -114,4 +114,30 @@ extension API {
             return nil
         }
     }
+}
+
+// MARK: - AttractionTags
+extension API {
+    enum AttractionTags: Requestable {
+        case list
+        case detail(id: String)
+
+        var path: String {
+            switch self {
+            case .list:
+                return "attraction/tags/"
+            case .detail(let id):
+                return "attraction/tags/\(id)"
+            }
+        }
+
+        var method: RouteMethod {
+            return .GET
+        }
+
+        var parameters: [String : Any]? {
+            return nil
+        }
+    }
+
 }

@@ -70,7 +70,7 @@ class HomepageDetailVC: UIViewController {
         let dateComponents = calendar.dateComponents(in: TimeZone(secondsFromGMT: 9 * 3600)!, from: date)
 
         if let baseTime = calendar.date(from: dateComponents) {
-            let planDetailRequest = API.Plan.detail(planId, baseTime.format())
+            let planDetailRequest = API.Plans.detail(planId, baseTime.format())
             planDetailRequest.request { [weak self] data in
                 guard let planDetail = PlanDetail(data) else {
                     return
