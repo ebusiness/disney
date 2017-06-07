@@ -6,6 +6,8 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import Foundation
+import Swift
 import UIKit
 
 enum UserDefaultKeys: String {

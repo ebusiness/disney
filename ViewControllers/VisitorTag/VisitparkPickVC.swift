@@ -56,8 +56,7 @@ class VisitparkPickVC: UIViewController {
         pickerView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
     }
 
-    @objc
-    private func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .ended {
             if !pickerView.frame.contains(gesture.location(in: view)) {
                 dismiss(animated: false, completion: nil)

@@ -216,8 +216,7 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
         }
     }
 
-    @objc
-    fileprivate func redirectToAppStore() {
+    func redirectToAppStore() {
         if let url = URL(string: NetworkConstants.appStoreURL),
             UIApplication.shared.canOpenURL(url) {
 

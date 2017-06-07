@@ -60,7 +60,7 @@ struct PlanCategoryAttractionTag: SwiftJSONDecodable {
 
 struct PlanCategoryAttractionTagDetail: SwiftJSONDecodable {
     let id: String
-    let attractions: [Attraction]
+    var attractions: [Attraction]
 
     init?(_ json: JSON) {
         guard let id = json["_id"].string else { return nil }
@@ -74,6 +74,7 @@ struct PlanCategoryAttractionTagDetail: SwiftJSONDecodable {
         let id: String
         let name: String
         let introduction: String
+        let category: SpotCategory
         let images: [String]
 
         var selected = false
@@ -88,10 +89,25 @@ struct PlanCategoryAttractionTagDetail: SwiftJSONDecodable {
             guard let introduction = json["introductions"].string else { return nil }
             self.introduction = introduction
 
+            guard let categoryString = json["category"].string else { return nil }
+            guard let category = SpotCategory(rawValue: categoryString) else { return nil }
+            self.category = category
+
             guard let array = json["images"].array else { return nil }
             let images = array.map { $0.string } .flatMap { $0 }
             guard !images.isEmpty else { return nil }
             self.images = images
         }
+
     }
+}
+
+struct CustomPlanAttraction: Equatable {
+    let id: String
+    let name: String
+    let category: SpotCategory
+}
+
+func == (lhs: CustomPlanAttraction, rhs: CustomPlanAttraction) -> Bool {
+    return lhs.id == rhs.id
 }

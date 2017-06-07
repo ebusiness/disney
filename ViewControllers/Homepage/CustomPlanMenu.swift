@@ -165,8 +165,7 @@ class CustomPlanMenu: UIView {
         fixedRandom.alpha = 0
     }
 
-    @objc
-    private func mainButtonPressed(_ sender: UIButton) {
+    func mainButtonPressed(_ sender: UIButton) {
         if state == .collapsed {
             changeState(to: .expanded)
         } else {

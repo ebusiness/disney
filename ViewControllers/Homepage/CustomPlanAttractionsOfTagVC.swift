@@ -29,9 +29,26 @@ class CustomPlanAttractionsOfTagVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configNavigationBar()
         addSubTableView()
 
         requestAttractionList()
+    }
+
+    private func configNavigationBar() {
+        let rightButton = UIBarButtonItem(barButtonSystemItem: .save,
+                                          target: self,
+                                          action: #selector(save(_:)))
+        navigationItem.rightBarButtonItem = rightButton
+        title = tag.name
+    }
+
+    func save(_ sender: UIBarButtonItem) {
+        guard let home = navigationController?.viewControllers.first(where: { $0 is CustomPlanViewController }) as? CustomPlanViewController else { return }
+        if let attractions = tagDetail?.attractions.filter ({ $0.selected }), !attractions.isEmpty {
+            home.addAttractions(attractions)
+        }
+        navigationController?.popToViewController(home, animated: true)
     }
 
     private func addSubTableView() {
@@ -71,5 +88,11 @@ extension CustomPlanAttractionsOfTagVC: UITableViewDataSource, UITableViewDelega
         }
         cell.data = tagDetail?.attractions[indexPath.row]
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let selected = tagDetail?.attractions[indexPath.row].selected {
+            tagDetail!.attractions[indexPath.row].selected = !selected
+            tableView.reloadRows(at: [indexPath], with: .none)
+        }
     }
 }

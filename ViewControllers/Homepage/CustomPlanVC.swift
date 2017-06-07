@@ -9,6 +9,8 @@
 import RxCocoa
 import RxSwift
 import UIKit
+import CallKit
+import Speech
 
 class CustomPlanViewController: UIViewController, FileLocalizable {
 
@@ -16,7 +18,10 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
 
     let disposeBag = DisposeBag()
 
+    var attractionList = [CustomPlanAttraction]()
+
     let tableView: UITableView
+    let identifier = "CustomPlanCellIdentifier"
     let titleTextField: UITextField
     lazy var titleEditMask: UIView = {
         let pv = UIView(frame: .zero)
@@ -113,6 +118,13 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
                 self?.showTitleEditMask()
             })
             .addDisposableTo(disposeBag)
+        titleTextField
+            .rx
+            .controlEvent(.editingDidEnd)
+            .subscribe (onNext: { [weak self] in
+                self?.hideTitleEditMask()
+            })
+            .addDisposableTo(disposeBag)
 
         navigationItem.titleView = container
     }
@@ -120,12 +132,21 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
     private func addSubTableView() {
         tableView.backgroundColor = UIColor(hex: "E1E2E1")
         tableView.separatorStyle = .none
+        tableView.register(CustomPlanCell.self, forCellReuseIdentifier: identifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = 52
+        tableView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+
+        // drag and drop support
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
+        tableView.addGestureRecognizer(longPress)
     }
 
     private func addSubMainMenu() {
@@ -155,18 +176,15 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         mainMenu.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12).isActive = true
     }
 
-    @objc
-    private func save(_ sender: UIBarButtonItem) {
+    func save(_ sender: UIBarButtonItem) {
 
     }
 
     func titleEditMaskTapHandler(_ sender: UITapGestureRecognizer) {
-        titleEditMask.removeFromSuperview()
-        titleTextField.resignFirstResponder()
+        hideTitleEditMask()
     }
 
-    @objc
-    private func titleTextCancelButtonPressHandler(_ sender: UIButton) {
+    func titleTextCancelButtonPressHandler(_ sender: UIButton) {
         titleTextField.text = ""
         sender.isHidden = true
     }
@@ -180,8 +198,45 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         titleEditMask.layoutIfNeeded()
     }
 
+    fileprivate func hideTitleEditMask() {
+        titleEditMask.removeFromSuperview()
+        titleTextField.resignFirstResponder()
+    }
+
     private func pushNext() {
         let destination = CustomPlanCategoryVC()
         navigationController?.pushViewController(destination, animated: true)
+    }
+
+    func addAttractions(_ attractions: [PlanCategoryAttractionTagDetail.Attraction]) {
+        var append  = [CustomPlanAttraction]()
+        for attraction in attractions {
+            let customAttraction = CustomPlanAttraction(id: attraction.id,
+                                                        name: attraction.name,
+                                                        category: attraction.category)
+            if !attractionList.contains(customAttraction)
+                && !append.contains(customAttraction) {
+                append.append(customAttraction)
+            }
+        }
+        if !append.isEmpty {
+            attractionList.append(contentsOf: append)
+            tableView.reloadData()
+        }
+    }
+
+    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+
+    }
+}
+
+extension CustomPlanViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return attractionList.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? CustomPlanCell else { fatalError("Unknown cell type") }
+        cell.data = attractionList[indexPath.row]
+        return cell
     }
 }
