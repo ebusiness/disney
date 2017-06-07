@@ -90,6 +90,7 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         navigationItem.setRightBarButton(save, animated: false)
     }
 
+    @objc
     func handleNextButton(sender: UIBarButtonItem) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -293,6 +294,7 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
     }
 
+    @objc
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
 
         switch gesture.state {

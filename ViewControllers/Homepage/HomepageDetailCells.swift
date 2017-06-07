@@ -90,7 +90,7 @@ class HomepageDetailCellBottom: HomepageDetailCellBase {
 
     fileprivate func addBottomConstraint() {
         let lowPriorityConstraint = mainImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
-        lowPriorityConstraint.priority = 999
+        lowPriorityConstraint.priority = UILayoutPriority(rawValue: 999)
         lowPriorityConstraint.isActive = true
     }
 }
@@ -106,10 +106,10 @@ class HomepageDetailCellBase: UITableViewCell, FileLocalizable {
                 // 项目标题
                 if let htmlStringData = data.name.data(using: .unicode) {
                     if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
-                                                                           options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                                           options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                                                                            documentAttributes: nil) {
-                        attributedName.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 18),
-                                                      NSForegroundColorAttributeName: UIColor.white],
+                        attributedName.addAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18),
+                                                      NSAttributedStringKey.foregroundColor: UIColor.white],
                                                      range: NSRange(location: 0, length: attributedName.string.characters.count))
                         titleLabel.attributedText = attributedName
                     }
@@ -231,7 +231,7 @@ class HomepageDetailCellBase: UITableViewCell, FileLocalizable {
         bottomConnector.leftAnchor.constraint(equalTo: sideColorView.rightAnchor, constant: 24).isActive = true
         bottomConnector.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: -12).isActive = true
         let lowPriorityConstraint = bottomConnector.bottomAnchor.constraint(equalTo: bottomAnchor)
-        lowPriorityConstraint.priority = 999
+        lowPriorityConstraint.priority = UILayoutPriority(rawValue: 999)
         lowPriorityConstraint.isActive = true
         bottomConnector.layoutIfNeeded()
     }

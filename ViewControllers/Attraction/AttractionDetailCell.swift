@@ -73,7 +73,7 @@ class AttractionDetailChartCell: UITableViewCell, FileLocalizable {
         chart.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
         chart.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
         let heightConstraint = chart.heightAnchor.constraint(equalToConstant: chartSize.height)
-        heightConstraint.priority = 999
+        heightConstraint.priority = UILayoutPriority(rawValue: 999)
         heightConstraint.isActive = true
         chart.layoutIfNeeded()
     }
@@ -212,14 +212,14 @@ class AttractionDetailInfoCell: UITableViewCell, FileLocalizable {
                 // content
                 if let htmlStringData = data.content.data(using: .unicode) {
                     if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
-                                                                           options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                                           options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                                                                            documentAttributes: nil) {
                         let paragraphStyle = NSMutableParagraphStyle()
                         paragraphStyle.paragraphSpacing = 6.0
                         let range = (attributedName.string as NSString).range(of: attributedName.string)
-                        attributedName.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15),
-                                                      NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1),
-                                                      NSParagraphStyleAttributeName: paragraphStyle],
+                        attributedName.addAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15),
+                                                      NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1),
+                                                      NSAttributedStringKey.paragraphStyle: paragraphStyle],
                                                      range: range)
                         contentLabel.attributedText = attributedName
                     }
@@ -319,7 +319,7 @@ class AttractionDetailInfoCell: UITableViewCell, FileLocalizable {
         icon.widthAnchor.constraint(equalToConstant: 40).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 40).isActive = true
         let bottomConstraint = icon.bottomAnchor.constraint(lessThanOrEqualTo: borderImageView.bottomAnchor, constant: -16)
-        bottomConstraint.priority = 999
+        bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         bottomConstraint.isActive = true
     }
 
@@ -420,7 +420,7 @@ class AttractionDetailThumsCell: UITableViewCell {
         collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
         let heightConstraint = collectionView.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 24) / 2)
-        heightConstraint.priority = 999
+        heightConstraint.priority = UILayoutPriority(rawValue: 999)
         heightConstraint.isActive = true
     }
 

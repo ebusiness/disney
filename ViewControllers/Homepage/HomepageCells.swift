@@ -118,7 +118,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         introductionLabel.rightAnchor.constraint(equalTo: borderImageView.rightAnchor, constant: -14).isActive = true
         introductionLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 12).isActive = true
         let lowPriorityLayout = introductionLabel.bottomAnchor.constraint(equalTo: borderImageView.bottomAnchor, constant: -16)
-        lowPriorityLayout.priority = 999
+        lowPriorityLayout.priority = UILayoutPriority(rawValue: 999)
         lowPriorityLayout.isActive = true
     }
 }
@@ -157,10 +157,10 @@ class HomePageCollectionCell: UICollectionViewCell {
                 // 景点名称
                 if let htmlStringData = route.name.data(using: .unicode) {
                     if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
-                                                                           options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                                           options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                                                                            documentAttributes: nil) {
-                        attributedName.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 18),
-                                                      NSForegroundColorAttributeName: UIColor.white],
+                        attributedName.addAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18),
+                                                      NSAttributedStringKey.foregroundColor: UIColor.white],
                                                      range: NSRange(location: 0, length: attributedName.string.characters.count))
                         titleLabel.attributedText = attributedName
                     }

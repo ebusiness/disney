@@ -43,6 +43,7 @@ class CustomPlanAttractionsOfTagVC: UIViewController {
         title = tag.name
     }
 
+    @objc
     func save(_ sender: UIBarButtonItem) {
         guard let home = navigationController?.viewControllers.first(where: { $0 is CustomPlanViewController }) as? CustomPlanViewController else { return }
         if let attractions = tagDetail?.attractions.filter ({ $0.selected }), !attractions.isEmpty {

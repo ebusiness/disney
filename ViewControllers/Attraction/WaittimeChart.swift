@@ -196,9 +196,9 @@ private class ChartBase: UIView {
                     let textRect = CGRect(x: endX + 2, y: endY - 7, width: 40, height: 16)
                     let textStyle = NSMutableParagraphStyle()
                     textStyle.alignment = .left
-                    let textAttributes: [String: Any] = [NSFontAttributeName: UIFont.systemFont(ofSize: 10),
-                                                         NSForegroundColorAttributeName: tintColor,
-                                                         NSParagraphStyleAttributeName: textStyle]
+                    let textAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10),
+                                                         NSAttributedStringKey.foregroundColor: tintColor,
+                                                         NSAttributedStringKey.paragraphStyle: textStyle]
                     context.saveGState()
                     context.clip(to: textRect)
                     text.draw(in: textRect, withAttributes: textAttributes)
@@ -219,9 +219,9 @@ private class ChartBase: UIView {
                     let textRect = CGRect(x: x, y: y, width: 20, height: 16)
                     let textStyle = NSMutableParagraphStyle()
                     textStyle.alignment = .left
-                    let textAttributes: [String: Any] = [NSFontAttributeName: UIFont.systemFont(ofSize: 10),
-                                                         NSForegroundColorAttributeName: tintColor,
-                                                         NSParagraphStyleAttributeName: textStyle]
+                    let textAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10),
+                                                         NSAttributedStringKey.foregroundColor: tintColor,
+                                                         NSAttributedStringKey.paragraphStyle: textStyle]
                     context.saveGState()
                     context.clip(to: textRect)
                     text.draw(in: textRect, withAttributes: textAttributes)

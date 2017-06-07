@@ -106,6 +106,7 @@ class AttractionVC: UIViewController, FileLocalizable {
         navigationController?.pushViewController(destination, animated: true)
     }
 
+    @objc
     func handleRefreshTimer(_ timer: Timer) {
         requestAttractionList()
         let now = Date()

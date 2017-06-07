@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIView.transition(with: window,
                           duration: 0.3,
                           options: [.curveEaseInOut, .transitionFlipFromRight],
-                          animations: { _ in
+                          animations: {
                             window.rootViewController = tabVC
         },
                           completion: nil)

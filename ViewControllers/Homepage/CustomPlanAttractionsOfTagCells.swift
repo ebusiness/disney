@@ -85,7 +85,7 @@ class CustomPlanAttractionsOfTagCell: UITableViewCell {
         checkbox.translatesAutoresizingMaskIntoConstraints = false
         checkbox.rightAnchor.constraint(equalTo: card.rightAnchor, constant: -14).isActive = true
         checkbox.centerYAnchor.constraint(equalTo: card.centerYAnchor).isActive = true
-        checkbox.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        checkbox.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
     }
 
     private func addSubTitle() {

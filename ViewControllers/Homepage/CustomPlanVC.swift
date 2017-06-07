@@ -9,8 +9,6 @@
 import RxCocoa
 import RxSwift
 import UIKit
-import CallKit
-import Speech
 
 class CustomPlanViewController: UIViewController, FileLocalizable {
 
@@ -114,14 +112,14 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         titleTextField
             .rx
             .controlEvent(.editingDidBegin)
-            .subscribe (onNext: { [weak self] in
+            .subscribe ({ [weak self] _ in
                 self?.showTitleEditMask()
             })
             .addDisposableTo(disposeBag)
         titleTextField
             .rx
             .controlEvent(.editingDidEnd)
-            .subscribe (onNext: { [weak self] in
+            .subscribe ({ [weak self] _ in
                 self?.hideTitleEditMask()
             })
             .addDisposableTo(disposeBag)
@@ -176,14 +174,17 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         mainMenu.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12).isActive = true
     }
 
+    @objc
     func save(_ sender: UIBarButtonItem) {
 
     }
 
+    @objc
     func titleEditMaskTapHandler(_ sender: UITapGestureRecognizer) {
         hideTitleEditMask()
     }
 
+    @objc
     func titleTextCancelButtonPressHandler(_ sender: UIButton) {
         titleTextField.text = ""
         sender.isHidden = true
@@ -225,6 +226,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         }
     }
 
+    @objc
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
 
     }

@@ -89,7 +89,7 @@ class CustomPlanMenu: UIView {
         addButton
             .rx
             .controlEvent(.touchUpInside)
-            .subscribe(onNext: {[weak self] in
+            .subscribe({[weak self]_ in
                 self?.subject.onNext(.addPressed)
             })
             .disposed(by: disposeBag)
@@ -117,7 +117,7 @@ class CustomPlanMenu: UIView {
         backButton
             .rx
             .controlEvent(.touchUpInside)
-            .subscribe(onNext: {[weak self] in
+            .subscribe({[weak self] _ in
                 self?.subject.onNext(.backPressed)
             })
             .disposed(by: disposeBag)
@@ -142,7 +142,7 @@ class CustomPlanMenu: UIView {
         randomButton
             .rx
             .controlEvent(.touchUpInside)
-            .subscribe(onNext: {[weak self] in
+            .subscribe({[weak self] _ in
                 self?.subject.onNext(.randomPressed)
             })
             .disposed(by: disposeBag)
@@ -165,6 +165,7 @@ class CustomPlanMenu: UIView {
         fixedRandom.alpha = 0
     }
 
+    @objc
     func mainButtonPressed(_ sender: UIButton) {
         if state == .collapsed {
             changeState(to: .expanded)

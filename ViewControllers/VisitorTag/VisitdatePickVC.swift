@@ -56,6 +56,7 @@ class VisitdatePickVC: UIViewController {
 
     }
 
+    @objc
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .ended {
             if !pickerView.frame.contains(gesture.location(in: view)) {
@@ -64,6 +65,7 @@ class VisitdatePickVC: UIViewController {
         }
     }
 
+    @objc
     func handleValueChanged(picker: UIDatePicker) {
         subject.onNext(picker.date)
     }

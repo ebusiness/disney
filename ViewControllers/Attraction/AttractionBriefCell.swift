@@ -27,10 +27,10 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                 // 景点名称
                 if let htmlStringData = data.name.data(using: .unicode) {
                     if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
-                                                                           options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                                           options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                                                                            documentAttributes: nil) {
-                        attributedName.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 18),
-                                                      NSForegroundColorAttributeName: UIColor.white],
+                        attributedName.addAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18),
+                                                      NSAttributedStringKey.foregroundColor: UIColor.white],
                                                      range: NSRange(location: 0, length: attributedName.string.characters.count))
                         title.attributedText = attributedName
                     }
@@ -57,15 +57,15 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                     if realtime.available,
                         let waitTime = realtime.waitTime {
                         let waitTimePrompt = NSAttributedString(string: localize(for: "waitTime") + ":",
-                                                                attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                             NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)])
+                                                                attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15),
+                                                                             NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1)])
                         let waitTimeColor = WaitTimeColor(waitTime: waitTime)
                         let waitTimeText = NSAttributedString(string: " \(waitTime)",
-                            attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 35),
-                                         NSForegroundColorAttributeName: waitTimeColor.value])
+                            attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 35),
+                                         NSAttributedStringKey.foregroundColor: waitTimeColor.value])
                         let waitTimeUnit = NSAttributedString(string: localize(for: "waitTimeUnit"),
-                                                              attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                           NSForegroundColorAttributeName: waitTimeColor.value])
+                                                              attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15),
+                                                                           NSAttributedStringKey.foregroundColor: waitTimeColor.value])
 
                         fullText.append(waitTimePrompt)
                         fullText.append(waitTimeText)
@@ -77,23 +77,23 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                         let startTime = realtime.operationStart,
                         let endTime = realtime.operationEnd {
                         let statusText = NSAttributedString(string: realtime.statusInfo,
-                                                                   attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                                NSForegroundColorAttributeName: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
+                                                                   attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15),
+                                                                                NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
                         let formatter = DateFormatter()
                         formatter.dateFormat = "HH:mm"
                         let startText = formatter.string(from: startTime)
                         let endText = formatter.string(from: endTime)
                         let periodText = NSAttributedString(string: ": \(startText) - \(endText)",
-                            attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                         NSForegroundColorAttributeName: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
+                            attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15),
+                                         NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
 
                         fullText.appendLineBreakIfNotEmpty()
                         fullText.append(statusText)
                         fullText.append(periodText)
                     } else {
                         let statusText = NSAttributedString(string: realtime.statusInfo,
-                                                                   attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                                NSForegroundColorAttributeName: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
+                                                                   attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15),
+                                                                                NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.4757834077, green: 0.4757834077, blue: 0.4757834077, alpha: 1)])
                         fullText.appendLineBreakIfNotEmpty()
                         fullText.append(statusText)
                     }
@@ -106,8 +106,8 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                         icon.bounds = CGRect(x: 0, y: -3, width: #imageLiteral(resourceName: "FastPass").size.width, height: #imageLiteral(resourceName: "FastPass").size.height)
                         let iconText = NSAttributedString(attachment: icon)
                         let statusText = NSAttributedString(string: " " + fastpassInfo + " ",
-                                                            attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                                                         NSForegroundColorAttributeName: UIColor(hex: "F44336")])
+                                                            attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15),
+                                                                         NSAttributedStringKey.foregroundColor: UIColor(hex: "F44336")])
 
                         fullText.appendLineBreakIfNotEmpty()
                         fullText.append(iconText)
@@ -121,8 +121,8 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                             let startText = formatter.string(from: startTime)
                             let endText = formatter.string(from: endTime)
                             let periodText = NSAttributedString(string: "(\(startText) - \(endText))",
-                                attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15),
-                                             NSForegroundColorAttributeName: UIColor(hex: "F44336")])
+                                attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15),
+                                             NSAttributedStringKey.foregroundColor: UIColor(hex: "F44336")])
                             fullText.append(periodText)
                         }
 
@@ -131,14 +131,14 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
                 } else {
                     if let htmlStringData = data.introductions.data(using: .unicode) {
                         if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
-                                                                               options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                                               options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                                                                                documentAttributes: nil) {
                             let paragraphStyle = NSMutableParagraphStyle()
                             paragraphStyle.lineBreakMode = .byTruncatingTail
                             let range = (attributedName.string as NSString).range(of: attributedName.string)
-                            attributedName.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15),
-                                                          NSForegroundColorAttributeName: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1),
-                                                          NSParagraphStyleAttributeName: paragraphStyle],
+                            attributedName.addAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15),
+                                                          NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.4717842937, green: 0.4717842937, blue: 0.4717842937, alpha: 1),
+                                                          NSAttributedStringKey.paragraphStyle: paragraphStyle],
                                                          range: range)
                             introduction.attributedText = attributedName
                         }
@@ -209,7 +209,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
         mainImageView.leftAnchor.constraint(equalTo: backgroundImage.leftAnchor, constant: 2).isActive = true
         mainImageView.rightAnchor.constraint(equalTo:  backgroundImage.rightAnchor, constant: -2).isActive = true
         let mainImageHeight = mainImageView.heightAnchor.constraint(equalToConstant: 200)
-        mainImageHeight.priority = 999
+        mainImageHeight.priority = UILayoutPriority(rawValue: 999)
         mainImageHeight.isActive = true
         mainImageView.layoutIfNeeded()
     }
@@ -232,7 +232,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
         categoryImageView.topAnchor.constraint(equalTo: mainImageView.bottomAnchor).isActive = true
         categoryImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         let categoryImageHeight = categoryImageView.heightAnchor.constraint(equalToConstant: 100)
-        categoryImageHeight.priority = 999
+        categoryImageHeight.priority = UILayoutPriority(rawValue: 999)
         categoryImageHeight.isActive = true
         categoryImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0).isActive = true
         categoryImageView.layoutIfNeeded()
