@@ -112,16 +112,16 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         titleTextField
             .rx
             .controlEvent(.editingDidBegin)
-            .subscribe ({ [weak self] _ in
+            .subscribe { [weak self] _ in
                 self?.showTitleEditMask()
-            })
+            }
             .addDisposableTo(disposeBag)
         titleTextField
             .rx
             .controlEvent(.editingDidEnd)
-            .subscribe ({ [weak self] _ in
+            .subscribe { [weak self] _ in
                 self?.hideTitleEditMask()
-            })
+            }
             .addDisposableTo(disposeBag)
 
         navigationItem.titleView = container

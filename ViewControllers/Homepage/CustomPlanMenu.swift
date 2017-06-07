@@ -89,9 +89,9 @@ class CustomPlanMenu: UIView {
         addButton
             .rx
             .controlEvent(.touchUpInside)
-            .subscribe({[weak self]_ in
+            .subscribe {[weak self]_ in
                 self?.subject.onNext(.addPressed)
-            })
+            }
             .disposed(by: disposeBag)
         addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -117,9 +117,9 @@ class CustomPlanMenu: UIView {
         backButton
             .rx
             .controlEvent(.touchUpInside)
-            .subscribe({[weak self] _ in
+            .subscribe {[weak self] _ in
                 self?.subject.onNext(.backPressed)
-            })
+            }
             .disposed(by: disposeBag)
         addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -142,9 +142,9 @@ class CustomPlanMenu: UIView {
         randomButton
             .rx
             .controlEvent(.touchUpInside)
-            .subscribe({[weak self] _ in
+            .subscribe {[weak self] _ in
                 self?.subject.onNext(.randomPressed)
-            })
+            }
             .disposed(by: disposeBag)
         addSubview(randomButton)
         randomButton.translatesAutoresizingMaskIntoConstraints = false
