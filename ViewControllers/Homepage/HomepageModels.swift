@@ -75,9 +75,9 @@ struct PlanDetail: SwiftJSONDecodable {
     }
 
     private mutating func analyse() {
-        var baseTime = start
         for (index, var value) in routes.enumerated() {
 
+            var baseTime = value.start
             // 分析各个时间点
             value.timeStart = baseTime
             let timeForPlay = 60 * value.waitTime + 60 * value.timeCost
@@ -100,6 +100,7 @@ struct PlanDetail: SwiftJSONDecodable {
         let timeToNext: Int
         let waitTime: Int
         let id: String
+        let start: Date
 
         /* 计算属性 */
         fileprivate(set) var timeStart: Date?
@@ -133,6 +134,9 @@ struct PlanDetail: SwiftJSONDecodable {
 
             guard let id = json["str_id"].string else { return nil }
             self.id = id
+
+            guard let start = Date(iso8601str: json["schedule"]["startTime"].string) else { return nil }
+            self.start = start
         }
     }
 
