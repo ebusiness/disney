@@ -65,7 +65,12 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         navigationItem.rightBarButtonItem = saveItem
 
         // 题目
-        let container = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 260, height: 32)))
+        let containerWidth = UIScreen.main.bounds.width - 177
+        let containerHeight: CGFloat = 32
+        let container = UIView(frame: CGRect(origin: .zero, size: CGSize(width: containerWidth, height: containerHeight)))
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.widthAnchor.constraint(equalToConstant: containerWidth).isActive = true
+        container.heightAnchor.constraint(equalToConstant: containerHeight).isActive = true
         // 文本框
         titleTextField.textColor = UIColor.white
         titleTextField.text = localize(for: "default plan name prefix")
