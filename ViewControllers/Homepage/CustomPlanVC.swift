@@ -18,7 +18,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
 
     var attractionList = [CustomPlanAttraction]()
 
-    let tableView: UITableView
+    let collectionView: UICollectionView
     let identifier = "CustomPlanCellIdentifier"
     let titleTextField: UITextField
     lazy var titleEditMask: UIView = {
@@ -34,7 +34,13 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
     let mainMenu: CustomPlanMenu
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        tableView = UITableView(frame: .zero, style: .plain)
+        // configure collection view
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 52)
+        collectionViewLayout.minimumInteritemSpacing = 0
+        collectionViewLayout.minimumLineSpacing = 0
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+
         titleTextField = UITextField(frame: .zero)
         titleTextCancelButton = UIButton(type: .custom)
         mainMenu = CustomPlanMenu(frame: .zero)
@@ -43,7 +49,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         hidesBottomBarWhenPushed = true
 
         setupNavigationBar()
-        addSubTableView()
+        addSubCollectionView()
         addSubMainMenu()
     }
 
@@ -132,24 +138,22 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         navigationItem.titleView = container
     }
 
-    private func addSubTableView() {
-        tableView.backgroundColor = UIColor(hex: "E1E2E1")
-        tableView.separatorStyle = .none
-        tableView.register(CustomPlanCell.self, forCellReuseIdentifier: identifier)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = 52
-        tableView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    private func addSubCollectionView() {
+        collectionView.backgroundColor = UIColor(hex: "E1E2E1")
+        collectionView.register(CustomPlanCell.self, forCellWithReuseIdentifier: identifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
         // drag and drop support
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
-        tableView.addGestureRecognizer(longPress)
+        collectionView.addGestureRecognizer(longPress)
     }
 
     private func addSubMainMenu() {
@@ -227,23 +231,40 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         }
         if !append.isEmpty {
             attractionList.append(contentsOf: append)
-            tableView.reloadData()
+            collectionView.reloadData()
         }
     }
 
     @objc
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+                break
+            }
+            collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case .ended:
+            collectionView.endInteractiveMovement()
+        default:
+            collectionView.cancelInteractiveMovement()
+        }
 
     }
 }
 
-extension CustomPlanViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension CustomPlanViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return attractionList.count
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? CustomPlanCell else { fatalError("Unknown cell type") }
-        cell.data = attractionList[indexPath.row]
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? CustomPlanCell else { fatalError("Unknown cell type") }
+        cell.data = attractionList[indexPath.item]
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let temp = attractionList.remove(at: sourceIndexPath.item)
+        attractionList.insert(temp, at: destinationIndexPath.item)
     }
 }

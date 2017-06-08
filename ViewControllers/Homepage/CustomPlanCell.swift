@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomPlanCell: UITableViewCell {
+class CustomPlanCell: UICollectionViewCell {
 
     var data: CustomPlanAttraction? {
         didSet {
@@ -35,14 +35,13 @@ class CustomPlanCell: UITableViewCell {
     let title: UILabel
     let button: RotatableButton
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(frame: CGRect) {
         card = UIImageView(frame: .zero)
         indicator = LeftRoundedCornerImageView(frame: .zero)
         title = UILabel(frame: .zero)
         button = RotatableButton(frame: .zero)
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(frame: frame)
         backgroundColor = UIColor.clear
-        selectionStyle = .none
 
         addSubCard()
         addSubIndicator()
