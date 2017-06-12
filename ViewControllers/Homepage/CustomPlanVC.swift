@@ -6,6 +6,7 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import CoreData
 import RxCocoa
 import RxSwift
 import UIKit
@@ -51,6 +52,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         setupNavigationBar()
         addSubCollectionView()
         addSubMainMenu()
+
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -192,9 +194,18 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         let parameter = API.Plans.CustomizeParameter(start: date, route: routes)
         let requester = API.Plans.customize(parameter)
 
-        requester.request { data in
-            print(data.result.value)
+        requester.request { [weak self] data in
+            guard let planDetail = PlanDetail(data) else { return }
+            guard let strongSelf = self else { return }
+            strongSelf.saveToCoreData(customPlan: planDetail)
         }
+    }
+
+    private func saveToCoreData(customPlan: PlanDetail) {
+        guard let myPlan = CustomPlan.from(planDetail: customPlan) else { return }
+        myPlan.name = titleTextField.text ?? localize(for: "default plan name prefix")
+        myPlan.id = DataManager.shared.randomID()
+        DataManager.shared.save()
     }
 
     @objc

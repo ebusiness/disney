@@ -129,6 +129,7 @@ extension API {
             }
         }
 
+        //swiftlint:disable:next nesting
         struct CustomizeParameter {
             let start: Date
             let route: [[String: String]]
