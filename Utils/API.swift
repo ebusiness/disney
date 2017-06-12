@@ -96,22 +96,48 @@ extension API {
     enum Plans: Requestable {
         case list
         case detail(String, String)
+        case customize(CustomizeParameter)
 
         var path: String {
             switch self {
             case .list:
-                return "plans/"
+                return "plans"
             case .detail(let id, let time):
-                return "plans/\(id)/\(time)/"
+                return "plans/\(id)/\(time)"
+            case .customize:
+                return "plans/customize"
             }
         }
 
         var method: RouteMethod {
-            return .GET
+            switch self {
+            case .list:
+                return .GET
+            case .detail:
+                return .GET
+            case .customize:
+                return .POST
+            }
         }
 
         var parameters: [String : Any]? {
-            return nil
+            switch self {
+            case .customize(let customizeParameter):
+                return customizeParameter.asParameter()
+            default:
+                return nil
+            }
+        }
+
+        struct CustomizeParameter {
+            let start: Date
+            let route: [[String: String]]
+            func asParameter() -> [String: Any] {
+                var ans = [String: Any]()
+                ans["start"] = start.zFormat()
+                ans["route"] = route
+                return ans
+            }
         }
     }
 }

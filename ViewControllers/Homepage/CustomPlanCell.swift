@@ -6,6 +6,8 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import RxCocoa
+import RxSwift
 import UIKit
 
 class CustomPlanCell: UICollectionViewCell {
@@ -17,35 +19,43 @@ class CustomPlanCell: UICollectionViewCell {
 
                 switch data.category {
                 case .attraction:
-                    indicator.backgroundColor = UIColor(hex: "2196F3")
-                    indicator.image = #imageLiteral(resourceName: "ListAttraction")
+                    typeIndicator.backgroundColor = UIColor(hex: "2196F3")
+                    typeIndicator.image = #imageLiteral(resourceName: "ListAttraction")
                 case .show:
-                    indicator.backgroundColor = UIColor(hex: "F44336")
-                    indicator.image = #imageLiteral(resourceName: "ListParade")
+                    typeIndicator.backgroundColor = UIColor(hex: "F44336")
+                    typeIndicator.image = #imageLiteral(resourceName: "ListParade")
                 case .greeting:
-                    indicator.backgroundColor = UIColor(hex: "673AB7")
-                    indicator.image = #imageLiteral(resourceName: "ListGreeting")
+                    typeIndicator.backgroundColor = UIColor(hex: "673AB7")
+                    typeIndicator.image = #imageLiteral(resourceName: "ListGreeting")
+                }
+
+                if data.selected {
+                    button.image = #imageLiteral(resourceName: "icy_cross_in_circle")
+                } else {
+                    button.image = #imageLiteral(resourceName: "icy_plus_in_circle")
+                    typeIndicator.backgroundColor = UIColor(hex: "9E9E9E")
                 }
             }
         }
     }
 
     let card: UIImageView
-    let indicator: LeftRoundedCornerImageView
+    let typeIndicator: LeftRoundedCornerImageView
     let title: UILabel
-    let button: RotatableButton
+    let button: UIImageView
 
     override init(frame: CGRect) {
         card = UIImageView(frame: .zero)
-        indicator = LeftRoundedCornerImageView(frame: .zero)
+        typeIndicator = LeftRoundedCornerImageView(frame: .zero)
         title = UILabel(frame: .zero)
-        button = RotatableButton(frame: .zero)
+        button = UIImageView(frame: .zero)
         super.init(frame: frame)
         backgroundColor = UIColor.clear
 
         addSubCard()
         addSubIndicator()
         addSubTitle()
+        addSubButton()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -63,26 +73,32 @@ class CustomPlanCell: UICollectionViewCell {
     }
 
     private func addSubIndicator() {
-        indicator.tintColor = UIColor.white
-        indicator.contentMode = .center
-        addSubview(indicator)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.leftAnchor.constraint(equalTo: card.leftAnchor, constant: 2).isActive = true
-        indicator.topAnchor.constraint(equalTo: card.topAnchor, constant: 2).isActive = true
-        indicator.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -4).isActive = true
-        indicator.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        typeIndicator.tintColor = UIColor.white
+        typeIndicator.contentMode = .center
+        addSubview(typeIndicator)
+        typeIndicator.translatesAutoresizingMaskIntoConstraints = false
+        typeIndicator.leftAnchor.constraint(equalTo: card.leftAnchor, constant: 2).isActive = true
+        typeIndicator.topAnchor.constraint(equalTo: card.topAnchor, constant: 2).isActive = true
+        typeIndicator.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -4).isActive = true
+        typeIndicator.widthAnchor.constraint(equalToConstant: 30).isActive = true
     }
 
     private func addSubTitle() {
         title.font = UIFont.boldSystemFont(ofSize: 14)
         addSubview(title)
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.leftAnchor.constraint(equalTo: indicator.rightAnchor, constant: 8).isActive = true
-        title.centerYAnchor.constraint(equalTo: indicator.centerYAnchor).isActive = true
+        title.leftAnchor.constraint(equalTo: typeIndicator.rightAnchor, constant: 8).isActive = true
+        title.centerYAnchor.constraint(equalTo: typeIndicator.centerYAnchor).isActive = true
     }
 
-    class RotatableButton: UIButton {
-
+    private func addSubButton() {
+        button.tintColor = UIColor(hex: "9E9E9E")
+        addSubview(button)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.rightAnchor.constraint(equalTo: card.rightAnchor, constant: -8).isActive = true
+        button.centerYAnchor.constraint(equalTo: typeIndicator.centerYAnchor).isActive = true
+        button.leftAnchor.constraint(equalTo: title.rightAnchor, constant: 4).isActive = true
+        button.setContentHuggingPriority(.required, for: .horizontal)
     }
 
     class LeftRoundedCornerImageView: UIImageView {
@@ -95,5 +111,10 @@ class CustomPlanCell: UICollectionViewCell {
             maskLayer.path = path.cgPath
             layer.mask = maskLayer
         }
+    }
+
+    struct RotatableButtonEvent {
+        let selected: Bool
+        let indexPath: IndexPath
     }
 }

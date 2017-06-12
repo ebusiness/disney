@@ -96,6 +96,18 @@ class VisitorTagVC: UIViewController, FileLocalizable {
             return
         }
 
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(secondsFromGMT: 3600 * 9)!
+        let today = Date()
+        if dayAdvance(from: today, to: visitDate) {
+            var components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: visitDate)
+            components.hour = 9
+            components.minute = 0
+            if let fixed = calendar.date(from: components) {
+                visitDate = fixed
+            }
+        }
+
         UserDefaults.standard[.visitDate] = visitDate
         UserDefaults.standard[.visitPark] = visitPark.rawValue
         NetworkConstants.park = visitPark.rawValue + "/"
@@ -158,6 +170,10 @@ class VisitorTagVC: UIViewController, FileLocalizable {
             self.collectionView.reloadItems(at: [IndexPath(row: 1, section: 0)])
         }.disposed(by: datepicker.disposeBag)
         present(datepicker, animated: false, completion: nil)
+    }
+
+    private func dayAdvance(from: Date, to: Date) -> Bool {
+        return true
     }
 
 }

@@ -9,6 +9,7 @@
 import RxSwift
 import UIKit
 
+//swiftlint:disable type_body_length
 class CustomPlanMenu: UIView {
 
     var state = State.collapsed
@@ -52,6 +53,15 @@ class CustomPlanMenu: UIView {
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 70, height: 300)
+    }
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let subview = super.hitTest(point, with: event)
+        if subview is CustomPlanMenu {
+            return nil
+        } else {
+            return subview
+        }
     }
 
     private func addSubMainButton() {
@@ -113,6 +123,7 @@ class CustomPlanMenu: UIView {
         transform = transform.scaledBy(x: 0.75, y: 0.75)
         fixedAdd.transform = transform
         fixedAdd.alpha = 0
+        addButton.isUserInteractionEnabled = false
 
         backButton
             .rx
@@ -138,6 +149,7 @@ class CustomPlanMenu: UIView {
 
         fixedBack.transform = transform
         fixedBack.alpha = 0
+        backButton.isUserInteractionEnabled = false
 
         randomButton
             .rx
@@ -163,6 +175,7 @@ class CustomPlanMenu: UIView {
 
         fixedRandom.transform = transform
         fixedRandom.alpha = 0
+        randomButton.isUserInteractionEnabled = false
     }
 
     @objc
@@ -210,6 +223,7 @@ class CustomPlanMenu: UIView {
                                                            animations: { [weak self] in
                                                             self?.fixedAdd.alpha = 1
                                                             self?.fixedAdd.transform = CGAffineTransform.identity
+                                                            self?.addButton.isUserInteractionEnabled = true
                                         })
                                         // 小按钮(<)
                                         UIView.addKeyframe(withRelativeStartTime: 0.475,
@@ -217,6 +231,7 @@ class CustomPlanMenu: UIView {
                                                            animations: { [weak self] in
                                                             self?.fixedBack.alpha = 1
                                                             self?.fixedBack.transform = CGAffineTransform.identity
+                                                            self?.backButton.isUserInteractionEnabled = true
                                         })
                                         // 小按钮(x)
                                         UIView.addKeyframe(withRelativeStartTime: 0.65,
@@ -224,6 +239,7 @@ class CustomPlanMenu: UIView {
                                                            animations: { [weak self] in
                                                             self?.fixedRandom.alpha = 1
                                                             self?.fixedRandom.transform = CGAffineTransform.identity
+                                                            self?.randomButton.isUserInteractionEnabled = true
                                         })
             }, completion: { [weak self] _ in
                 self?.mainButton.isUserInteractionEnabled = true
@@ -245,8 +261,11 @@ class CustomPlanMenu: UIView {
                                                            relativeDuration: 0.5,
                                                            animations: { [weak self] in
                                                             self?.fixedAdd.alpha = 0
+                                                            self?.addButton.isUserInteractionEnabled = false
                                                             self?.fixedBack.alpha = 0
+                                                            self?.backButton.isUserInteractionEnabled = false
                                                             self?.fixedRandom.alpha = 0
+                                                            self?.randomButton.isUserInteractionEnabled = false
                                         })
                                         // 大按钮（三）
                                         UIView.addKeyframe(withRelativeStartTime: 0.4,

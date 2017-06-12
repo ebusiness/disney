@@ -185,7 +185,16 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
 
     @objc
     func save(_ sender: UIBarButtonItem) {
+        guard let date = UserDefaults.standard[.visitDate] as? Date else {
+            return
+        }
+        let routes = attractionList.filter { $0.selected } .map { ["str_id": $0.id] }
+        let parameter = API.Plans.CustomizeParameter(start: date, route: routes)
+        let requester = API.Plans.customize(parameter)
 
+        requester.request { data in
+            print(data.result.value)
+        }
     }
 
     @objc
@@ -221,12 +230,9 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
     func addAttractions(_ attractions: [PlanCategoryAttractionTagDetail.Attraction]) {
         var append  = [CustomPlanAttraction]()
         for attraction in attractions {
-            let customAttraction = CustomPlanAttraction(id: attraction.id,
-                                                        name: attraction.name,
-                                                        category: attraction.category)
-            if !attractionList.contains(customAttraction)
-                && !append.contains(customAttraction) {
-                append.append(customAttraction)
+            if !attractionList.contains(where: { $0 == attraction })
+                && !append.contains(where: { $0 == attraction }) {
+                append.append(attraction.convertToPlanAttraction())
             }
         }
         if !append.isEmpty {
@@ -250,7 +256,6 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         default:
             collectionView.cancelInteractiveMovement()
         }
-
     }
 }
 
@@ -266,5 +271,11 @@ extension CustomPlanViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let temp = attractionList.remove(at: sourceIndexPath.item)
         attractionList.insert(temp, at: destinationIndexPath.item)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var item = attractionList[indexPath.item]
+        item.selected = !item.selected
+        attractionList[indexPath.item] = item
+        collectionView.reloadItems(at: [indexPath])
     }
 }

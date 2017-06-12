@@ -106,6 +106,12 @@ extension Date {
         formatter.dateFormat = pattern
         return formatter.string(from: self)
     }
+    func zFormat() -> String {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)!
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return formatter.string(from: self) + "Z"
+    }
 }
 
 extension UIView {
