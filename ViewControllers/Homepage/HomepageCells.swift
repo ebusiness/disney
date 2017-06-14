@@ -12,14 +12,14 @@ import UIKit
 class HomepageCell: UITableViewCell, FileLocalizable {
 
     let localizeFileName = "Main"
-    var data: PlanListElement? {
+    var data: PlanConvertible? {
         didSet {
             if let data = data {
-                titleLabel.text = data.name
+                titleLabel.text = data.cName
 
-                numLabel.text = "\(data.routes.count) " + localize(for: "MainCell.numAttractions")
+                numLabel.text = "\(data.cRoutes.count) " + localize(for: "MainCell.numAttractions")
 
-                introductionLabel.text = data.introduction
+                introductionLabel.text = data.cIntroduction
 
                 collectionView.reloadData()
             }
@@ -30,6 +30,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
 
     let borderImageView: UIImageView
     let titleLabel: UILabel
+    let menu: UIButton
     let numLabel: UILabel
     let collectionView: UICollectionView
     let collectionViewIdentifier = "collectionViewIdentifier"
@@ -39,6 +40,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         borderImageView = UIImageView(frame: .zero)
         titleLabel = UILabel(frame: .zero)
+        menu = UIButton(type: .custom)
         numLabel = UILabel(frame: .zero)
 
         let flowLayout = UICollectionViewFlowLayout()
@@ -81,6 +83,10 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         titleLabel.leftAnchor.constraint(equalTo: borderImageView.leftAnchor, constant: 14).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: borderImageView.rightAnchor, constant: -14).isActive = true
         titleLabel.topAnchor.constraint(equalTo: borderImageView.topAnchor, constant: 14).isActive = true
+    }
+
+    private func addSubMenu() {
+        addSubview(menu)
     }
 
     private func addSubNumLabel() {
@@ -128,20 +134,20 @@ extension HomepageCell: UICollectionViewDelegateFlowLayout, UICollectionViewData
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data?.routes.count ?? 0
+        return data?.cRoutes.count ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewIdentifier, for: indexPath) as? HomePageCollectionCell else {
             fatalError("Unknown cell type")
         }
-        cell.route = data?.routes[indexPath.item]
+        cell.route = data?.cRoutes[indexPath.item]
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionCellSize
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let id = data?.id {
+        if let id = data?.cId {
             itemSelectedHandler?(id)
         }
     }
@@ -149,13 +155,13 @@ extension HomepageCell: UICollectionViewDelegateFlowLayout, UICollectionViewData
 
 class HomePageCollectionCell: UICollectionViewCell {
 
-    var route: PlanListElement.Route? {
+    var route: RouteConvertible? {
         didSet {
             if let route = route {
-                imageView.kf.setImage(with: URL(string: route.images[0]))
+                imageView.kf.setImage(with: URL(string: route.cImages[0]))
 
                 // 景点名称
-                if let htmlStringData = route.name.data(using: .unicode) {
+                if let htmlStringData = route.cName.data(using: .unicode) {
                     if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
                                                                            options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                                                                            documentAttributes: nil) {

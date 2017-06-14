@@ -9,11 +9,43 @@
 import Foundation
 import SwiftyJSON
 
-struct PlanListElement: SwiftJSONDecodable {
+enum PlanType {
+    case suggestion
+    case custom
+}
+
+protocol PlanConvertible {
+    var cId: String { get }
+    var cName: String { get }
+    var cIntroduction: String { get }
+    var cRoutes: [RouteConvertible] { get }
+}
+
+protocol RouteConvertible {
+    var cName: String { get }
+    var cImages: [String] { get }
+}
+
+struct PlanListElement: SwiftJSONDecodable, PlanConvertible {
+
     let id: String
     let name: String
     let introduction: String
     let routes: [Route]
+
+    // PlanConvertible
+    var cId: String {
+        return id
+    }
+    var cName: String {
+        return name
+    }
+    var cIntroduction: String {
+        return introduction
+    }
+    var cRoutes: [RouteConvertible] {
+        return routes
+    }
 
     init?(_ json: JSON) {
         guard let id = json["_id"].string else { return nil }
@@ -30,9 +62,17 @@ struct PlanListElement: SwiftJSONDecodable {
         self.routes = routes
     }
 
-    struct Route: SwiftJSONDecodable {
+    struct Route: SwiftJSONDecodable, RouteConvertible {
         let name: String
         let images: [String]
+
+        // RouteConvertible
+        var cName: String {
+            return name
+        }
+        var cImages: [String] {
+            return images
+        }
 
         init?(_ json: JSON) {
             guard let name = json["attraction"]["name"].string else {
@@ -140,4 +180,36 @@ struct PlanDetail: SwiftJSONDecodable {
         }
     }
 
+}
+
+extension CustomPlan: PlanConvertible {
+    var cId: String {
+        return id ?? ""
+    }
+    var cName: String {
+        return name ?? ""
+    }
+    var cIntroduction: String {
+        return introduction ?? ""
+    }
+    var cRoutes: [RouteConvertible] {
+        guard let routes = routes else { return [] }
+        return routes
+            .array
+            .map { $0 as? CustomPlanRoute }
+            .flatMap { $0 }
+    }
+}
+
+extension CustomPlanRoute: RouteConvertible {
+    var cName: String {
+        return name ?? ""
+    }
+    var cImages: [String] {
+        guard let images = images else { return [] }
+        return images
+            .array
+            .map { $0 as? CustomPlanRouteImage }
+            .flatMap { $0?.url }
+    }
 }

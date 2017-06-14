@@ -6,26 +6,26 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import CoreData
 import UIKit
 
 class HomepageDetailVC: UIViewController {
 
     private let planId: String
+    private let planType: PlanType
+
+    var fetchedResultsController: NSFetchedResultsController<CustomPlan>?
 
     private let tableView: UITableView
     fileprivate let cellIdentifierTop = "cellIdentifierTop"
     fileprivate let cellIdentifierMid = "cellIdentifierMid"
     fileprivate let cellIdentifierBottom = "cellIdentifierBottom"
 
-    fileprivate var planDetail: PlanDetail? {
-        didSet {
-            tableView.reloadData()
-            navigationItem.title = planDetail?.name
-        }
-    }
+    fileprivate var planDetail: PlanDetail?
 
-    init(plan id: String) {
+    init(plan id: String, type: PlanType) {
         planId = id
+        planType = type
         tableView = UITableView(frame: .zero, style: .plain)
         super.init(nibName: nil, bundle: nil)
 
@@ -63,22 +63,54 @@ class HomepageDetailVC: UIViewController {
     }
 
     private func requestPlanDetail() {
-        guard let date = UserDefaults.standard[.visitDate] as? Date else {
-            return
-        }
-        let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents(in: TimeZone(secondsFromGMT: 9 * 3600)!, from: date)
-
-        if let baseTime = calendar.date(from: dateComponents) {
-            let planDetailRequest = API.Plans.detail(planId, baseTime.format())
-            planDetailRequest.request { [weak self] data in
-                guard let planDetail = PlanDetail(data) else {
-                    return
+        if planType == .custom {
+            let fetchRequest = NSFetchRequest<CustomPlan>(entityName: "CustomPlan")
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "create", ascending: false)]
+            fetchRequest.predicate = NSPredicate(format: "id == %@", planId)
+            do {
+                let results = try DataManager.shared.context.fetch(fetchRequest)
+                guard let date = UserDefaults.standard[.visitDate] as? Date else { return }
+                guard let result = results[safe: 0] else { return }
+                guard let routes = result
+                        .routes?
+                        .array
+                        .map ({ $0 as? CustomPlanRoute })
+                        .flatMap ({ $0?.str_id })
+                        .map ({ ["str_id": $0] })
+                    else { return }
+                let parameter = API.Plans.CustomizeParameter(start: date, route: routes)
+                let requester = API.Plans.customize(parameter)
+                requester.request { [weak self] data in
+                    guard let planDetail = PlanDetail(data) else { return }
+                    guard let strongSelf = self else { return }
+                    strongSelf.planDetail = planDetail
+                    strongSelf.title = result.cName
+                    strongSelf.tableView.reloadData()
                 }
-                self?.planDetail = planDetail
+            } catch {
+                // 取得不到数据
+
+                return
+            }
+        } else {
+            guard let date = UserDefaults.standard[.visitDate] as? Date else {
+                return
+            }
+            let calendar = Calendar.current
+            let dateComponents = calendar.dateComponents(in: TimeZone(secondsFromGMT: 9 * 3600)!, from: date)
+
+            if let baseTime = calendar.date(from: dateComponents) {
+                let planDetailRequest = API.Plans.detail(planId, baseTime.format())
+                planDetailRequest.request { [weak self] data in
+                    guard let planDetail = PlanDetail(data) else {
+                        return
+                    }
+                    self?.planDetail = planDetail
+                    self?.title = planDetail.name
+                    self?.tableView.reloadData()
+                }
             }
         }
-
     }
 }
 

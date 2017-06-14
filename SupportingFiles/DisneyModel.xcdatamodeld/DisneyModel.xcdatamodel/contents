@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13154.26" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CustomPlan" representedClassName="CustomPlan" syncable="YES" codeGenerationType="class">
+        <attribute name="create" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="introduction" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -18,7 +19,7 @@
         <relationship name="route" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CustomPlanRoute" inverseName="images" inverseEntity="CustomPlanRoute" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CustomPlan" positionX="-1548" positionY="-441" width="128" height="103"/>
+        <element name="CustomPlan" positionX="-1548" positionY="-441" width="128" height="118"/>
         <element name="CustomPlanRoute" positionX="-1325" positionY="-387" width="128" height="118"/>
         <element name="CustomPlanRouteImage" positionX="-1071" positionY="-270" width="128" height="73"/>
     </elements>

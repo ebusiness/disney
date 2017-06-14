@@ -70,7 +70,7 @@ struct PlanCategoryAttractionTagDetail: SwiftJSONDecodable {
         self.attractions = attractions
     }
 
-    struct Attraction: SwiftJSONDecodable, CustomPlanAttractionConvertible {
+    struct Attraction: SwiftJSONDecodable, PlanAttractionConvertible {
         let id: String
         let name: String
         let introduction: String
@@ -102,7 +102,7 @@ struct PlanCategoryAttractionTagDetail: SwiftJSONDecodable {
     }
 }
 
-struct CustomPlanAttraction: CustomPlanAttractionConvertible {
+struct CustomPlanAttraction: PlanAttractionConvertible {
     let id: String
     let name: String
     let category: SpotCategory
@@ -118,18 +118,18 @@ struct CustomPlanAttraction: CustomPlanAttractionConvertible {
     }
 }
 
-protocol CustomPlanAttractionConvertible: Equatable {
+protocol PlanAttractionConvertible: Equatable {
     var id: String { get }
     var name: String { get }
     var category: SpotCategory { get }
 }
 
-extension CustomPlanAttractionConvertible {
-    static func ==<T> (lhs: Self, rhs: T) -> Bool where T: CustomPlanAttractionConvertible {
+extension PlanAttractionConvertible {
+    static func ==<T> (lhs: Self, rhs: T) -> Bool where T: PlanAttractionConvertible {
         return lhs.id == rhs.id
     }
 
-    func convertToPlanAttraction() -> CustomPlanAttraction {
+    func asCustomPlanAttraction() -> CustomPlanAttraction {
         return CustomPlanAttraction(id: id, name: name, category: category)
     }
 }

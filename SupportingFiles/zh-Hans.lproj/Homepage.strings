@@ -6,9 +6,12 @@
   Copyright © 2017年 e-business. All rights reserved.
 */
 
-"Day plans" = "推荐计划";
+"Day plans" = "行程计划";
 
 "Predicted queue time:" = "预计排队时间:";
 "Predicted cost time:" = "项目所需时间:";
 "Walk cost time:" = "步行所需时间:";
 "minute(s)" = "分钟";
+
+"Created by you" = "我制定的计划";
+"Suggested" = "推荐计划";

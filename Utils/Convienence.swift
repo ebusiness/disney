@@ -123,3 +123,9 @@ extension UIView {
         rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
 }
+
+extension Collection {
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}

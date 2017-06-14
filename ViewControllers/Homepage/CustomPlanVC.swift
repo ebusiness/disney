@@ -198,6 +198,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
             guard let planDetail = PlanDetail(data) else { return }
             guard let strongSelf = self else { return }
             strongSelf.saveToCoreData(customPlan: planDetail)
+            strongSelf.navigationController?.popViewController(animated: true)
         }
     }
 
@@ -205,6 +206,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         guard let myPlan = CustomPlan.from(planDetail: customPlan) else { return }
         myPlan.name = titleTextField.text ?? localize(for: "default plan name prefix")
         myPlan.id = DataManager.shared.randomID()
+        myPlan.create = Date()
         DataManager.shared.save()
     }
 
@@ -243,7 +245,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         for attraction in attractions {
             if !attractionList.contains(where: { $0 == attraction })
                 && !append.contains(where: { $0 == attraction }) {
-                append.append(attraction.convertToPlanAttraction())
+                append.append(attraction.asCustomPlanAttraction())
             }
         }
         if !append.isEmpty {

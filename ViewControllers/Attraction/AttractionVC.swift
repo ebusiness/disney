@@ -22,9 +22,7 @@ class AttractionVC: UIViewController, FileLocalizable {
 
         setupLogo()
         addSubTableView()
-
         addRefreshTimer()
-
         requestAttractionList()
     }
 
