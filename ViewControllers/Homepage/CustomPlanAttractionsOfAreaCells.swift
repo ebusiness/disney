@@ -1,17 +1,16 @@
 //
-//  CustomPlanAttractionsOfTagCells.swift
+//  CustomPlanAttractionsOfAreaCells.swift
 //  disney
 //
-//  Created by ebuser on 2017/5/29.
+//  Created by ebuser on 2017/6/14.
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
-import Kingfisher
 import UIKit
 
-class CustomPlanAttractionsOfTagCell: UITableViewCell {
+class CustomPlanAttractionsOfAreaCells: UITableViewCell {
 
-    var data: PlanCategoryAttractionTagDetail.Attraction? {
+    var data: CustomPlanAttractionsOfAreaList.CustomPlanAttractionsOfAreaElement? {
         didSet {
             if let data = data {
                 thumbnail.kf.setImage(with: URL(string: data.images[0]))

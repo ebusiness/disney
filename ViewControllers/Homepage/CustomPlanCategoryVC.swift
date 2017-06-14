@@ -65,8 +65,13 @@ class CustomPlanCategoryVC: UIViewController, FileLocalizable {
         }
     }
 
-    fileprivate func pushTo(tag: PlanCategoryAttractionTag) {
+    fileprivate func pushToAttractionsOfTag(_ tag: PlanCategoryAttractionTag) {
         let destination = CustomPlanAttractionsOfTagVC(tag: tag)
+        navigationController?.pushViewController(destination, animated: true)
+    }
+
+    fileprivate func pushToAttractionsOfArea() {
+        let destination = CustomPlanAttractionsOfAreaVC()
         navigationController?.pushViewController(destination, animated: true)
     }
 }
@@ -144,7 +149,12 @@ extension CustomPlanCategoryVC: UICollectionViewDataSource, UICollectionViewDele
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            pushTo(tag: tagData[indexPath.item])
+            pushToAttractionsOfTag(tagData[indexPath.item])
+        } else {
+            if indexPath.row == 2 {
+                // 区域分类
+                pushToAttractionsOfArea()
+            }
         }
     }
 }

@@ -51,6 +51,9 @@
 		1FF1C4E91EAF2C25005A87A9 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E81EAF2C25005A87A9 /* SettingVC.swift */; };
 		1FF1C4EB1EAF2C4B005A87A9 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */; };
 		1FF1C4ED1EAF2C5E005A87A9 /* AttractionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4EC1EAF2C5E005A87A9 /* AttractionVC.swift */; };
+		1FF6CDF21EF12A8400367802 /* CustomPlanAttractionsOfAreaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF6CDF11EF12A8400367802 /* CustomPlanAttractionsOfAreaVC.swift */; };
+		1FF6CDF41EF1316D00367802 /* CustomPlanAttractionsOfAreaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF6CDF31EF1316D00367802 /* CustomPlanAttractionsOfAreaModel.swift */; };
+		1FF6CDF61EF1488400367802 /* CustomPlanAttractionsOfAreaCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF6CDF51EF1488400367802 /* CustomPlanAttractionsOfAreaCells.swift */; };
 		D0340C5F1EA98A1000BD8428 /* DisneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0340C5E1EA98A1000BD8428 /* DisneyTests.swift */; };
 		D0340C6B1EA98AB800BD8428 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0340C6A1EA98AB800BD8428 /* Reveal.framework */; };
 		D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0340C6E1EA98B7200BD8428 /* AppDelegate.swift */; };
@@ -128,6 +131,9 @@
 		1FF1C4E81EAF2C25005A87A9 /* SettingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
 		1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		1FF1C4EC1EAF2C5E005A87A9 /* AttractionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionVC.swift; sourceTree = "<group>"; };
+		1FF6CDF11EF12A8400367802 /* CustomPlanAttractionsOfAreaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfAreaVC.swift; sourceTree = "<group>"; };
+		1FF6CDF31EF1316D00367802 /* CustomPlanAttractionsOfAreaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfAreaModel.swift; sourceTree = "<group>"; };
+		1FF6CDF51EF1488400367802 /* CustomPlanAttractionsOfAreaCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfAreaCells.swift; sourceTree = "<group>"; };
 		D0340C461EA98A0F00BD8428 /* disney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = disney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0340C5A1EA98A1000BD8428 /* disneyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = disneyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0340C5E1EA98A1000BD8428 /* DisneyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisneyTests.swift; sourceTree = "<group>"; };
@@ -193,6 +199,9 @@
 				1F24BEA81ED82EF900E37727 /* CustomPlanCategoryCells.swift */,
 				1F6D69A81EDBCBF300BEF4C2 /* CustomPlanAttractionsOfTagVC.swift */,
 				1F6D69AA1EDC052B00BEF4C2 /* CustomPlanAttractionsOfTagCells.swift */,
+				1FF6CDF11EF12A8400367802 /* CustomPlanAttractionsOfAreaVC.swift */,
+				1FF6CDF31EF1316D00367802 /* CustomPlanAttractionsOfAreaModel.swift */,
+				1FF6CDF51EF1488400367802 /* CustomPlanAttractionsOfAreaCells.swift */,
 			);
 			path = Homepage;
 			sourceTree = "<group>";
@@ -499,7 +508,9 @@
 			files = (
 				1FD1CF4C1ECD8C6B004A72B7 /* LaunchScreen.swift in Sources */,
 				1F8444A61EEE9C9C008364FE /* CustomPlan.swift in Sources */,
+				1FF6CDF41EF1316D00367802 /* CustomPlanAttractionsOfAreaModel.swift in Sources */,
 				1FDF06C51EEE3D26003B7580 /* DataManager.swift in Sources */,
+				1FF6CDF61EF1488400367802 /* CustomPlanAttractionsOfAreaCells.swift in Sources */,
 				1F43F7AD1EC433E4009D0104 /* AttractionDetailVC.swift in Sources */,
 				1F90DD0E1EB04919004463B9 /* API.swift in Sources */,
 				1F836EDF1EE57D170019640E /* CustomPlanCell.swift in Sources */,
@@ -507,6 +518,7 @@
 				1FA811301EADA8BC000A7F2D /* Main.swift in Sources */,
 				1F7DFB801ECAE4CD004FA058 /* SettingCell.swift in Sources */,
 				1FF1C4E91EAF2C25005A87A9 /* SettingVC.swift in Sources */,
+				1FF6CDF21EF12A8400367802 /* CustomPlanAttractionsOfAreaVC.swift in Sources */,
 				1F43F7AF1EC47253009D0104 /* AttractionDetailCell.swift in Sources */,
 				D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */,
 				1F6D1A001EB0AC0800A9C70F /* Convienence.swift in Sources */,

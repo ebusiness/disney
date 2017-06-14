@@ -62,30 +62,6 @@ extension UIColor {
     }
 }
 
-enum TokyoDisneyPark: String, FileLocalizable {
-    case land
-    case sea
-
-    var localizeFileName: String {
-        return "Main"
-    }
-
-    func localize() -> String {
-        switch self {
-        case .land:
-            return localize(for: "TokyoDisneyPark.land")
-        case.sea:
-            return localize(for: "TokyoDisneyPark.sea")
-        }
-    }
-}
-
-enum SpotCategory: String {
-    case show
-    case greeting
-    case attraction
-}
-
 extension Date {
     init?(iso8601str: String?) {
         guard let iso8601str = iso8601str else {

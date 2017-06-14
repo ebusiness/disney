@@ -31,3 +31,27 @@ extension SwiftJSONDecodable {
         return json.array?.flatMap { Self($0) }
     }
 }
+
+enum TokyoDisneyPark: String, FileLocalizable {
+    case land
+    case sea
+
+    var localizeFileName: String {
+        return "Main"
+    }
+
+    func localize() -> String {
+        switch self {
+        case .land:
+            return localize(for: "TokyoDisneyPark.land")
+        case.sea:
+            return localize(for: "TokyoDisneyPark.sea")
+        }
+    }
+}
+
+enum SpotCategory: String {
+    case show
+    case greeting
+    case attraction
+}
