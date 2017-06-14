@@ -6,8 +6,6 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
 import UIKit
 
 class CustomPlanCell: UICollectionViewCell {

@@ -16,17 +16,22 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         didSet {
             if let data = data {
                 titleLabel.text = data.cName
-
+                if data is PlanListElement {
+                    // 推荐
+                    menu.isHidden = true
+                } else {
+                    // 自定义
+                    menu.isHidden = false
+                }
                 numLabel.text = "\(data.cRoutes.count) " + localize(for: "MainCell.numAttractions")
-
                 introductionLabel.text = data.cIntroduction
-
                 collectionView.reloadData()
             }
         }
     }
 
     var itemSelectedHandler: ((_ id: String) -> Void)?
+    var menuPressedHandler: (() -> Void)?
 
     let borderImageView: UIImageView
     let titleLabel: UILabel
@@ -54,6 +59,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
 
         addSubBorderImageView()
         addSubTitleLabel()
+        addSubMenu()
         addSubNumLabel()
         addSubCollectionView()
         addSubIntroductionLabel()
@@ -81,18 +87,26 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.leftAnchor.constraint(equalTo: borderImageView.leftAnchor, constant: 14).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: borderImageView.rightAnchor, constant: -14).isActive = true
         titleLabel.topAnchor.constraint(equalTo: borderImageView.topAnchor, constant: 14).isActive = true
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 
     private func addSubMenu() {
+        menu.tintColor = UIColor(hex: "797979")
+        menu.setImage(#imageLiteral(resourceName: "ic_more_horiz_black_24px"), for: .normal)
+        menu.addTarget(self, action: #selector(menuButtonPressed(_:)), for: .touchUpInside)
         addSubview(menu)
+        menu.translatesAutoresizingMaskIntoConstraints = false
+        menu.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
+        menu.leftAnchor.constraint(equalTo: titleLabel.rightAnchor, constant: 12).isActive = true
+        menu.rightAnchor.constraint(equalTo: borderImageView.rightAnchor, constant: -14).isActive = true
+        menu.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 
     private func addSubNumLabel() {
         numLabel.numberOfLines = 1
         numLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        numLabel.textColor = #colorLiteral(red: 0.4725510478, green: 0.4725510478, blue: 0.4725510478, alpha: 1)
+        numLabel.textColor = UIColor(hex: "797979")
         addSubview(numLabel)
         numLabel.translatesAutoresizingMaskIntoConstraints = false
         numLabel.leftAnchor.constraint(equalTo: borderImageView.leftAnchor, constant: 14).isActive = true
@@ -117,7 +131,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
     private func addSubIntroductionLabel() {
         introductionLabel.numberOfLines = 0
         introductionLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        introductionLabel.textColor = #colorLiteral(red: 0.4725510478, green: 0.4725510478, blue: 0.4725510478, alpha: 1)
+        introductionLabel.textColor = UIColor(hex: "797979")
         addSubview(introductionLabel)
         introductionLabel.translatesAutoresizingMaskIntoConstraints = false
         introductionLabel.leftAnchor.constraint(equalTo: borderImageView.leftAnchor, constant: 14).isActive = true
@@ -126,6 +140,11 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         let lowPriorityLayout = introductionLabel.bottomAnchor.constraint(equalTo: borderImageView.bottomAnchor, constant: -16)
         lowPriorityLayout.priority = UILayoutPriority(rawValue: 999)
         lowPriorityLayout.isActive = true
+    }
+
+    @objc
+    private func menuButtonPressed(_ sender: UIButton) {
+        menuPressedHandler?()
     }
 }
 

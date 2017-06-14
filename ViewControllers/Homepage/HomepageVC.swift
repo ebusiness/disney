@@ -24,6 +24,46 @@ class HomepageVC: UIViewController, FileLocalizable {
         }
     }
 
+    // 保证菜单最多弹出一次
+    var editMenuShown = false
+    var editMenuIndex: IndexPath?
+    lazy var editMenu: UIAlertController = { [weak self] in
+        let alert = UIAlertController(title: nil,
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: self?.localize(for: "Edit Menu Edit"),
+                                          style: .default,
+                                          handler: ({ _ in
+                                            defer { self?.editMenuShown = false }
+                                            return
+                                          }))
+        let deleteAction = UIAlertAction(title: self?.localize(for: "Edit Menu Delete"),
+                                          style: .default,
+                                          handler: ({ _ in
+                                            defer { self?.editMenuShown = false }
+                                            guard let indexPath = self?.editMenuIndex else { return }
+                                            self?.deletePlan(at: indexPath)
+                                            return
+                                          }))
+        let specifyAction = UIAlertAction(title: self?.localize(for: "Edit Menu Specify"),
+                                          style: .default,
+                                          handler: ({ _ in
+                                            defer { self?.editMenuShown = false }
+                                            return
+                                          }))
+        let cancelAction = UIAlertAction(title: self?.localize(for: "Edit Menu Cancel"),
+                                         style: .cancel,
+                                         handler: ({ _ in
+                                            defer { self?.editMenuShown = false }
+                                            return
+                                         }))
+        alert.addAction(editAction)
+        alert.addAction(deleteAction)
+        alert.addAction(specifyAction)
+        alert.addAction(cancelAction)
+        return alert
+    }()
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
         let fetchRequest = NSFetchRequest<CustomPlan>(entityName: "CustomPlan")
@@ -100,7 +140,7 @@ class HomepageVC: UIViewController, FileLocalizable {
         do {
             try fetchedResultsController.performFetch()
         } catch {
-            print("error!!!!!!")
+            print("无法取得数据")
         }
     }
 
@@ -115,6 +155,20 @@ class HomepageVC: UIViewController, FileLocalizable {
         navigationController?.pushViewController(destination, animated: true)
     }
 
+    fileprivate func showEditMenu(for indexPath: IndexPath) {
+        if !editMenuShown {
+            editMenuShown = true
+            editMenuIndex = indexPath
+            present(editMenu, animated: true)
+        }
+    }
+
+    fileprivate func deletePlan(at indexPath: IndexPath) {
+        guard indexPath.section == 0 else { return }
+        guard let object = fetchedResultsController.fetchedObjects?[safe: indexPath.row] else { return }
+        DataManager.shared.context.delete(object)
+        DataManager.shared.save()
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -142,6 +196,9 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
                     self?.pushToNext(plan: id, type: .custom)
                 }
             }
+            cell.menuPressedHandler = { [weak self] in
+                self?.showEditMenu(for: indexPath)
+            }
         } else {
             cell.data = suggestedPlans[indexPath.row]
             cell.itemSelectedHandler = { [weak self] id in
@@ -149,6 +206,7 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
                     self?.pushToNext(plan: id, type: .suggestion)
                 }
             }
+            cell.menuPressedHandler = nil
         }
         return cell
     }
