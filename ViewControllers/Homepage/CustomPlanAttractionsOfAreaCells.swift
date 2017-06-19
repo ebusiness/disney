@@ -6,9 +6,10 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import Kingfisher
 import UIKit
 
-class CustomPlanAttractionsOfAreaCells: UITableViewCell {
+class CustomPlanAttractionsOfAreaCell: UITableViewCell {
 
     var data: CustomPlanAttractionsOfAreaList.CustomPlanAttractionsOfAreaElement? {
         didSet {
@@ -63,7 +64,6 @@ class CustomPlanAttractionsOfAreaCells: UITableViewCell {
         card.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
         card.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         card.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
-        card.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
 
     private func addSubThumbnail() {
@@ -118,6 +118,76 @@ class CustomPlanAttractionsOfAreaCells: UITableViewCell {
             let maskLayer = CAShapeLayer()
             maskLayer.path = path.cgPath
             layer.mask = maskLayer
+        }
+    }
+
+}
+
+class CustomPlanAttractionsOfAreaHeader: UITableViewHeaderFooterView {
+
+    var sectionOpenHandler: ((_ section: Int) -> Void)?
+    var sectionCloseHandler: ((_ section: Int) -> Void)?
+
+    private let titleLabel: UILabel
+    private let arrow: UIImageView
+    private var section: Int?
+    private var selected: Bool?
+
+    override init(reuseIdentifier: String?) {
+        titleLabel = UILabel(frame: .zero)
+        arrow = UIImageView(frame: .zero)
+        super.init(reuseIdentifier: reuseIdentifier)
+
+        backgroundView = UIView(frame: .zero)
+
+        titleLabel.textColor = UIColor.white
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12).isActive = true
+
+        arrow.tintColor = UIColor.white
+        contentView.addSubview(arrow)
+        arrow.translatesAutoresizingMaskIntoConstraints = false
+        arrow.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        arrow.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12).isActive = true
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
+        addGestureRecognizer(tapGesture)
+    }
+
+    func setProperties(section: Int,
+                       selected: Bool,
+                       color: UIColor? = nil,
+                       title: String? = nil) {
+        self.section = section
+        self.selected = selected
+        if color != nil {
+            backgroundView?.backgroundColor = color
+        }
+        if title != nil {
+            titleLabel.text = title
+        }
+        if selected {
+            arrow.image = #imageLiteral(resourceName: "ic_keyboard_arrow_up_black_24px")
+        } else {
+            arrow.image = #imageLiteral(resourceName: "ic_keyboard_arrow_down_black_24px")
+        }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc
+    private func tapHandler(_ sender: UITapGestureRecognizer) {
+        guard let section = section else { return }
+        guard let selected = selected else { return }
+        setProperties(section: section, selected: !selected)
+        if !selected {
+            sectionOpenHandler?(section)
+        } else {
+            sectionCloseHandler?(section)
         }
     }
 

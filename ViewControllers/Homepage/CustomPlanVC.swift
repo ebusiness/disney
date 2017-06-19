@@ -240,7 +240,20 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
         navigationController?.pushViewController(destination, animated: true)
     }
 
-    func addAttractions(_ attractions: [PlanCategoryAttractionTagDetail.Attraction]) {
+//    func addAttractions(_ attractions: [PlanCategoryAttractionTagDetail.Attraction]) {
+//        var append  = [CustomPlanAttraction]()
+//        for attraction in attractions {
+//            if !attractionList.contains(where: { $0 == attraction })
+//                && !append.contains(where: { $0 == attraction }) {
+//                append.append(attraction.asCustomPlanAttraction())
+//            }
+//        }
+//        if !append.isEmpty {
+//            attractionList.append(contentsOf: append)
+//            collectionView.reloadData()
+//        }
+//    }
+    func addAttractions<T: PlanAttractionConvertible>(_ attractions: [T]) {
         var append  = [CustomPlanAttraction]()
         for attraction in attractions {
             if !attractionList.contains(where: { $0 == attraction })

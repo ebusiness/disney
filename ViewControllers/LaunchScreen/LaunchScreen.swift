@@ -59,7 +59,7 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
         reachabilityManager?.listener = { [weak self] status in
             if let strongSelf = self {
                 switch status {
-                case .reachable(_):
+                case .reachable:
                     strongSelf.hideNetworkUnReachable()
                     strongSelf.requestAppAvailable()
                 case .unknown, .notReachable:

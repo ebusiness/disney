@@ -8,10 +8,13 @@
 
 import UIKit
 
-class CustomPlanAttractionsOfAreaVC: UIViewController {
+class CustomPlanAttractionsOfAreaVC: UIViewController, FileLocalizable {
+
+    let localizeFileName = "CustomPlan"
 
     let tableView: UITableView
     let identifier = "identifier"
+    let headerIdentifier = "headerIdentifier"
     var listData: CustomPlanAttractionsOfAreaList?
 
     let sectionHeaderColors = [
@@ -28,6 +31,7 @@ class CustomPlanAttractionsOfAreaVC: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: .zero, style: .grouped)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        automaticallyAdjustsScrollViewInsets = false
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,8 +41,17 @@ class CustomPlanAttractionsOfAreaVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configNavigationBar()
         addSubTableView()
         requestAttractionList()
+    }
+
+    private func configNavigationBar() {
+        let rightButton = UIBarButtonItem(barButtonSystemItem: .save,
+                                          target: self,
+                                          action: #selector(save(_:)))
+        navigationItem.rightBarButtonItem = rightButton
+        title = localize(for: "plan filter area")
     }
 
     private func requestAttractionList() {
@@ -55,18 +68,29 @@ class CustomPlanAttractionsOfAreaVC: UIViewController {
         tableView.backgroundColor = UIColor(hex: "E1E2E1")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 160
+        tableView.rowHeight = 160
         tableView.separatorStyle = .none
         tableView.sectionHeaderHeight = 44
         tableView.sectionFooterHeight = 0.001
-        tableView.register(CustomPlanAttractionsOfAreaCells.self, forCellReuseIdentifier: identifier)
+        tableView.register(CustomPlanAttractionsOfAreaCell.self, forCellReuseIdentifier: identifier)
+        tableView.register(CustomPlanAttractionsOfAreaHeader.self, forHeaderFooterViewReuseIdentifier: "headerIdentifier")
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    }
+
+    @objc
+    private func save(_ sender: UIBarButtonItem) {
+        guard let home = navigationController?.viewControllers.first(where: { $0 is CustomPlanViewController }) as? CustomPlanViewController else { return }
+//        var bucket = [CustomPlanAttractionsOfAreaList.CustomPlanAttractionsOfAreaElement]()
+//        if let attractions = listData?.areas.reduce(bucket, <#T##nextPartialResult: (Result, CustomPlanAttractionsOfAreaList.CustomPlanAttractionsOfAreaArea) throws -> Result##(Result, CustomPlanAttractionsOfAreaList.CustomPlanAttractionsOfAreaArea) throws -> Result#>)
+//        if let attractions = tagDetail?.attractions.filter ({ $0.selected }), !attractions.isEmpty {
+//            home.addAttractions(attractions)
+//        }
+        navigationController?.popToViewController(home, animated: true)
     }
 
 }
@@ -87,43 +111,61 @@ extension CustomPlanAttractionsOfAreaVC: UITableViewDelegate, UITableViewDataSou
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? CustomPlanAttractionsOfAreaCells else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? CustomPlanAttractionsOfAreaCell else {
             fatalError("Unknown cell type!")
         }
         cell.data = listData?.areas[safe: indexPath.section]?.elements[safe: indexPath.row]
         return cell
     }
+    //swiftlint:disable:next cyclomatic_complexity
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UIView(frame: CGRect(origin: .zero,
-                                          size: CGSize(width: UIScreen.main.bounds.width,
-                                                       height: 44)))
-        if let color = sectionHeaderColors[safe: section] {
-            header.backgroundColor = color
-        }
+        guard let area = listData?.areas[safe: section] else { return nil }
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerIdentifier) as? CustomPlanAttractionsOfAreaHeader else { return nil }
+        header.setProperties(section: section,
+                             selected: area.selected,
+                             color: sectionHeaderColors[safe: section],
+                             title: area.name)
+        header.sectionOpenHandler = { [weak self] section in
+            guard let area = self?.listData?.areas[safe: section] else { return }
+            guard area.selected == false else { return }
+            let previousOpenSectionIndex = self?.listData?.areas.index(where: { $0.selected })
 
-        let label = UILabel(frame: .zero)
-        label.textColor = UIColor.white
-        header.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.centerYAnchor.constraint(equalTo: header.centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 12).isActive = true
-
-        let arrow = UIImageView(frame: .zero)
-        arrow.tintColor = UIColor.white
-        header.addSubview(arrow)
-        arrow.translatesAutoresizingMaskIntoConstraints = false
-        arrow.centerYAnchor.constraint(equalTo: header.centerYAnchor).isActive = true
-        arrow.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -12).isActive = true
-
-        if let area = listData?.areas[safe: section] {
-            label.text = area.name
-            if area.selected {
-                arrow.image = #imageLiteral(resourceName: "ic_keyboard_arrow_up_black_24px")
-            } else {
-                arrow.image = #imageLiteral(resourceName: "ic_keyboard_arrow_down_black_24px")
+            var indexPathsToInsert = [IndexPath]()
+            self!.listData!.areas[section].selected = true
+            for i in 0..<self!.listData!.areas[section].elements.count {
+                indexPathsToInsert.append(IndexPath(row: i, section: section))
             }
-        }
 
+            var indexPathsToDelete = [IndexPath]()
+            if let index = previousOpenSectionIndex {
+                self!.listData!.areas[index].selected = false
+                for i in 0..<self!.listData!.areas[index].elements.count {
+                    indexPathsToDelete.append(IndexPath(row: i, section: index))
+                }
+                if let headerToDelete = tableView.headerView(forSection: index) as? CustomPlanAttractionsOfAreaHeader {
+                    headerToDelete.setProperties(section: index, selected: false)
+                }
+
+            }
+
+            tableView.beginUpdates()
+            tableView.insertRows(at: indexPathsToInsert, with: .fade)
+            tableView.deleteRows(at: indexPathsToDelete, with: .fade)
+            tableView.endUpdates()
+            let headerRect = tableView.rectForHeader(inSection: section)
+            tableView.scrollRectToVisible(headerRect, animated: true)
+        }
+        header.sectionCloseHandler = { [weak self] section in
+            guard let area = self?.listData?.areas[safe: section] else { return }
+            guard area.selected == true else { return }
+
+            var indexPathsToDelete = [IndexPath]()
+            self!.listData!.areas[section].selected = false
+            for i in 0..<self!.listData!.areas[section].elements.count {
+                indexPathsToDelete.append(IndexPath(row: i, section: section))
+            }
+            tableView.deleteRows(at: indexPathsToDelete, with: .fade)
+        }
         return header
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -132,5 +174,11 @@ extension CustomPlanAttractionsOfAreaVC: UITableViewDelegate, UITableViewDataSou
                                                        height: 0.001)))
         footer.backgroundColor = UIColor.black
         return footer
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let selected = listData?.areas[safe: indexPath.section]?.elements[safe: indexPath.row]?.selected {
+            listData?.areas[indexPath.section].elements[indexPath.row].selected = !selected
+            tableView.reloadRows(at: [indexPath], with: .none)
+        }
     }
 }

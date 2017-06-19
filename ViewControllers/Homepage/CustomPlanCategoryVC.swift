@@ -74,6 +74,11 @@ class CustomPlanCategoryVC: UIViewController, FileLocalizable {
         let destination = CustomPlanAttractionsOfAreaVC()
         navigationController?.pushViewController(destination, animated: true)
     }
+
+    fileprivate func pushToAttractionsOfGrade() {
+        let destination = CustomPlanAttractionsOfGradeVC()
+        navigationController?.pushViewController(destination, animated: true)
+    }
 }
 
 extension CustomPlanCategoryVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -93,18 +98,18 @@ extension CustomPlanCategoryVC: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifierForTopCells, for: indexPath) as? CustomPlanCategoryTopCell else { fatalError("Unknown cell type") }
-            if indexPath.item == 0 {
-                cell.position = .top
+            if indexPath.item == 1 {
+                cell.position = .mid
                 cell.iconImage = #imageLiteral(resourceName: "ic_filter_none_black_24px")
-                cell.title = localize(for: "plan filter all")
+                cell.title = localize(for: "plan filter category")
             } else if indexPath.item == 2 {
                 cell.position = .bottom
                 cell.iconImage = #imageLiteral(resourceName: "ic_bubble_chart_black_24px")
                 cell.title = localize(for: "plan filter area")
             } else {
-                cell.position = .mid
+                cell.position = .top
                 cell.iconImage = #imageLiteral(resourceName: "ic_whatshot_black_24px")
-                cell.title = localize(for: "plan filter hot")
+                cell.title = localize(for: "plan filter grade")
             }
             return cell
         } else if indexPath.section == 1 {
@@ -154,6 +159,9 @@ extension CustomPlanCategoryVC: UICollectionViewDataSource, UICollectionViewDele
             if indexPath.row == 2 {
                 // 区域分类
                 pushToAttractionsOfArea()
+            } else if indexPath.row == 0 {
+                // 人气排行
+                pushToAttractionsOfGrade()
             }
         }
     }

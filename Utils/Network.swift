@@ -91,7 +91,13 @@ extension Requestable {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         urlRequest.timeoutInterval = 30
-        return try Alamofire.JSONEncoding.default.encode(urlRequest, with: parameters)
+        switch method {
+        case .GET:
+            return try Alamofire.URLEncoding.default.encode(urlRequest, with: parameters)
+        default:
+            return try Alamofire.JSONEncoding.default.encode(urlRequest, with: parameters)
+        }
+
     }
 
     @discardableResult

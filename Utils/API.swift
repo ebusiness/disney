@@ -15,7 +15,7 @@ struct API {
 // MARK: - Version Check
 extension API {
     struct VersionCheck: Requestable {
-        let path = "versions/"
+        let path = "versions"
         let method: RouteMethod = .GET
         let parameters: [String : Any]? = nil
 
@@ -39,7 +39,7 @@ extension API {
         var path: String {
             switch self {
             case .tags:
-                return "visitor/tags/"
+                return "visitor/tags"
             }
         }
 
@@ -65,19 +65,22 @@ extension API {
         case list
         case detail(id: String)
         case waitTime(id: String, date: String?)
+        case hotGrade
 
         var path: String {
             switch self {
             case .list:
-                return "attractions/"
+                return "attractions"
             case .detail(let id):
-                return "attractions/\(id)/"
+                return "attractions/\(id)"
             case .waitTime(let id, let date):
                 if let date = date {
-                    return "attractions/\(id)/waittimes/\(date)/"
+                    return "attractions/\(id)/waittimes/\(date)"
                 } else {
-                    return "attractions/\(id)/waittimes/"
+                    return "attractions/\(id)/waittimes"
                 }
+            case .hotGrade:
+                return "attractions"
             }
         }
 
@@ -86,7 +89,12 @@ extension API {
         }
 
         var parameters: [String: Any]? {
-            return nil
+            switch self {
+            case .hotGrade:
+                return ["sort": "hot"]
+            default:
+                return nil
+            }
         }
     }
 }
@@ -152,7 +160,7 @@ extension API {
         var path: String {
             switch self {
             case .list:
-                return "attraction/tags/"
+                return "attraction/tags"
             case .detail(let id):
                 return "attraction/tags/\(id)"
             }

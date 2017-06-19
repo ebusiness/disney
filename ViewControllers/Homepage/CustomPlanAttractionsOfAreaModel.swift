@@ -15,6 +15,7 @@ struct CustomPlanAttractionsOfAreaList {
         spots.forEach { spot in
             let element = CustomPlanAttractionsOfAreaElement(id: spot.id,
                                                              name: spot.name,
+                                                             category: spot.category,
                                                              introduction: spot.introductions,
                                                              images: spot.thums)
             if areas[spot.area] == nil {
@@ -40,19 +41,22 @@ struct CustomPlanAttractionsOfAreaList {
         }
     }
 
-    struct CustomPlanAttractionsOfAreaElement {
+    struct CustomPlanAttractionsOfAreaElement: PlanAttractionConvertible {
         let id: String
         let name: String
         let introduction: String
         let images: [String]
+        let category: SpotCategory
         var selected = false
 
         init(id: String,
              name: String,
+             category: SpotCategory,
              introduction: String,
              images: [String]) {
             self.id = id
             self.name = name
+            self.category = category
             self.introduction = introduction
             self.images = images
         }

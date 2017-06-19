@@ -7,6 +7,6 @@
 */
 
 "default plan name prefix" = "我的游园计划";
-"plan filter all" = "全部";
-"plan filter hot" = "人气排行";
+"plan filter category" = "模式分类";
+"plan filter grade" = "人气排行";
 "plan filter area" = "区域分类";

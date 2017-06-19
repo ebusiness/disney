@@ -83,7 +83,7 @@ struct PlanListElement: SwiftJSONDecodable, PlanConvertible {
             guard let array = json["attraction"]["images"].array else {
                 return nil
             }
-            let images = array.map { $0.string } .filter { $0 != nil } .map { $0! }
+            let images = array.flatMap { $0.string } 
             guard !images.isEmpty else {
                 return nil
             }
