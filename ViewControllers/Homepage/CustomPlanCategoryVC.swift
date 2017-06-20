@@ -79,6 +79,11 @@ class CustomPlanCategoryVC: UIViewController, FileLocalizable {
         let destination = CustomPlanAttractionsOfGradeVC()
         navigationController?.pushViewController(destination, animated: true)
     }
+
+    fileprivate func pushToAttractionsOfCategory() {
+        let destination = CustomPlanAttractionsOfCategoryPageVC()
+        navigationController?.pushViewController(destination, animated: true)
+    }
 }
 
 extension CustomPlanCategoryVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -162,6 +167,9 @@ extension CustomPlanCategoryVC: UICollectionViewDataSource, UICollectionViewDele
             } else if indexPath.row == 0 {
                 // 人气排行
                 pushToAttractionsOfGrade()
+            } else {
+                // 模式分类
+                pushToAttractionsOfCategory()
             }
         }
     }

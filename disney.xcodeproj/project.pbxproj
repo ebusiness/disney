@@ -20,6 +20,7 @@
 		1F25EFE31ED57B1F001A8470 /* CustomPlanMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F25EFE21ED57B1F001A8470 /* CustomPlanMenu.swift */; };
 		1F43F7AD1EC433E4009D0104 /* AttractionDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F43F7AC1EC433E4009D0104 /* AttractionDetailVC.swift */; };
 		1F43F7AF1EC47253009D0104 /* AttractionDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F43F7AE1EC47253009D0104 /* AttractionDetailCell.swift */; };
+		1F5BADCF1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5BADCE1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift */; };
 		1F6559501EC16C7A005BC235 /* AttractionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F65594F1EC16C7A005BC235 /* AttractionModels.swift */; };
 		1F6559521EC1CB4E005BC235 /* VisitorTagModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6559511EC1CB4E005BC235 /* VisitorTagModels.swift */; };
 		1F6D1A001EB0AC0800A9C70F /* Convienence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D19FF1EB0AC0800A9C70F /* Convienence.swift */; };
@@ -97,6 +98,7 @@
 		1F25EFE21ED57B1F001A8470 /* CustomPlanMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlanMenu.swift; sourceTree = "<group>"; };
 		1F43F7AC1EC433E4009D0104 /* AttractionDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionDetailVC.swift; sourceTree = "<group>"; };
 		1F43F7AE1EC47253009D0104 /* AttractionDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionDetailCell.swift; sourceTree = "<group>"; };
+		1F5BADCE1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfCategoryVC.swift; sourceTree = "<group>"; };
 		1F65594F1EC16C7A005BC235 /* AttractionModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionModels.swift; sourceTree = "<group>"; };
 		1F6559511EC1CB4E005BC235 /* VisitorTagModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagModels.swift; sourceTree = "<group>"; };
 		1F6D19FF1EB0AC0800A9C70F /* Convienence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convienence.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				1F8E2C9D1EF37A36004B439D /* CustomPlanAttractionsOfGradeVC.swift */,
 				1F80EACC1EF3D20A002A8197 /* CustomPlanAttractionsOfGradeModel.swift */,
 				1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */,
+				1F5BADCE1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift */,
 			);
 			path = Homepage;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				1FDF06C31EEE3CC1003B7580 /* DisneyModel.xcdatamodeld in Sources */,
 				1F6D1A021EB0BBFC00A9C70F /* Localize.swift in Sources */,
 				1FA096B31EB1ED8600A26174 /* VisitparkPickVC.swift in Sources */,
+				1F5BADCF1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift in Sources */,
 				1F1536301EB34ADF00831646 /* AttractionBriefCell.swift in Sources */,
 				1FA4E6B11ECC263900FFC7DA /* MaskedImageView.swift in Sources */,
 				1FAA019B1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift in Sources */,

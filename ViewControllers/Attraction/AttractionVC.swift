@@ -59,7 +59,7 @@ class AttractionVC: UIViewController, FileLocalizable {
     }
 
     private func addRefreshTimer() {
-        Timer.scheduledTimer(timeInterval: 1 * 4,
+        Timer.scheduledTimer(timeInterval: 60 * 4,
                              target: self,
                              selector: #selector(handleRefreshTimer(_:)),
                              userInfo: nil,
