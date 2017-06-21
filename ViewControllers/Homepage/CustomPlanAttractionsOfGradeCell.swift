@@ -44,7 +44,7 @@ class CustomPlanAttractionsOfGradeCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         selectionStyle = .none
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
 
         addSubCard()
         addSubThumbnail()

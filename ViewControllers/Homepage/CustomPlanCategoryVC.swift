@@ -43,7 +43,7 @@ class CustomPlanCategoryVC: UIViewController, FileLocalizable {
         collectionView.register(CustomPlanCategoryTagCell.self, forCellWithReuseIdentifier: identifierForTagCells)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = UIColor(hex: "E1E2E1")
+        collectionView.backgroundColor = DefaultStyle.viewBackgroundColor
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true

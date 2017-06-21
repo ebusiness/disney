@@ -99,9 +99,9 @@ class HomepageVC: UIViewController, FileLocalizable {
 
     private func addSubTableView() {
         let headerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 1)))
-        headerView.backgroundColor = UIColor(hex: "E1E2E1")
+        headerView.backgroundColor = DefaultStyle.viewBackgroundColor
         let footerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 1)))
-        footerView.backgroundColor = UIColor(hex: "E1E2E1")
+        footerView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.tableHeaderView = headerView
         tableView.tableFooterView = footerView
         tableView.register(HomepageCell.self, forCellReuseIdentifier: cellIdentifier)
@@ -109,7 +109,7 @@ class HomepageVC: UIViewController, FileLocalizable {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 300
         tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor(hex: "E1E2E1")
+        tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         view.addSubview(tableView)
 
         // Manage Autolayout
@@ -234,7 +234,7 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 1.0)))
-        view.backgroundColor = UIColor(hex: "E1E2E1")
+        view.backgroundColor = DefaultStyle.viewBackgroundColor
         return view
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

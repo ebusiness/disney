@@ -52,7 +52,7 @@ class CustomPlanCategoryTopCell: UICollectionViewCell {
         rightArrow = UIImageView(frame: .zero)
         super.init(frame: frame)
 
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
 
         addSubBackgroundImageView()
         addSubSeprator()

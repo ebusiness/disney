@@ -169,7 +169,7 @@ class AttractionBriefCell: UITableViewCell, FileLocalizable {
         realtimeMessage = UILabel(frame: CGRect.zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
         selectionStyle = .none
 
         addBackgroundImage()

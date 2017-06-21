@@ -42,7 +42,7 @@ class CustomPlanAttractionsOfAreaCell: UITableViewCell {
         thumbnail = LeftRoundedCornerImageView(frame: .zero)
         checkbox = UIImageView(frame: .zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
         selectionStyle = .none
 
         addSubCard()

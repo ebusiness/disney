@@ -48,6 +48,7 @@
 		1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */; };
 		1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */; };
 		1FAA019B1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */; };
+		1FC93F941EFA1F6D00FEB2F9 /* DefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC93F931EFA1F6D00FEB2F9 /* DefaultStyle.swift */; };
 		1FD1CF4C1ECD8C6B004A72B7 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */; };
 		1FDF06C31EEE3CC1003B7580 /* DisneyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF06C11EEE3CC1003B7580 /* DisneyModel.xcdatamodeld */; };
 		1FDF06C51EEE3D26003B7580 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF06C41EEE3D26003B7580 /* DataManager.swift */; };
@@ -129,6 +130,7 @@
 		1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagVC.swift; sourceTree = "<group>"; };
 		1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagCell.swift; sourceTree = "<group>"; };
 		1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfGradeCell.swift; sourceTree = "<group>"; };
+		1FC93F931EFA1F6D00FEB2F9 /* DefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStyle.swift; sourceTree = "<group>"; };
 		1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		1FDF06C21EEE3CC1003B7580 /* DisneyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DisneyModel.xcdatamodel; sourceTree = "<group>"; };
 		1FDF06C41EEE3D26003B7580 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -218,6 +220,14 @@
 			path = Homepage;
 			sourceTree = "<group>";
 		};
+		1FC93F921EFA1F5F00FEB2F9 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				1FC93F931EFA1F6D00FEB2F9 /* DefaultStyle.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
 		1FDF06C81EEE855F003B7580 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				D0340C781EA98E2200BD8428 /* Assets.xcassets */,
+				1FC93F921EFA1F5F00FEB2F9 /* Styles */,
 				D0340C5D1EA98A1000BD8428 /* disneyTests */,
 				D0340C471EA98A0F00BD8428 /* Products */,
 				D0340C691EA98A8900BD8428 /* SupportingFiles */,
@@ -537,6 +548,7 @@
 				D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */,
 				1F6D1A001EB0AC0800A9C70F /* Convienence.swift in Sources */,
 				1F13D0A01ED01C0000121C80 /* CustomPlanVC.swift in Sources */,
+				1FC93F941EFA1F6D00FEB2F9 /* DefaultStyle.swift in Sources */,
 				1FA096B61EB200D400A26174 /* VisitdatePickVC.swift in Sources */,
 				1F7634401EB07FE100509B38 /* BaseModel.swift in Sources */,
 				1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */,

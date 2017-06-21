@@ -64,7 +64,7 @@ class AttractionDetailVC: UIViewController, FileLocalizable {
         tableView.register(AttractionDetailChartCell.self, forCellReuseIdentifier: chartCellIdentifier)
         tableView.register(AttractionDetailInfoCell.self, forCellReuseIdentifier: infoCellIdentifer)
         tableView.register(AttractionDetailThumsCell.self, forCellReuseIdentifier: thumsCellIdentifier)
-        tableView.backgroundColor = UIColor(hex: "E1E2E1")
+        tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.separatorStyle = .none
 
         tableView.rowHeight = UITableViewAutomaticDimension

@@ -141,7 +141,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
     }
 
     private func addSubCollectionView() {
-        collectionView.backgroundColor = UIColor(hex: "E1E2E1")
+        collectionView.backgroundColor = DefaultStyle.viewBackgroundColor
         collectionView.register(CustomPlanCell.self, forCellWithReuseIdentifier: identifier)
         collectionView.delegate = self
         collectionView.dataSource = self

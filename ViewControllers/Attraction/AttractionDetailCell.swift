@@ -49,7 +49,7 @@ class AttractionDetailChartCell: UITableViewCell, FileLocalizable {
         configChart()
         configImage()
 
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -283,7 +283,7 @@ class AttractionDetailInfoCell: UITableViewCell, FileLocalizable {
         addTitleLabel()
         addContentLabel()
 
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -393,7 +393,7 @@ class AttractionDetailThumsCell: UITableViewCell {
         pageControl = UIPageControl(frame: .zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
 
         addSubCollectionView()
         addSubPageControl()
@@ -408,7 +408,7 @@ class AttractionDetailThumsCell: UITableViewCell {
         collectionView.dataSource = self
         collectionView.allowsSelection = false
         collectionView.isPagingEnabled = true
-        collectionView.backgroundColor = UIColor(hex: "E1E2E1")
+        collectionView.backgroundColor = DefaultStyle.viewBackgroundColor
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.layer.cornerRadius = 2.0
         collectionView.layer.masksToBounds = true
@@ -491,7 +491,7 @@ private class AttractionDetailThumsCollectionCell: UICollectionViewCell {
         imageView = UIImageView(frame: .zero)
         super.init(frame: frame)
 
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
 
         addSubImageView()
     }

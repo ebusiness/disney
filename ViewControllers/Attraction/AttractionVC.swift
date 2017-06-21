@@ -41,7 +41,7 @@ class AttractionVC: UIViewController, FileLocalizable {
         tableView.estimatedRowHeight = 300
         tableView.register(AttractionBriefCell.self, forCellReuseIdentifier: cellIdentifer)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor(hex: "E1E2E1")
+        tableView.backgroundColor = DefaultStyle.viewBackgroundColor
 
         view.addSubview(tableView)
 

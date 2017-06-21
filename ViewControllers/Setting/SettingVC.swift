@@ -32,7 +32,7 @@ class SettingVC: UIViewController {
     private func addSubTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor(hex: "E1E2E1")
+        tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
         view.addSubview(tableView)

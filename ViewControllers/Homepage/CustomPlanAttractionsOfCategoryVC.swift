@@ -35,7 +35,7 @@ class CustomPlanAttractionsOfCategoryPageVC: UIViewController {
         super.viewDidLoad()
 
         automaticallyAdjustsScrollViewInsets = false
-        view.backgroundColor = UIColor(hex: "E1E2E1")
+        view.backgroundColor = DefaultStyle.viewBackgroundColor
 
         pageViewController.delegate = self
         pageViewController.dataSource = self
@@ -108,7 +108,7 @@ class CustomPlanAttractionsOfCategoryVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "E1E2E1")
+        view.backgroundColor = DefaultStyle.viewBackgroundColor
 
         automaticallyAdjustsScrollViewInsets = false
         addSubTableView()

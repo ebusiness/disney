@@ -65,7 +65,7 @@ class CustomPlanAttractionsOfAreaVC: UIViewController, FileLocalizable {
     }
 
     private func addSubTableView() {
-        tableView.backgroundColor = UIColor(hex: "E1E2E1")
+        tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 160

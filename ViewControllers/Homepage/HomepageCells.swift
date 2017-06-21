@@ -55,7 +55,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         selectionStyle = .none
-        backgroundColor = UIColor(hex: "E1E2E1")
+        backgroundColor = DefaultStyle.viewBackgroundColor
 
         addSubBorderImageView()
         addSubTitleLabel()
