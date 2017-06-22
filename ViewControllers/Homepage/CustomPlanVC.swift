@@ -187,7 +187,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
 
     @objc
     func save(_ sender: UIBarButtonItem) {
-        guard let date = UserDefaults.standard[.visitDate] as? Date else {
+        guard let date = UserDefaults.standard.visitDateTime else {
             return
         }
         let routes = attractionList.filter { $0.selected } .map { ["str_id": $0.id] }

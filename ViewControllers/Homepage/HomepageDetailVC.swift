@@ -69,7 +69,7 @@ class HomepageDetailVC: UIViewController {
             fetchRequest.predicate = NSPredicate(format: "id == %@", planId)
             do {
                 let results = try DataManager.shared.context.fetch(fetchRequest)
-                guard let date = UserDefaults.standard[.visitDate] as? Date else { return }
+                guard let date = UserDefaults.standard.visitDateTime else { return }
                 guard let result = results[safe: 0] else { return }
                 guard let routes = result
                         .routes?
@@ -93,7 +93,7 @@ class HomepageDetailVC: UIViewController {
                 return
             }
         } else {
-            guard let date = UserDefaults.standard[.visitDate] as? Date else {
+            guard let date = UserDefaults.standard.visitDateTime else {
                 return
             }
             let calendar = Calendar.current

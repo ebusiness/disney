@@ -15,7 +15,6 @@ class DefaultStyle {
 
     class var viewBackgroundColor: UIColor { return Cache.viewBackgroundColor }
 
-
     // Setting
     class var settingImageTint0: UIColor { return UIColor(hex: "E91E63") }
     class var settingImageTint1: UIColor { return UIColor(hex: "3F51B5") }

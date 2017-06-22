@@ -11,10 +11,16 @@ import Swift
 import UIKit
 
 enum UserDefaultKeys: String {
-    case visitDate = "visit_date"
+    case visitYear = "visit_year"
+    case visitMonth = "visit_month"
+    case visitDay = "visit_day"
+    case visitHour = "visit_hour"
+    case visitMinute = "visit_minute"
     case visitPark = "visit_park"
     case visitorTags = "visitor_tags"
 }
+
+fileprivate var visitDateTimeCache: Date?
 
 extension UserDefaults {
     subscript(key: UserDefaultKeys) -> Any? {
@@ -22,8 +28,32 @@ extension UserDefaults {
             return object(forKey: key.rawValue)
         }
         set(newValue) {
+            visitDateTimeCache = nil
             set(newValue, forKey: key.rawValue)
         }
+    }
+    var visitDateTime: Date? {
+        if visitDateTimeCache != nil { return visitDateTimeCache }
+
+        guard let year = object(forKey: UserDefaultKeys.visitYear.rawValue) as? Int else { return nil }
+        guard let month = object(forKey: UserDefaultKeys.visitMonth.rawValue) as? Int else { return nil }
+        guard let day = object(forKey: UserDefaultKeys.visitDay.rawValue) as? Int else { return nil }
+        guard let hour = object(forKey: UserDefaultKeys.visitHour.rawValue) as? Int else { return nil }
+        guard let minute = object(forKey: UserDefaultKeys.visitMinute.rawValue) as? Int else { return nil }
+
+        var dateComponents = DateComponents()
+        dateComponents.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        dateComponents.hour = hour
+        dateComponents.minute = minute
+        dateComponents.second = 0
+
+        let calendar = Calendar.current
+        let date = calendar.date(from: dateComponents)
+        visitDateTimeCache = date
+        return date
     }
 }
 

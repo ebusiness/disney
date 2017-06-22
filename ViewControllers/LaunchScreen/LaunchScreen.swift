@@ -227,7 +227,7 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
     }
 
     private func isVisitorTagAssigned() -> Bool {
-        guard let date = UserDefaults.standard[.visitDate] as? Date else {
+        guard let date = UserDefaults.standard.visitDateTime else {
             return false
         }
         guard UserDefaults.standard[.visitPark] as? String != nil else {

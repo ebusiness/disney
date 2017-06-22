@@ -98,17 +98,14 @@ class VisitorTagVC: UIViewController, FileLocalizable {
 
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(secondsFromGMT: 3600 * 9)!
-        let today = Date()
-        if dayAdvance(from: today, to: visitDate) {
-            var components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: visitDate)
-            components.hour = 9
-            components.minute = 0
-            if let fixed = calendar.date(from: components) {
-                visitDate = fixed
-            }
-        }
 
-        UserDefaults.standard[.visitDate] = visitDate
+        var components = calendar.dateComponents([.year, .month, .day], from: visitDate)
+
+        UserDefaults.standard[.visitYear] = components.year
+        UserDefaults.standard[.visitMonth] = components.month
+        UserDefaults.standard[.visitDay] = components.day
+        UserDefaults.standard[.visitHour] = 10
+        UserDefaults.standard[.visitMinute] = 0
         UserDefaults.standard[.visitPark] = visitPark.rawValue
         NetworkConstants.park = visitPark.rawValue + "/"
         if shownTags.count >= 3 {
@@ -170,10 +167,6 @@ class VisitorTagVC: UIViewController, FileLocalizable {
             self.collectionView.reloadItems(at: [IndexPath(row: 1, section: 0)])
         }.disposed(by: datepicker.disposeBag)
         present(datepicker, animated: false, completion: nil)
-    }
-
-    private func dayAdvance(from: Date, to: Date) -> Bool {
-        return true
     }
 
 }

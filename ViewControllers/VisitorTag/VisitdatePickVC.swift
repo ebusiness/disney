@@ -33,6 +33,7 @@ class VisitdatePickVC: UIViewController {
 
         pickerView.datePickerMode = .date
         pickerView.minimumDate = Date()
+        pickerView.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
         pickerView.setDate(date, animated: false)
 
         pickerView.addTarget(self, action: #selector(handleValueChanged(picker:)), for: .valueChanged)

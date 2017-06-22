@@ -8,10 +8,8 @@
 
 import UIKit
 
-class SettingVC: UIViewController, FileLocalizable {
+class SettingVC: UIViewController {
 
-    let localizeFileName = "Setting"
-    
     private var tableView: UITableView
     private let cellIdentifier = "cellIdentifier"
 
@@ -38,7 +36,6 @@ class SettingVC: UIViewController, FileLocalizable {
         tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
@@ -60,32 +57,40 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return 4
         case 2:
-            return 3
+            return 4
         default:
             return 0
         }
     }
 
+    //swiftlint:disable:next cyclomatic_complexity
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell!
-        if let _cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) {
+        var cell: SettingCell!
+        if let _cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? SettingCell {
             cell = _cell
         } else {
-            cell = UITableViewCell(style: .value1, reuseIdentifier: cellIdentifier)
-            cell.selectionStyle = .none
-            cell.accessoryType = .disclosureIndicator
-            cell.imageView?.image = #imageLiteral(resourceName: "AttractionDetailCapcity")
-            cell.textLabel?.text = "text"
-            cell.detailTextLabel?.text = "detail text"
+            cell = SettingCell(style: .value1, reuseIdentifier: cellIdentifier)
         }
 
-        switch indexPath.section {
-        case 0:
-            cell.imageView?.tintColor = DefaultStyle.settingImageTint0
-        case 1:
-            cell.imageView?.tintColor = DefaultStyle.settingImageTint1
-        case 2:
-            cell.imageView?.tintColor = DefaultStyle.settingImageTint2
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            cell.category = .tag
+        case (1, 0):
+            cell.category = .park
+        case (1, 1):
+            cell.category = .date
+        case (1, 2):
+            cell.category = .timeIn
+        case (1, 3):
+            cell.category = .timeOut
+        case (2, 0):
+            cell.category = .feedback
+        case (2, 1):
+            cell.category = .aboutUs
+        case (2, 2):
+            cell.category = .privacyPolicy
+        case (2, 3):
+            cell.category = .termsOfService
         default:
             break
         }

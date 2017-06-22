@@ -5,3 +5,15 @@
   Created by ebuser on 2017/6/21.
   Copyright © 2017年 e-business. All rights reserved.
 */
+
+"setting tags" = "选择标签";
+
+"setting park" = "变更园区";
+"setting date" = "变更日期";
+"setting time in" = "入园时间";
+"setting time out" = "退园时间";
+
+"setting feedback" = "意见反馈";
+"setting about us" = "关于我们";
+"setting privacy policy" = "隐私政策";
+"setting terms of service" = "服务条款";
