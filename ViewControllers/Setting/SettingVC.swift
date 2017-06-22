@@ -8,9 +8,12 @@
 
 import UIKit
 
-class SettingVC: UIViewController {
+class SettingVC: UIViewController, FileLocalizable {
 
+    let localizeFileName = "Setting"
+    
     private var tableView: UITableView
+    private let cellIdentifier = "cellIdentifier"
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: .zero, style: .grouped)
@@ -35,6 +38,7 @@ class SettingVC: UIViewController {
         tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
+//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
@@ -47,12 +51,45 @@ class SettingVC: UIViewController {
 
 extension SettingVC: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 3
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 4
+        case 2:
+            return 3
+        default:
+            return 0
+        }
     }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        var cell: UITableViewCell!
+        if let _cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) {
+            cell = _cell
+        } else {
+            cell = UITableViewCell(style: .value1, reuseIdentifier: cellIdentifier)
+            cell.selectionStyle = .none
+            cell.accessoryType = .disclosureIndicator
+            cell.imageView?.image = #imageLiteral(resourceName: "AttractionDetailCapcity")
+            cell.textLabel?.text = "text"
+            cell.detailTextLabel?.text = "detail text"
+        }
+
+        switch indexPath.section {
+        case 0:
+            cell.imageView?.tintColor = DefaultStyle.settingImageTint0
+        case 1:
+            cell.imageView?.tintColor = DefaultStyle.settingImageTint1
+        case 2:
+            cell.imageView?.tintColor = DefaultStyle.settingImageTint2
+        default:
+            break
+        }
+
+        return cell
     }
 }
