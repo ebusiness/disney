@@ -106,6 +106,8 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         UserDefaults.standard[.visitDay] = components.day
         UserDefaults.standard[.visitHour] = 10
         UserDefaults.standard[.visitMinute] = 0
+        UserDefaults.standard[.exitHour] = 20
+        UserDefaults.standard[.exitMinute] = 0
         UserDefaults.standard[.visitPark] = visitPark.rawValue
         NetworkConstants.park = visitPark.rawValue + "/"
         if shownTags.count >= 3 {
@@ -175,9 +177,7 @@ class VisitorTagVC: UIViewController, FileLocalizable {
 extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-
         return 3
-
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

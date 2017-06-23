@@ -8,10 +8,18 @@
 
 import UIKit
 
-class SettingVC: UIViewController {
+class SettingVC: UIViewController, FileLocalizable {
+
+    let localizeFileName = "Setting"
 
     private var tableView: UITableView
     private let cellIdentifier = "cellIdentifier"
+
+    let cells = [
+        [SettingCell.Category.tag],
+        [SettingCell.Category.park, SettingCell.Category.date, SettingCell.Category.timeIn, SettingCell.Category.timeOut],
+        [SettingCell.Category.feedback, SettingCell.Category.aboutUs, SettingCell.Category.privacyPolicy, SettingCell.Category.termsOfService]
+    ]
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: .zero, style: .grouped)
@@ -27,7 +35,12 @@ class SettingVC: UIViewController {
 
         view.backgroundColor = UIColor.white
 
+        addNavigationItems()
         addSubTableView()
+    }
+
+    private func addNavigationItems() {
+        navigationItem.title = localize(for: "Settings")
     }
 
     private func addSubTableView() {
@@ -42,6 +55,11 @@ class SettingVC: UIViewController {
         tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    }
+
+    fileprivate func pushToSettingTagVC() {
+        let destination = SettingTagVC()
+        navigationController?.pushViewController(destination, animated: true)
     }
 
 }
@@ -63,7 +81,6 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    //swiftlint:disable:next cyclomatic_complexity
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: SettingCell!
         if let _cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? SettingCell {
@@ -72,29 +89,18 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
             cell = SettingCell(style: .value1, reuseIdentifier: cellIdentifier)
         }
 
+        cell.category = cells[indexPath.section][indexPath.row]
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            cell.category = .tag
-        case (1, 0):
-            cell.category = .park
-        case (1, 1):
-            cell.category = .date
-        case (1, 2):
-            cell.category = .timeIn
-        case (1, 3):
-            cell.category = .timeOut
-        case (2, 0):
-            cell.category = .feedback
-        case (2, 1):
-            cell.category = .aboutUs
-        case (2, 2):
-            cell.category = .privacyPolicy
-        case (2, 3):
-            cell.category = .termsOfService
+            pushToSettingTagVC()
         default:
             break
         }
-
-        return cell
     }
 }

@@ -16,11 +16,22 @@ enum UserDefaultKeys: String {
     case visitDay = "visit_day"
     case visitHour = "visit_hour"
     case visitMinute = "visit_minute"
+    case exitHour = "exit_hour"
+    case exitMinute = "exit_minute"
+
     case visitPark = "visit_park"
     case visitorTags = "visitor_tags"
 }
 
-fileprivate var visitDateTimeCache: Date?
+fileprivate struct UserDefaultCaches {
+    static var visitDateTimeCache: Date?
+    static var exitDateTimeCache: Date?
+
+    static func clear() {
+        visitDateTimeCache = nil
+        exitDateTimeCache = nil
+    }
+}
 
 extension UserDefaults {
     subscript(key: UserDefaultKeys) -> Any? {
@@ -28,12 +39,13 @@ extension UserDefaults {
             return object(forKey: key.rawValue)
         }
         set(newValue) {
-            visitDateTimeCache = nil
+            UserDefaultCaches.clear()
             set(newValue, forKey: key.rawValue)
         }
     }
+
     var visitDateTime: Date? {
-        if visitDateTimeCache != nil { return visitDateTimeCache }
+        if UserDefaultCaches.visitDateTimeCache != nil { return UserDefaultCaches.visitDateTimeCache }
 
         guard let year = object(forKey: UserDefaultKeys.visitYear.rawValue) as? Int else { return nil }
         guard let month = object(forKey: UserDefaultKeys.visitMonth.rawValue) as? Int else { return nil }
@@ -52,7 +64,31 @@ extension UserDefaults {
 
         let calendar = Calendar.current
         let date = calendar.date(from: dateComponents)
-        visitDateTimeCache = date
+        UserDefaultCaches.visitDateTimeCache = date
+        return date
+    }
+
+    var exitDateTime: Date? {
+        if UserDefaultCaches.exitDateTimeCache != nil { return UserDefaultCaches.exitDateTimeCache }
+
+        guard let year = object(forKey: UserDefaultKeys.visitYear.rawValue) as? Int else { return nil }
+        guard let month = object(forKey: UserDefaultKeys.visitMonth.rawValue) as? Int else { return nil }
+        guard let day = object(forKey: UserDefaultKeys.visitDay.rawValue) as? Int else { return nil }
+        guard let hour = object(forKey: UserDefaultKeys.exitHour.rawValue) as? Int else { return nil }
+        guard let minute = object(forKey: UserDefaultKeys.exitMinute.rawValue) as? Int else { return nil }
+
+        var dateComponents = DateComponents()
+        dateComponents.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        dateComponents.hour = hour
+        dateComponents.minute = minute
+        dateComponents.second = 0
+
+        let calendar = Calendar.current
+        let date = calendar.date(from: dateComponents)
+        UserDefaultCaches.exitDateTimeCache = date
         return date
     }
 }

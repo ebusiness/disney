@@ -26,22 +26,46 @@ class SettingCell: UITableViewCell, FileLocalizable {
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_flag_black_24px")
                 textLabel?.text = localize(for: "setting park")
-                detailTextLabel?.text = "detail"
+
+                if let visitPark = UserDefaults.standard[.visitPark] as? String,
+                    let park = TokyoDisneyPark(rawValue: visitPark)?.localize() {
+                    detailTextLabel?.text = park
+                } else {
+                    detailTextLabel?.text = nil
+                }
             case .date:
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_date_range_black_24px")
                 textLabel?.text = localize(for: "setting date")
-                detailTextLabel?.text = "detail"
+                if let visitDate = UserDefaults.standard.visitDateTime {
+                    detailTextLabel?.text = DateFormatter.localizedString(from: visitDate,
+                                                                          dateStyle: .medium,
+                                                                          timeStyle: .none)
+                } else {
+                    detailTextLabel?.text = nil
+                }
             case .timeIn:
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_timer_black_24px")
                 textLabel?.text = localize(for: "setting time in")
-                detailTextLabel?.text = "detail"
+                if let visitDate = UserDefaults.standard.visitDateTime {
+                    detailTextLabel?.text = DateFormatter.localizedString(from: visitDate,
+                                                                          dateStyle: .none,
+                                                                          timeStyle: .short)
+                } else {
+                    detailTextLabel?.text = nil
+                }
             case .timeOut:
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_timer_off_black_24px")
                 textLabel?.text = localize(for: "setting time out")
-                detailTextLabel?.text = "detail"
+                if let exitDate = UserDefaults.standard.exitDateTime {
+                    detailTextLabel?.text = DateFormatter.localizedString(from: exitDate,
+                                                                          dateStyle: .none,
+                                                                          timeStyle: .short)
+                } else {
+                    detailTextLabel?.text = nil
+                }
 
             case .feedback:
                 imageView?.tintColor = DefaultStyle.settingImageTint2

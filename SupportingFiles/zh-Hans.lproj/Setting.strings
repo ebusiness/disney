@@ -6,6 +6,8 @@
   Copyright © 2017年 e-business. All rights reserved.
 */
 
+"Settings" = "个人设置";
+
 "setting tags" = "选择标签";
 
 "setting park" = "变更园区";
@@ -17,3 +19,6 @@
 "setting about us" = "关于我们";
 "setting privacy policy" = "隐私政策";
 "setting terms of service" = "服务条款";
+
+"selectedTags" = "关注标签";
+"unselectedTags" = "点击或拖动添加更多标签";
