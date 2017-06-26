@@ -82,6 +82,10 @@ class SettingVC: UIViewController, FileLocalizable {
         navigationController?.pushViewController(desination, animated: true)
     }
 
+    fileprivate func pushToSettingDateVC() {
+        let desination = SettingDateVC()
+        navigationController?.pushViewController(desination, animated: true)
+    }
 }
 
 extension SettingVC: UITableViewDelegate, UITableViewDataSource {
@@ -121,6 +125,12 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
             pushToSettingTagVC()
         case (1, 0):
             pushToSettingParkVC()
+        case (1, 1):
+            pushToSettingDateVC()
+        case (1, 2):
+            pushToSettingDateVC()
+        case (1, 3):
+            pushToSettingDateVC()
         default:
             break
         }

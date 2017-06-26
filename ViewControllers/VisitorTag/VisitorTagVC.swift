@@ -274,7 +274,6 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-
         switch kind {
         case UICollectionElementKindSectionHeader:
             guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
@@ -294,19 +293,15 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         default:
             fatalError("Unexpected element kind")
         }
-
     }
 
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-
         let temp = shownTags[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         shownTags[destinationIndexPath.section].insert(temp, at: destinationIndexPath.item)
-
     }
 
     @objc
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
-
         switch gesture.state {
         case .began:
             guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)), selectedIndexPath.section > 0 else {
@@ -324,7 +319,6 @@ extension VisitorTagVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         default:
             collectionView.cancelInteractiveMovement()
         }
-
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
