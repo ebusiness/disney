@@ -27,9 +27,8 @@ class SettingCell: UITableViewCell, FileLocalizable {
                 imageView?.image = #imageLiteral(resourceName: "ic_flag_black_24px")
                 textLabel?.text = localize(for: "setting park")
 
-                if let visitPark = UserDefaults.standard[.visitPark] as? String,
-                    let park = TokyoDisneyPark(rawValue: visitPark)?.localize() {
-                    detailTextLabel?.text = park
+                if let visitPark = Preferences.shared.visitPark.value {
+                    detailTextLabel?.text = visitPark.localize()
                 } else {
                     detailTextLabel?.text = nil
                 }
@@ -37,7 +36,7 @@ class SettingCell: UITableViewCell, FileLocalizable {
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_date_range_black_24px")
                 textLabel?.text = localize(for: "setting date")
-                if let visitDate = UserDefaults.standard.visitDateTime {
+                if let visitDate = Preferences.shared.visitStart.value {
                     detailTextLabel?.text = DateFormatter.localizedString(from: visitDate,
                                                                           dateStyle: .medium,
                                                                           timeStyle: .none)
@@ -48,7 +47,7 @@ class SettingCell: UITableViewCell, FileLocalizable {
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_timer_black_24px")
                 textLabel?.text = localize(for: "setting time in")
-                if let visitDate = UserDefaults.standard.visitDateTime {
+                if let visitDate = Preferences.shared.visitStart.value {
                     detailTextLabel?.text = DateFormatter.localizedString(from: visitDate,
                                                                           dateStyle: .none,
                                                                           timeStyle: .short)
@@ -59,7 +58,7 @@ class SettingCell: UITableViewCell, FileLocalizable {
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_timer_off_black_24px")
                 textLabel?.text = localize(for: "setting time out")
-                if let exitDate = UserDefaults.standard.exitDateTime {
+                if let exitDate = Preferences.shared.visitEnd.value {
                     detailTextLabel?.text = DateFormatter.localizedString(from: exitDate,
                                                                           dateStyle: .none,
                                                                           timeStyle: .short)

@@ -121,6 +121,7 @@ class CustomPlanAttractionsOfCategoryVC: UIViewController {
     }
 }
 
+//swiftlint:disable:next type_name
 class CustomPlanAttractionsOfCategoryIndicatorVC: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)

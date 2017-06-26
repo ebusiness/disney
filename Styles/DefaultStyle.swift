@@ -20,4 +20,6 @@ class DefaultStyle {
     class var settingImageTint1: UIColor { return UIColor(hex: "3F51B5") }
     class var settingImageTint2: UIColor { return UIColor(hex: "FF5722") }
 
+    class var settingCheckMark: UIColor { return UIColor(hex: "8BC34A") }
+
 }

@@ -227,12 +227,8 @@ class LaunchScreenViewController: UIViewController, FileLocalizable {
     }
 
     private func isVisitorTagAssigned() -> Bool {
-        guard let date = UserDefaults.standard.visitDateTime else {
-            return false
-        }
-        guard UserDefaults.standard[.visitPark] as? String != nil else {
-            return false
-        }
+        guard let date = Preferences.shared.visitStart.value else { return false }
+        guard UserDefaults.standard[.visitPark] as? String != nil else { return false }
         let now = Date()
         let calendar = Calendar.current
         guard let timeZone = TimeZone(secondsFromGMT: 3600 * 9) else {

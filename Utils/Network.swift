@@ -38,22 +38,19 @@ struct NetworkConstants {
 
     }()
 
-    static var park: String = {
-        if let visitPark = UserDefaults.standard[.visitPark] as? String {
+    static var park: String {
+        if let visitPark = Preferences.shared.visitPark.value {
 
             switch visitPark {
-            case "land":
+            case .land:
                 return "land/"
-            case "sea":
+            case .sea:
                 return "sea/"
-            default:
-                return "land/"
             }
         } else {
             return "land/"
         }
-
-    }()
+    }
 }
 
 /**

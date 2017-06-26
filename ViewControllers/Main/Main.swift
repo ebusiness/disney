@@ -6,6 +6,7 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import RxSwift
 import UIKit
 
 class NavigationVC: UINavigationController {
@@ -24,6 +25,9 @@ class NavigationVC: UINavigationController {
 
 class TabVC: UITabBarController, FileLocalizable {
     let localizeFileName = "Main"
+
+    let disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,5 +53,42 @@ class TabVC: UITabBarController, FileLocalizable {
 
         let vcs = [homepageNavi, attractionNavi, mapNavi, settingNavi]
         setViewControllers(vcs, animated: false)
+
+        // setting change action
+        Preferences
+            .shared
+            .visitPark
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                self?.reloadPlanVC()
+                self?.reloadAttractionVC()
+            })
+            .disposed(by: disposeBag)
     }
+
+    func reloadPlanVC() {
+        guard selectedIndex != 0 else { return }
+        let homepageVC = HomepageVC()
+        homepageVC.tabBarItem.image = #imageLiteral(resourceName: "TabbarPlan")
+        homepageVC.tabBarItem.title = localize(for: "TabbarPlan")
+        let homepageNavi = NavigationVC(rootViewController: homepageVC)
+        guard let vcs = viewControllers else { return }
+        let newVCs = [homepageNavi] + vcs.suffix(from: 1)
+        setViewControllers(newVCs, animated: false)
+    }
+
+    func reloadAttractionVC() {
+        guard selectedIndex != 1 else { return }
+        let attractionVC = AttractionVC()
+        attractionVC.tabBarItem.image = #imageLiteral(resourceName: "TabbarAttraction")
+        attractionVC.tabBarItem.title = localize(for: "TabbarAttraction")
+        let attractionNavi = NavigationVC(rootViewController: attractionVC)
+        guard let vcs = viewControllers else { return }
+        var newVCs = [UIViewController]()
+        newVCs.append(vcs[0])
+        newVCs.append(attractionNavi)
+        newVCs.append(contentsOf: vcs.suffix(from: 2))
+        setViewControllers(newVCs, animated: false)
+    }
+
 }

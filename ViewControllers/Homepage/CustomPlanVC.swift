@@ -187,9 +187,7 @@ class CustomPlanViewController: UIViewController, FileLocalizable {
 
     @objc
     func save(_ sender: UIBarButtonItem) {
-        guard let date = UserDefaults.standard.visitDateTime else {
-            return
-        }
+        guard let date = Preferences.shared.visitStart.value else { return }
         let routes = attractionList.filter { $0.selected } .map { ["str_id": $0.id] }
         let parameter = API.Plans.CustomizeParameter(start: date, route: routes)
         let requester = API.Plans.customize(parameter)

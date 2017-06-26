@@ -6,11 +6,14 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import RxSwift
 import UIKit
 
 class SettingVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "Setting"
+
+    let disposeBag = DisposeBag()
 
     private var tableView: UITableView
     private let cellIdentifier = "cellIdentifier"
@@ -55,11 +58,28 @@ class SettingVC: UIViewController, FileLocalizable {
         tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+
+        // event listener
+        Preferences
+            .shared
+            .visitPark
+            .asObservable()
+            .skip(1)
+            .subscribe(onNext: { [weak self] _ in
+                let indexPath = IndexPath(row: 0, section: 1)
+                self?.tableView.reloadRows(at: [indexPath], with: .none)
+            })
+            .disposed(by: disposeBag)
     }
 
     fileprivate func pushToSettingTagVC() {
         let destination = SettingTagVC()
         navigationController?.pushViewController(destination, animated: true)
+    }
+
+    fileprivate func pushToSettingParkVC() {
+        let desination = SettingParkVC()
+        navigationController?.pushViewController(desination, animated: true)
     }
 
 }
@@ -99,6 +119,8 @@ extension SettingVC: UITableViewDelegate, UITableViewDataSource {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
             pushToSettingTagVC()
+        case (1, 0):
+            pushToSettingParkVC()
         default:
             break
         }

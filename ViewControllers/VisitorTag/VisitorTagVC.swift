@@ -99,17 +99,18 @@ class VisitorTagVC: UIViewController, FileLocalizable {
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(secondsFromGMT: 3600 * 9)!
 
-        var components = calendar.dateComponents([.year, .month, .day], from: visitDate)
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: visitDate)
+        dateComponents.hour = 10
+        dateComponents.minute = 0
+        dateComponents.second = 0
 
-        UserDefaults.standard[.visitYear] = components.year
-        UserDefaults.standard[.visitMonth] = components.month
-        UserDefaults.standard[.visitDay] = components.day
-        UserDefaults.standard[.visitHour] = 10
-        UserDefaults.standard[.visitMinute] = 0
-        UserDefaults.standard[.exitHour] = 20
-        UserDefaults.standard[.exitMinute] = 0
-        UserDefaults.standard[.visitPark] = visitPark.rawValue
-        NetworkConstants.park = visitPark.rawValue + "/"
+        if let start = calendar.date(from: dateComponents),
+            let end = calendar.date(bySetting: .hour, value: 20, of: start) {
+                Preferences.shared.visitStart.value = start
+                Preferences.shared.visitEnd.value = end
+        }
+
+        Preferences.shared.visitPark.value = visitPark
         if shownTags.count >= 3 {
             UserDefaults.standard[.visitorTags] = shownTags[1].map { $0.id }
         }
