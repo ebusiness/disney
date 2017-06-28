@@ -15,6 +15,7 @@ class ImageBrowserController: UIViewController, FileLocalizable {
     let localizeFileName = "Homepage"
 
     let scrollView: ImageScrollView
+    let container: UIView
     let imageView: UIImageView
     let contentFrame: CGRect
     let imageURL: URL?
@@ -27,6 +28,7 @@ class ImageBrowserController: UIViewController, FileLocalizable {
 
     init(contentFrame: CGRect, imageURL: URL?) {
         scrollView = ImageScrollView()
+        container = UIView(frame: .zero)
         imageView = UIImageView(frame: .zero)
         self.contentFrame = contentFrame
         self.imageURL = imageURL
@@ -39,11 +41,20 @@ class ImageBrowserController: UIViewController, FileLocalizable {
         view.addGestureRecognizer(tapGesture)
 
         addSubScrollView()
+        addSubContainer()
         addSubImageView()
+
+        scrollView.clipsToBounds = false
+//        view.clipsToBounds = false
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        print("Image browser deinited")
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -72,23 +83,40 @@ class ImageBrowserController: UIViewController, FileLocalizable {
         }, completion: {[weak self] _ in
             self?.imageView.isHidden = false
             transitionView.removeFromSuperview()
+            self?.addOrientationListener()
         })
     }
 
+    private func addOrientationListener() {
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChange(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+
     private func addSubScrollView() {
-        scrollView.zoomView = imageView
+        scrollView.zoomView = container
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    }
+
+    private func addSubContainer() {
+        scrollView.addSubview(container)
+        var containerFrame = CGRect.zero
+        containerFrame.size = CGSize(width: screenWidth, height: screenWidth * ratio)
+        containerFrame.origin.y = (screenHeight - screenWidth * ratio) / 2
+        container.frame = containerFrame
+        scrollView.contentSize = container.bounds.size
+
+        scrollView.isUserInteractionEnabled = true
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressHandler(_:)))
+        scrollView.addGestureRecognizer(longPress)
     }
 
     private func addSubImageView() {
         var imageFrame = CGRect.zero
         imageFrame.size = CGSize(width: screenWidth, height: screenWidth * ratio)
-        imageFrame.origin.y = (screenHeight - screenWidth * ratio) / 2
         imageView.frame = imageFrame
         imageView.contentMode = .scaleAspectFill
         imageView.kf.setImage(with: imageURL,
@@ -100,13 +128,8 @@ class ImageBrowserController: UIViewController, FileLocalizable {
                                     self?.imageDownloaded = true
                                 }
         })
-        scrollView.addSubview(imageView)
-        scrollView.contentSize = imageView.bounds.size
+        container.addSubview(imageView)
         imageView.isHidden = true
-
-        imageView.isUserInteractionEnabled = true
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressHandler(_:)))
-        imageView.addGestureRecognizer(longPress)
     }
 
     @objc
@@ -143,6 +166,64 @@ class ImageBrowserController: UIViewController, FileLocalizable {
 
         photoSaveAssistant = PhotoSaveAssistant(image: image)
         photoSaveAssistant?.save()
+    }
+
+    @objc
+    private func orientationChange(_ sender: Any) {
+        let currentOrientation = UIDevice.current.orientation
+        switch currentOrientation {
+        case .landscapeLeft:
+            changeToLandscapeLeft()
+        case .landscapeRight:
+            changeToLandscapeRight()
+        case .portrait:
+            changeToLandscapePortrait()
+        default:
+            break
+        }
+    }
+
+    private func changeToLandscapeRight() {
+        let scale = 1 / ratio
+        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+        let transform = scaleTransform.rotated(by: -CGFloat.pi / 2)
+
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+                        self.view.transform = transform
+        }, completion: { _ in
+            self.scrollView.contentSize = self.container.bounds.size
+        })
+    }
+
+    private func changeToLandscapeLeft() {
+        let scale = 1 / ratio
+        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+        let transform = scaleTransform.rotated(by: CGFloat.pi / 2)
+
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+                        self.view.transform = transform
+        }, completion: { _ in
+            self.scrollView.contentSize = self.container.bounds.size
+        })
+    }
+
+    private func changeToLandscapePortrait() {
+        let transform = CGAffineTransform.identity
+
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+                        self.view.transform = transform
+        }, completion: { _ in
+            self.scrollView.contentSize = self.container.bounds.size
+        })
     }
 }
 

@@ -27,7 +27,7 @@ class PhotoSaveAssistant: NSObject, FileLocalizable {
     }
 
     deinit {
-        print("un registered")
+        print("photo library notification unregistered")
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
 
