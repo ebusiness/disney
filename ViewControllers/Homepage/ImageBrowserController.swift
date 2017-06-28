@@ -21,6 +21,7 @@ class ImageBrowserController: UIViewController, FileLocalizable {
     let ratio: CGFloat
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
+    var photoSaveAssistant: PhotoSaveAssistant?
 
     private var imageDownloaded = false
 
@@ -139,61 +140,9 @@ class ImageBrowserController: UIViewController, FileLocalizable {
     private func saveImage() {
         guard imageDownloaded else { return }
         guard let image = imageView.image else { return }
-        guard let album = createAlbum() else { return }
 
-        PHPhotoLibrary.shared().performChanges({
-            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-            let addAssetRequest = PHAssetCollectionChangeRequest(for: album)
-            addAssetRequest?.addAssets([creationRequest.placeholderForCreatedAsset!] as NSArray)
-        }, completionHandler: { [weak self] success, _ in
-            if success {
-                self?.saveSuccess()
-            }
-        })
-    }
-
-    private func createAlbum() -> PHAssetCollection? {
-        let authorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch authorizationStatus {
-        case .denied:
-            return nil
-        case .restricted:
-            return nil
-        default:
-            break
-        }
-
-        let albumTitle = localize(for: "Photo Library Album")
-        let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-
-        var photoCollection: PHAssetCollection?
-        userCollections.enumerateObjects { (collection, _, stop) in
-            if collection.localizedTitle == albumTitle {
-                photoCollection = collection as? PHAssetCollection
-                stop.pointee = true
-            }
-        }
-
-        if photoCollection != nil { return photoCollection }
-
-        var assetCollectionPlaceholder: PHObjectPlaceholder!
-        PHPhotoLibrary.shared().performChanges({
-            let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
-            assetCollectionPlaceholder = createAlbumRequest.placeholderForCreatedAssetCollection
-        }, completionHandler: { success, _ in
-            if success {
-                let collectionFetchResult =
-                    PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [assetCollectionPlaceholder.localIdentifier],
-                                                            options: nil)
-                photoCollection = collectionFetchResult.firstObject
-            }
-        })
-
-        return photoCollection
-    }
-
-    private func saveSuccess() {
-        print("save success")
+        photoSaveAssistant = PhotoSaveAssistant(image: image)
+        photoSaveAssistant?.save()
     }
 }
 
