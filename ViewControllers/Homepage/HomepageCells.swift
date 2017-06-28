@@ -38,8 +38,10 @@ class HomepageCell: UITableViewCell, FileLocalizable {
     let menu: UIButton
     let numLabel: UILabel
     let collectionView: UICollectionView
+    let collectionViewPathIdentifier = "collectionViewPathIdentifier"
     let collectionViewIdentifier = "collectionViewIdentifier"
-    let collectionCellSize = CGSize(width: 243, height: 150)
+    let collectionPathCellSize = CGSize(width: 110, height: 95)
+    let collectionCellSize = CGSize(width: 64, height: 95)
     let introductionLabel: UILabel
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -116,6 +118,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
 
     private func addSubCollectionView() {
         collectionView.backgroundColor = UIColor.white
+        collectionView.register(HompPageCollectionPathCell.self, forCellWithReuseIdentifier: collectionViewPathIdentifier)
         collectionView.register(HomePageCollectionCell.self, forCellWithReuseIdentifier: collectionViewIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -124,7 +127,7 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.leftAnchor.constraint(equalTo: borderImageView.leftAnchor, constant: 2).isActive = true
         collectionView.rightAnchor.constraint(equalTo: borderImageView.rightAnchor, constant: -2).isActive = true
-        collectionView.topAnchor.constraint(equalTo: numLabel.bottomAnchor, constant: 12).isActive = true
+        collectionView.topAnchor.constraint(equalTo: borderImageView.topAnchor, constant: 72).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: collectionCellSize.height).isActive = true
     }
 
@@ -150,24 +153,48 @@ class HomepageCell: UITableViewCell, FileLocalizable {
 
 extension HomepageCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return 2
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data?.cRoutes.count ?? 0
+        if section == 0 {
+            return data?.cPathImageURL != nil ? 1 : 0
+        } else {
+            return data?.cRoutes.count ?? 0
+        }
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewIdentifier, for: indexPath) as? HomePageCollectionCell else {
-            fatalError("Unknown cell type")
+        if indexPath.section == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewPathIdentifier, for: indexPath) as? HompPageCollectionPathCell else { fatalError("Unknown cell type") }
+            cell.imageURL = data?.cPathImageURL
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewIdentifier, for: indexPath) as? HomePageCollectionCell else {
+                fatalError("Unknown cell type")
+            }
+            cell.route = data?.cRoutes[indexPath.item]
+            return cell
         }
-        cell.route = data?.cRoutes[indexPath.item]
-        return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionCellSize
+        if indexPath.section == 0 {
+            return collectionPathCellSize
+        } else {
+            return collectionCellSize
+        }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let id = data?.cId {
             itemSelectedHandler?(id)
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if section == 0 {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 2)
+        } else {
+            return .zero
         }
     }
 }
@@ -178,36 +205,18 @@ class HomePageCollectionCell: UICollectionViewCell {
         didSet {
             if let route = route {
                 imageView.kf.setImage(with: URL(string: route.cImages[0]))
-
-                // 景点名称
-                if let htmlStringData = route.cName.data(using: .unicode) {
-                    if let attributedName = try? NSMutableAttributedString(data: htmlStringData,
-                                                                           options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
-                                                                           documentAttributes: nil) {
-                        attributedName.addAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18),
-                                                      NSAttributedStringKey.foregroundColor: UIColor.white],
-                                                     range: NSRange(location: 0, length: attributedName.string.characters.count))
-                        titleLabel.attributedText = attributedName
-                    }
-                }
             }
         }
     }
 
     private let imageView: UIImageView
-    private let imageMaskView: UIView
-    private let titleLabel: UILabel
 
     override init(frame: CGRect) {
         imageView = UIImageView(frame: .zero)
-        imageMaskView = UIView(frame: .zero)
-        titleLabel = UILabel(frame: .zero)
         super.init(frame: frame)
 
         clipsToBounds = true
         addSubImageView()
-        addSubImageMaskView()
-        addSubTitleLabel()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -219,19 +228,44 @@ class HomePageCollectionCell: UICollectionViewCell {
         addSubview(imageView)
         imageView.addAllConstraints(equalTo: self)
     }
+}
 
-    private func addSubImageMaskView() {
-        imageMaskView.backgroundColor = #colorLiteral(red: 0.1326085031, green: 0.1326085031, blue: 0.1326085031, alpha: 0.3342519263)
-        addSubview(imageMaskView)
-        imageMaskView.addAllConstraints(equalTo: imageView)
+class HompPageCollectionPathCell: UICollectionViewCell {
+
+    var imageURL: URL? {
+        didSet {
+            imageView.contentMode = .center
+            imageView
+                .kf
+                .setImage(with: imageURL,
+                          placeholder: #imageLiteral(resourceName: "placeHolder"),
+                          options: nil,
+                          progressBlock: nil,
+                          completionHandler: ({ [weak self] image, _, _, _ in
+                            if image != nil {
+                                self?.imageView.contentMode = .scaleAspectFill
+                            }
+                          }))
+        }
     }
 
-    private func addSubTitleLabel() {
-        titleLabel.numberOfLines = 0
-        addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
+    private let imageView: UIImageView
+
+    override init(frame: CGRect) {
+        imageView = UIImageView(frame: .zero)
+        super.init(frame: frame)
+
+        clipsToBounds = true
+        addSubImageView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubImageView() {
+        imageView.backgroundColor = UIColor.lightGray
+        addSubview(imageView)
+        imageView.addAllConstraints(equalTo: self)
     }
 }

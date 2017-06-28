@@ -105,6 +105,7 @@ extension API {
         case list
         case detail(String, String)
         case customize(CustomizeParameter)
+        case map(id: String)
 
         var path: String {
             switch self {
@@ -114,6 +115,8 @@ extension API {
                 return "plans/\(id)/\(time)"
             case .customize:
                 return "plans/customize"
+            case .map(let id):
+                return "files/plans/\(id)"
             }
         }
 
@@ -125,6 +128,8 @@ extension API {
                 return .GET
             case .customize:
                 return .POST
+            case .map:
+                return .GET
             }
         }
 

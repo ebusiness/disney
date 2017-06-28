@@ -270,3 +270,54 @@ class HomepageDetailCellBase: UITableViewCell, FileLocalizable {
         promptImageView.centerYAnchor.constraint(equalTo: bottomConnector.centerYAnchor, constant: 8).isActive = true
     }
 }
+
+class HomepageDetailPathCell: UITableViewCell {
+
+    static let contentInset = UIEdgeInsets(top: 12, left: 12, bottom: 6, right: 12)
+    static let imageRatio = CGFloat(0.86)
+
+    var imageURL: URL? {
+        didSet {
+            pathImageView.contentMode = .center
+            pathImageView
+                .kf
+                .setImage(with: imageURL,
+                          placeholder: #imageLiteral(resourceName: "placeHolder"),
+                          options: nil,
+                          progressBlock: nil,
+                          completionHandler: ({ [weak self] image, _, _, _ in
+                            if image != nil {
+                                self?.pathImageView.contentMode = .scaleAspectFill
+                            }
+                          }))
+        }
+    }
+
+    let pathImageView: UIImageView
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        pathImageView = UIImageView(frame: .zero)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        selectionStyle = .none
+        addSubImageView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubImageView() {
+        pathImageView.backgroundColor = UIColor.lightGray
+        addSubview(pathImageView)
+        pathImageView.translatesAutoresizingMaskIntoConstraints = false
+        pathImageView.topAnchor.constraint(equalTo: topAnchor, constant: HomepageDetailPathCell.contentInset.top).isActive = true
+        pathImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -HomepageDetailPathCell.contentInset.bottom).isActive = true
+        pathImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: HomepageDetailPathCell.contentInset.left).isActive = true
+        pathImageView.rightAnchor.constraint(equalTo: rightAnchor, constant: -HomepageDetailPathCell.contentInset.right).isActive = true
+        let heightRatio = pathImageView.heightAnchor.constraint(equalTo: pathImageView.widthAnchor, multiplier: HomepageDetailPathCell.imageRatio)
+        heightRatio.priority = UILayoutPriority(rawValue: 999)
+        heightRatio.isActive = true
+    }
+
+}

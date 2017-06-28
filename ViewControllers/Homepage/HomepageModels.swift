@@ -16,6 +16,7 @@ enum PlanType {
 
 protocol PlanConvertible {
     var cId: String { get }
+    var cPathImageURL: URL? { get }
     var cName: String { get }
     var cIntroduction: String { get }
     var cRoutes: [RouteConvertible] { get }
@@ -29,6 +30,7 @@ protocol RouteConvertible {
 struct PlanListElement: SwiftJSONDecodable, PlanConvertible {
 
     let id: String
+    let pathImageURL: URL?
     let name: String
     let introduction: String
     let routes: [Route]
@@ -36,6 +38,9 @@ struct PlanListElement: SwiftJSONDecodable, PlanConvertible {
     // PlanConvertible
     var cId: String {
         return id
+    }
+    var cPathImageURL: URL? {
+        return pathImageURL
     }
     var cName: String {
         return name
@@ -50,6 +55,14 @@ struct PlanListElement: SwiftJSONDecodable, PlanConvertible {
     init?(_ json: JSON) {
         guard let id = json["_id"].string else { return nil }
         self.id = id
+
+        let mapRequest = API.Plans.map(id: id)
+        if let mapUrl = try? mapRequest.asURLRequest().url,
+            let uMapUrl = mapUrl {
+            self.pathImageURL = uMapUrl
+        } else {
+            self.pathImageURL = nil
+        }
 
         guard let name = json["name"].string else { return nil }
         self.name = name
@@ -94,11 +107,24 @@ struct PlanListElement: SwiftJSONDecodable, PlanConvertible {
 
 struct PlanDetail: SwiftJSONDecodable {
     /* 取得属性 */
+    let id: String
+    let pathImageURL: URL?
     let name: String
     private(set) var routes: [Route]
     let start: Date
 
     init?(_ json: JSON) {
+        guard let id = json["_id"].string else { return nil }
+        self.id = id
+
+        let mapRequest = API.Plans.map(id: id)
+        if let mapUrl = try? mapRequest.asURLRequest().url,
+            let uMapUrl = mapUrl {
+            self.pathImageURL = uMapUrl
+        } else {
+            self.pathImageURL = nil
+        }
+
         guard let name = json["name"].string else {
             return nil
         }
@@ -185,6 +211,14 @@ struct PlanDetail: SwiftJSONDecodable {
 extension CustomPlan: PlanConvertible {
     var cId: String {
         return id ?? ""
+    }
+    var cPathImageURL: URL? {
+        if let pathImageString = pathImage,
+            let pathImageURL = URL(string: pathImageString) {
+            return pathImageURL
+        } else {
+            return nil
+        }
     }
     var cName: String {
         return name ?? ""

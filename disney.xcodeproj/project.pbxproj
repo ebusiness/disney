@@ -54,6 +54,7 @@
 		1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */; };
 		1FA811361EADFE5C000A7F2D /* VisitorTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */; };
 		1FAA019B1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */; };
+		1FAA873C1F01238C00478E7D /* ImageBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA873B1F01238C00478E7D /* ImageBrowserController.swift */; };
 		1FC93F941EFA1F6D00FEB2F9 /* DefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC93F931EFA1F6D00FEB2F9 /* DefaultStyle.swift */; };
 		1FD1CF4C1ECD8C6B004A72B7 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */; };
 		1FDF06C31EEE3CC1003B7580 /* DisneyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF06C11EEE3CC1003B7580 /* DisneyModel.xcdatamodeld */; };
@@ -145,6 +146,7 @@
 		1FA811331EADE1C2000A7F2D /* VisitorTagVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagVC.swift; sourceTree = "<group>"; };
 		1FA811351EADFE5C000A7F2D /* VisitorTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorTagCell.swift; sourceTree = "<group>"; };
 		1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfGradeCell.swift; sourceTree = "<group>"; };
+		1FAA873B1F01238C00478E7D /* ImageBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBrowserController.swift; sourceTree = "<group>"; };
 		1FC93F931EFA1F6D00FEB2F9 /* DefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStyle.swift; sourceTree = "<group>"; };
 		1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		1FDF06C21EEE3CC1003B7580 /* DisneyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DisneyModel.xcdatamodel; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				1F80EACC1EF3D20A002A8197 /* CustomPlanAttractionsOfGradeModel.swift */,
 				1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */,
 				1F5BADCE1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift */,
+				1FAA873B1F01238C00478E7D /* ImageBrowserController.swift */,
 			);
 			path = Homepage;
 			sourceTree = "<group>";
@@ -454,13 +457,13 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Keychain = {
 								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -596,6 +599,7 @@
 				1F6559501EC16C7A005BC235 /* AttractionModels.swift in Sources */,
 				1F7DFB841ECAF7C9004FA058 /* HomepageCells.swift in Sources */,
 				1F24BE981ED820E300E37727 /* CustomPlanModels.swift in Sources */,
+				1FAA873C1F01238C00478E7D /* ImageBrowserController.swift in Sources */,
 				1F6D69A91EDBCBF300BEF4C2 /* CustomPlanAttractionsOfTagVC.swift in Sources */,
 				1F6D69AB1EDC052B00BEF4C2 /* CustomPlanAttractionsOfTagCells.swift in Sources */,
 				1F24BEA91ED82EF900E37727 /* CustomPlanCategoryCells.swift in Sources */,
@@ -795,7 +799,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SupportingFiles/disney.entitlements;
 				DEVELOPMENT_TEAM = 6P96PVYDRL;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/SupportingFiles/Info.plist";
@@ -813,7 +816,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SupportingFiles/disney.entitlements;
 				DEVELOPMENT_TEAM = 6P96PVYDRL;
 				INFOPLIST_FILE = "$(SRCROOT)/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

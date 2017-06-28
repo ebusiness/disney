@@ -10,10 +10,10 @@ import CoreData
 import UIKit
 
 class DataManager {
-    static let shared: DataManager = {
-        let instance = DataManager()
-        return instance
-    }()
+
+    private init() { }
+
+    static let shared = DataManager()
 
     func save() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }

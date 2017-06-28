@@ -55,7 +55,7 @@ struct MaterialDesignColor {
             "82B1FF",
             "448AFF",
             "2979FF",
-            "2962FF",
+            "2962FF"
             ]
     }
 
@@ -76,7 +76,7 @@ struct MaterialDesignColor {
             "EA80FC",
             "E040FB",
             "D500F9",
-            "AA00FF",
+            "AA00FF"
         ]
     }
 }

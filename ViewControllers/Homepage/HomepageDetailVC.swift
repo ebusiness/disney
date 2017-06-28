@@ -20,6 +20,8 @@ class HomepageDetailVC: UIViewController {
     fileprivate let cellIdentifierTop = "cellIdentifierTop"
     fileprivate let cellIdentifierMid = "cellIdentifierMid"
     fileprivate let cellIdentifierBottom = "cellIdentifierBottom"
+    fileprivate let pathCellIdentifier = "pathCellIdentifier"
+    fileprivate var pathCell: HomepageDetailPathCell!
 
     fileprivate var planDetail: PlanDetail?
 
@@ -48,6 +50,7 @@ class HomepageDetailVC: UIViewController {
         tableView.register(HomepageDetailCellTop.self, forCellReuseIdentifier: cellIdentifierTop)
         tableView.register(HomepageDetailCellMid.self, forCellReuseIdentifier: cellIdentifierMid)
         tableView.register(HomepageDetailCellBottom.self, forCellReuseIdentifier: cellIdentifierBottom)
+        pathCell = HomepageDetailPathCell(style: .default, reuseIdentifier: nil)
         tableView.backgroundColor = UIColor.white
         tableView.delegate = self
         tableView.dataSource = self
@@ -113,39 +116,60 @@ class HomepageDetailVC: UIViewController {
 }
 
 extension HomepageDetailVC: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return planDetail?.routes.count ?? 0
+        if section == 0 {
+            return planDetail?.pathImageURL != nil ? 1 : 0
+        } else {
+            return planDetail?.routes.count ?? 0
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            // top
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierTop, for: indexPath) as? HomepageDetailCellTop else {
-                fatalError("Unknown cell type")
-            }
-            cell.data = planDetail?.routes[indexPath.row]
-            return cell
-        } else if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            // bottom
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierBottom, for: indexPath) as? HomepageDetailCellBottom else {
-                fatalError("Unknown cell type")
-            }
-            cell.data = planDetail?.routes[indexPath.row]
-            return cell
+        if indexPath.section == 0 {
+            // Path image
+            pathCell.imageURL = planDetail?.pathImageURL
+            return pathCell
         } else {
-            // mid
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierMid, for: indexPath) as? HomepageDetailCellMid else {
-                fatalError("Unknown cell type")
+            if indexPath.row == 0 {
+                // top
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierTop, for: indexPath) as? HomepageDetailCellTop else {
+                    fatalError("Unknown cell type")
+                }
+                cell.data = planDetail?.routes[indexPath.row]
+                return cell
+            } else if indexPath.row == tableView.numberOfRows(inSection: 1) - 1 {
+                // bottom
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierBottom, for: indexPath) as? HomepageDetailCellBottom else {
+                    fatalError("Unknown cell type")
+                }
+                cell.data = planDetail?.routes[indexPath.row]
+                return cell
+            } else {
+                // mid
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierMid, for: indexPath) as? HomepageDetailCellMid else {
+                    fatalError("Unknown cell type")
+                }
+                cell.data = planDetail?.routes[indexPath.row]
+                return cell
             }
-            cell.data = planDetail?.routes[indexPath.row]
-            return cell
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let planDetail = planDetail {
-            let data = planDetail.routes[indexPath.row]
-            let parameter = AttractionDetailVC.PreviousPage.planList(id: data.id, date: planDetail.start)
-            let destination = AttractionDetailVC(parameter)
-            navigationController?.pushViewController(destination, animated: true)
+        if indexPath.section == 0 {
+
+            let rectInWindow = pathCell.pathImageView.rectInWindow
+            let desination = ImageBrowserController(contentFrame: rectInWindow,
+                                                    imageURL: planDetail?.pathImageURL)
+            present(desination, animated: false, completion: nil)
+        } else {
+            if let planDetail = planDetail {
+                let data = planDetail.routes[indexPath.row]
+                let parameter = AttractionDetailVC.PreviousPage.planList(id: data.id, date: planDetail.start)
+                let destination = AttractionDetailVC(parameter)
+                navigationController?.pushViewController(destination, animated: true)
+            }
         }
     }
 }

@@ -182,3 +182,10 @@ extension Collection {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+extension UIView {
+    var rectInWindow: CGRect {
+        guard let superView = self.superview else { fatalError("view not in window") }
+        return superView.convert(frame, to: nil)
+    }
+}

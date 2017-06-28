@@ -15,6 +15,8 @@ extension CustomPlan {
                                                 in: context)!
         let myPlan = CustomPlan(entity: entity,
                                 insertInto: context)
+        myPlan.id = planDetail.id
+        myPlan.pathImage = planDetail.pathImageURL?.absoluteString
         planDetail
             .routes
             .map { CustomPlanRoute.from(route: $0) }
