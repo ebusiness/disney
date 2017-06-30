@@ -45,7 +45,6 @@ class ImageBrowserController: UIViewController, FileLocalizable {
         addSubImageView()
 
         scrollView.clipsToBounds = false
-//        view.clipsToBounds = false
     }
 
     required init?(coder aDecoder: NSCoder) {
