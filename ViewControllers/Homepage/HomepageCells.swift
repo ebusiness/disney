@@ -16,13 +16,6 @@ class HomepageCell: UITableViewCell, FileLocalizable {
         didSet {
             if let data = data {
                 titleLabel.text = data.cName
-                if data is PlanListElement {
-                    // 推荐
-                    menu.isHidden = true
-                } else {
-                    // 自定义
-                    menu.isHidden = false
-                }
                 numLabel.text = "\(data.cRoutes.count) " + localize(for: "MainCell.numAttractions")
                 introductionLabel.text = data.cIntroduction
                 collectionView.reloadData()

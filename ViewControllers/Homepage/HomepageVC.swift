@@ -27,41 +27,43 @@ class HomepageVC: UIViewController, FileLocalizable {
     // 保证菜单最多弹出一次
     var editMenuShown = false
     var editMenuIndex: IndexPath?
-    lazy var editMenu: UIAlertController = { [weak self] in
-        let alert = UIAlertController(title: nil,
-                                      message: nil,
-                                      preferredStyle: .actionSheet)
-        let editAction = UIAlertAction(title: self?.localize(for: "Edit Menu Edit"),
-                                          style: .default,
-                                          handler: ({ _ in
-                                            defer { self?.editMenuShown = false }
-                                            return
-                                          }))
-        let deleteAction = UIAlertAction(title: self?.localize(for: "Edit Menu Delete"),
-                                          style: .default,
-                                          handler: ({ _ in
-                                            defer { self?.editMenuShown = false }
-                                            guard let indexPath = self?.editMenuIndex else { return }
-                                            self?.deletePlan(at: indexPath)
-                                            return
-                                          }))
-        let specifyAction = UIAlertAction(title: self?.localize(for: "Edit Menu Specify"),
-                                          style: .default,
-                                          handler: ({ _ in
-                                            defer { self?.editMenuShown = false }
-                                            return
-                                          }))
-        let cancelAction = UIAlertAction(title: self?.localize(for: "Edit Menu Cancel"),
-                                         style: .cancel,
-                                         handler: ({ _ in
-                                            defer { self?.editMenuShown = false }
-                                            return
-                                         }))
-        alert.addAction(editAction)
-        alert.addAction(deleteAction)
-        alert.addAction(specifyAction)
-        alert.addAction(cancelAction)
-        return alert
+    lazy var editMenuForCustomized: UIAlertController = {
+        return HomepageAlertMenu()
+            .editAction({ _ in
+                defer { self.editMenuShown = false }
+                return
+            })
+            .deleteAction({ _ in
+                defer { self.editMenuShown = false }
+                guard let indexPath = self.editMenuIndex else { return }
+                self.deletePlan(at: indexPath)
+                return
+            })
+            .specifyAction({ _ in
+                defer { self.editMenuShown = false }
+                return
+            })
+            .cancelAction({ _ in
+                defer { self.editMenuShown = false }
+                return
+            })
+            .asAlertController()
+    }()
+    lazy var editMenuForSuggested: UIAlertController = {
+        return HomepageAlertMenu()
+            .editAction({ _ in
+                defer { self.editMenuShown = false }
+                return
+            })
+            .specifyAction({ _ in
+                defer { self.editMenuShown = false }
+                return
+            })
+            .cancelAction({ _ in
+                defer { self.editMenuShown = false }
+                return
+            })
+            .asAlertController()
     }()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -159,7 +161,11 @@ class HomepageVC: UIViewController, FileLocalizable {
         if !editMenuShown {
             editMenuShown = true
             editMenuIndex = indexPath
-            present(editMenu, animated: true)
+            if indexPath.section == 0 {
+                present(editMenuForCustomized, animated: true)
+            } else {
+                present(editMenuForSuggested, animated: true)
+            }
         }
     }
 
@@ -188,6 +194,7 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
             fatalError("Unknown cell type")
         }
         if indexPath.section == 0 {
+            // 自定义Plan
             if let data = fetchedResultsController.fetchedObjects?[safe: indexPath.row] {
                 cell.data = data
             }
@@ -196,17 +203,17 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
                     self?.pushToNext(plan: id, type: .custom)
                 }
             }
-            cell.menuPressedHandler = { [weak self] in
-                self?.showEditMenu(for: indexPath)
-            }
         } else {
+            // 系统推荐Plan
             cell.data = suggestedPlans[indexPath.row]
             cell.itemSelectedHandler = { [weak self] id in
                 if self?.navigationController?.topViewController == self {
                     self?.pushToNext(plan: id, type: .suggestion)
                 }
             }
-            cell.menuPressedHandler = nil
+        }
+        cell.menuPressedHandler = { [weak self] in
+            self?.showEditMenu(for: indexPath)
         }
         return cell
     }
@@ -276,5 +283,58 @@ extension HomepageVC: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+}
+
+class HomepageAlertMenu: FileLocalizable {
+
+    let localizeFileName = "Homepage"
+
+    private let alert: UIAlertController
+
+    init() {
+        alert = UIAlertController(title: nil,
+                                  message: nil,
+                                  preferredStyle: .actionSheet)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func editAction(_ handler: @escaping ((UIAlertAction) -> Swift.Void)) -> Self {
+        let editAction = UIAlertAction(title: localize(for: "Edit Menu Edit"),
+                                       style: .default,
+                                       handler: handler)
+        alert.addAction(editAction)
+        return self
+    }
+
+    func deleteAction(_ handler: @escaping ((UIAlertAction) -> Swift.Void)) -> Self {
+        let deleteAction = UIAlertAction(title: localize(for: "Edit Menu Delete"),
+                                       style: .default,
+                                       handler: handler)
+        alert.addAction(deleteAction)
+        return self
+    }
+
+    func specifyAction(_ handler: @escaping ((UIAlertAction) -> Swift.Void)) -> Self {
+        let specifyAction = UIAlertAction(title: localize(for: "Edit Menu Specify"),
+                                       style: .default,
+                                       handler: handler)
+        alert.addAction(specifyAction)
+        return self
+    }
+
+    func cancelAction(_ handler: @escaping ((UIAlertAction) -> Swift.Void)) -> Self {
+        let cancelAction = UIAlertAction(title: localize(for: "Edit Menu Cancel"),
+                                       style: .cancel,
+                                       handler: handler)
+        alert.addAction(cancelAction)
+        return self
+    }
+
+    func asAlertController() -> UIAlertController {
+        return alert
     }
 }
