@@ -20,9 +20,32 @@
         <attribute name="url" attributeType="String" syncable="YES"/>
         <relationship name="route" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CustomPlanRoute" inverseName="images" inverseEntity="CustomPlanRoute" syncable="YES"/>
     </entity>
+    <entity name="SpecifiedPlan" representedClassName="SpecifiedPlan" syncable="YES" codeGenerationType="class">
+        <attribute name="park" attributeType="String" syncable="YES"/>
+        <attribute name="startTime" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="routes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SpecifiedPlanRoute" inverseName="plan" inverseEntity="SpecifiedPlanRoute" syncable="YES"/>
+    </entity>
+    <entity name="SpecifiedPlanRoute" representedClassName="SpecifiedPlanRoute" syncable="YES" codeGenerationType="class">
+        <attribute name="category" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="start" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="timeCost" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timeToNext" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="waitTime" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SpecifiedPlanRouteImage" inverseName="route" inverseEntity="SpecifiedPlanRouteImage" syncable="YES"/>
+        <relationship name="plan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SpecifiedPlan" inverseName="routes" inverseEntity="SpecifiedPlan" syncable="YES"/>
+    </entity>
+    <entity name="SpecifiedPlanRouteImage" representedClassName="SpecifiedPlanRouteImage" syncable="YES" codeGenerationType="class">
+        <attribute name="url" attributeType="String" syncable="YES"/>
+        <relationship name="route" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SpecifiedPlanRoute" inverseName="images" inverseEntity="SpecifiedPlanRoute" syncable="YES"/>
+    </entity>
     <elements>
         <element name="CustomPlan" positionX="-1548" positionY="-441" width="128" height="150"/>
         <element name="CustomPlanRoute" positionX="-1325" positionY="-387" width="128" height="118"/>
         <element name="CustomPlanRouteImage" positionX="-1071" positionY="-270" width="128" height="73"/>
+        <element name="SpecifiedPlan" positionX="-1341" positionY="-333" width="128" height="90"/>
+        <element name="SpecifiedPlanRoute" positionX="-1332" positionY="-324" width="128" height="180"/>
+        <element name="SpecifiedPlanRouteImage" positionX="-1323" positionY="-297" width="128" height="75"/>
     </elements>
 </model>

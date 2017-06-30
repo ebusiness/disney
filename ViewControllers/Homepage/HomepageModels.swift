@@ -113,6 +113,10 @@ struct PlanDetail: SwiftJSONDecodable {
     private(set) var routes: [Route]
     let start: Date
 
+    // 有时需要在获取之后指定Plan所在的园区
+    // API没有返回相应信息，需要手动保存
+    let park = Preferences.shared.visitPark.value ?? .land
+
     init?(_ json: JSON) {
         guard let id = json["_id"].string else { return nil }
         self.id = id
@@ -166,6 +170,7 @@ struct PlanDetail: SwiftJSONDecodable {
         let timeToNext: Int
         let waitTime: Int
         let id: String
+        let category: SpotCategory
         let start: Date
 
         /* 计算属性 */
@@ -200,6 +205,10 @@ struct PlanDetail: SwiftJSONDecodable {
 
             guard let id = json["str_id"].string else { return nil }
             self.id = id
+
+            guard let categoryString = json["attraction"]["category"].string else { return nil }
+            guard let category = SpotCategory(rawValue: categoryString) else { return nil }
+            self.category = category
 
             guard let start = Date(iso8601str: json["schedule"]["startTime"].string) else { return nil }
             self.start = start

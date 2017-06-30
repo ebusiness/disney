@@ -41,6 +41,8 @@ class HomepageVC: UIViewController, FileLocalizable {
             })
             .specifyAction({ _ in
                 defer { self.editMenuShown = false }
+                guard let indexPath = self.editMenuIndex else { return }
+                self.specifyPlan(at: indexPath)
                 return
             })
             .cancelAction({ _ in
@@ -57,6 +59,8 @@ class HomepageVC: UIViewController, FileLocalizable {
             })
             .specifyAction({ _ in
                 defer { self.editMenuShown = false }
+                guard let indexPath = self.editMenuIndex else { return }
+                self.specifyPlan(at: indexPath)
                 return
             })
             .cancelAction({ _ in
@@ -174,6 +178,15 @@ class HomepageVC: UIViewController, FileLocalizable {
         guard let object = fetchedResultsController.fetchedObjects?[safe: indexPath.row] else { return }
         DataManager.shared.context.delete(object)
         DataManager.shared.save()
+    }
+
+    fileprivate func specifyPlan(at indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard let data = fetchedResultsController.fetchedObjects?[safe: indexPath.row] else { return }
+            SpecifyPlanManager.shared.save(type: .custom, id: data.cId)
+        } else {
+            SpecifyPlanManager.shared.save(type: .suggestion, id: suggestedPlans[indexPath.row].id)
+        }
     }
 }
 
