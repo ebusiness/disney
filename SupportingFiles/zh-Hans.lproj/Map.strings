@@ -1,0 +1,11 @@
+/* 
+  Map.strings
+  disney
+
+  Created by ebuser on 2017/7/3.
+  Copyright © 2017年 e-business. All rights reserved.
+*/
+
+"Predicted queue time: %d minute(s)" = "预计排队时间: %d分钟";
+"Predicted cost time: %d minute(s)" = "项目所需时间: %d分钟";
+"Walk to arrive" = "步行%d分钟到达";

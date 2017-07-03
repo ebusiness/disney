@@ -13,9 +13,14 @@ protocol FileLocalizable {
 }
 
 extension FileLocalizable {
-    func localize(for key: String) -> String {
-        return NSLocalizedString(key,
-                                 tableName: localizeFileName,
-                                 comment: "")
+    func localize(for key: String, arguments: CVarArg...) -> String {
+        if arguments.isEmpty {
+            return NSLocalizedString(key,
+                                     tableName: localizeFileName,
+                                     comment: "")
+        } else {
+            let nonArgs = self.localize(for: key)
+            return String(format: nonArgs, arguments: Array(arguments))
+        }
     }
 }

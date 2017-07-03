@@ -10,6 +10,8 @@
 		1F059F701EC32F8C000162C1 /* Attraction.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F059F721EC32F8C000162C1 /* Attraction.strings */; };
 		1F13D0A01ED01C0000121C80 /* CustomPlanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13D09F1ED01C0000121C80 /* CustomPlanVC.swift */; };
 		1F1536301EB34ADF00831646 /* AttractionBriefCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */; };
+		1F1691A61F09F2F200433416 /* MapCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1691A51F09F2C700433416 /* MapCells.swift */; };
+		1F1691A91F09F33100433416 /* Map.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F1691AB1F09F33100433416 /* Map.strings */; };
 		1F18EB6F1EC6CFFF00FCB523 /* WaittimeChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F18EB6E1EC6CFFF00FCB523 /* WaittimeChart.swift */; };
 		1F1AAA831ED53E9A00FB867B /* CustomPlan.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F1AAA851ED53E9A00FB867B /* CustomPlan.strings */; };
 		1F1AAA8B1ED5643800FB867B /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1AAA8A1ED5643800FB867B /* RxExtension.swift */; };
@@ -90,6 +92,11 @@
 		1F059F751EC32F92000162C1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Attraction.strings; sourceTree = "<group>"; };
 		1F13D09F1ED01C0000121C80 /* CustomPlanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlanVC.swift; sourceTree = "<group>"; };
 		1F15362F1EB34ADF00831646 /* AttractionBriefCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttractionBriefCell.swift; sourceTree = "<group>"; };
+		1F1691A51F09F2C700433416 /* MapCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCells.swift; sourceTree = "<group>"; };
+		1F1691AA1F09F33100433416 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Map.strings; sourceTree = "<group>"; };
+		1F1691AC1F09F33300433416 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Map.strings"; sourceTree = "<group>"; };
+		1F1691AD1F09F33400433416 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Map.strings"; sourceTree = "<group>"; };
+		1F1691AE1F09F33500433416 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Map.strings; sourceTree = "<group>"; };
 		1F18EB6E1EC6CFFF00FCB523 /* WaittimeChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaittimeChart.swift; sourceTree = "<group>"; };
 		1F1AAA861ED53E9D00FB867B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/CustomPlan.strings"; sourceTree = "<group>"; };
 		1F1AAA871ED53E9E00FB867B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/CustomPlan.strings"; sourceTree = "<group>"; };
@@ -274,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */,
+				1F1691A51F09F2C700433416 /* MapCells.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -348,6 +356,7 @@
 				1F059F721EC32F8C000162C1 /* Attraction.strings */,
 				1F1AAA851ED53E9A00FB867B /* CustomPlan.strings */,
 				1F5913431EFA70C0004F2FCD /* Setting.strings */,
+				1F1691AB1F09F33100433416 /* Map.strings */,
 				1FDF06C11EEE3CC1003B7580 /* DisneyModel.xcdatamodeld */,
 			);
 			path = SupportingFiles;
@@ -516,6 +525,7 @@
 				1F24C3F51EAF360A00953463 /* Main.strings in Resources */,
 				D0340C8A1EA98E4F00BD8428 /* LaunchScreen.storyboard in Resources */,
 				1FF1C4DE1EAEF03C005A87A9 /* VisitorTag.strings in Resources */,
+				1F1691A91F09F33100433416 /* Map.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +608,7 @@
 				1F1536301EB34ADF00831646 /* AttractionBriefCell.swift in Sources */,
 				1FA4E6B11ECC263900FFC7DA /* MaskedImageView.swift in Sources */,
 				1FAA019B1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift in Sources */,
+				1F1691A61F09F2F200433416 /* MapCells.swift in Sources */,
 				1F25EFE31ED57B1F001A8470 /* CustomPlanMenu.swift in Sources */,
 				1FA811341EADE1C2000A7F2D /* VisitorTagVC.swift in Sources */,
 				1FA8112E1EADA8AA000A7F2D /* HomepageVC.swift in Sources */,
@@ -642,6 +653,17 @@
 				1F5913481EFA7240004F2FCD /* en */,
 			);
 			name = Attraction.strings;
+			sourceTree = "<group>";
+		};
+		1F1691AB1F09F33100433416 /* Map.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1F1691AA1F09F33100433416 /* en */,
+				1F1691AC1F09F33300433416 /* zh-Hans */,
+				1F1691AD1F09F33400433416 /* zh-Hant */,
+				1F1691AE1F09F33500433416 /* ja */,
+			);
+			name = Map.strings;
 			sourceTree = "<group>";
 		};
 		1F1AAA851ED53E9A00FB867B /* CustomPlan.strings */ = {

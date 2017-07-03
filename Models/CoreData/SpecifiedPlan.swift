@@ -27,6 +27,16 @@ extension SpecifiedPlan {
 }
 
 extension SpecifiedPlanRoute {
+    var eCategory: SpotCategory {
+        if category == "attraction" {
+            return .attraction
+        } else if category == "show" {
+            return .show
+        } else {
+            return .greeting
+        }
+    }
+
     static func from(route: PlanDetail.Route) -> SpecifiedPlanRoute {
         let context = DataManager.shared.context
         let entity = NSEntityDescription.entity(forEntityName: "SpecifiedPlanRoute",
@@ -40,6 +50,12 @@ extension SpecifiedPlanRoute {
         myRoute.name = route.name
         myRoute.start = route.start
         myRoute.category = route.category.rawValue
+
+        // 计算开始时间和结束时间
+        let timeForPlay = 60 * route.waitTime + 60 * route.timeCost
+        let endTime = route.start.addingTimeInterval(Double(timeForPlay))
+        myRoute.startTimeText = route.start.format(pattern: "H:mm")
+        myRoute.endTimeText = endTime.format(pattern: "H:mm")
         route
             .images
             .map { SpecifiedPlanRouteImage.from(url: $0) }
