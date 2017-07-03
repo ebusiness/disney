@@ -71,6 +71,8 @@ class MapPointCell: UITableViewCell, FileLocalizable {
         guidewire = UIView(frame: .zero)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        selectionStyle = .none
+
         addSubCard()
         addSubThumb()
         addSubMenu()
@@ -195,6 +197,51 @@ class MapPointCell: UITableViewCell, FileLocalizable {
     }
 }
 
-class MapLineCell: UITableViewCell {
+class MapLineCell: UITableViewCell, FileLocalizable {
+
+    let localizeFileName = "Map"
+
+    var data: SpecifiedPlanRoute? {
+        didSet {
+            if let data = data {
+                pathLabel.text = localize(for: "Walk %d minute(s) to arrive", arguments: data.timeToNext)
+            }
+        }
+    }
+
+    let icon: UIImageView
+    let pathLabel: UILabel
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        icon = UIImageView(frame: .zero)
+        pathLabel = UILabel(frame: .zero)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        selectionStyle = .none
+
+        addSubIcon()
+        addSubPathLabel()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubIcon() {
+        icon.tintColor = MaterialDesignColor.LightGreen.g500
+        icon.image = #imageLiteral(resourceName: "ic_directions_walk_black_24px")
+        addSubview(icon)
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.leftAnchor.constraint(equalTo: leftAnchor, constant: 25).isActive = true
+        icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    }
+
+    private func addSubPathLabel() {
+        pathLabel.font = UIFont.systemFont(ofSize: 15)
+        addSubview(pathLabel)
+        pathLabel.translatesAutoresizingMaskIntoConstraints = false
+        pathLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 80).isActive = true
+        pathLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    }
 
 }

@@ -86,7 +86,9 @@ extension MapVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: lineCellIdentifier, for: indexPath) as? MapLineCell else { fatalError("Unknown cell type") }
-            cell.textLabel?.text = "\(indexPath)"
+            if let data = fetchedResultsController.fetchedObjects?.first?.routes?.object(at: indexPath.row / 2) as? SpecifiedPlanRoute {
+                cell.data = data
+            }
             return cell
         }
     }
