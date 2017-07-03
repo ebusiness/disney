@@ -67,6 +67,10 @@ class MapVC: UIViewController {
         }
     }
 
+    fileprivate func menuPressed(at indexPath: IndexPath) {
+        print("menu pressed at :\(indexPath)")
+    }
+
 }
 
 extension MapVC: UITableViewDelegate, UITableViewDataSource {
@@ -82,6 +86,11 @@ extension MapVC: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: pointCellIdentifier, for: indexPath) as? MapPointCell else { fatalError("Unknown cell type") }
             if let data = fetchedResultsController.fetchedObjects?.first?.routes?.object(at: indexPath.row / 2) as? SpecifiedPlanRoute {
                 cell.data = data
+                cell.menuPressedHandler = { [weak self] in
+                    self?.menuPressed(at: indexPath)
+                }
+            } else {
+                cell.menuPressedHandler = nil
             }
             return cell
         } else {

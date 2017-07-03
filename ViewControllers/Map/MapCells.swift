@@ -47,7 +47,10 @@ class MapPointCell: UITableViewCell, FileLocalizable {
 
     let localizeFileName = "Map"
 
+    var menuPressedHandler: (() -> Void)?
+
     let card: UIImageView
+    let cardContainer: UIView
     let thumb: LeftRoundedCornerImageView
     let nameLabel: UILabel
     let waitTimeLabel: UILabel
@@ -60,6 +63,7 @@ class MapPointCell: UITableViewCell, FileLocalizable {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         card = UIImageView(frame: .zero)
+        cardContainer = UIView(frame: .zero)
         thumb = LeftRoundedCornerImageView(frame: .zero)
         nameLabel = UILabel(frame: .zero)
         waitTimeLabel = UILabel(frame: .zero)
@@ -73,6 +77,7 @@ class MapPointCell: UITableViewCell, FileLocalizable {
 
         selectionStyle = .none
 
+        addSubCardContainer()
         addSubCard()
         addSubThumb()
         addSubMenu()
@@ -89,44 +94,49 @@ class MapPointCell: UITableViewCell, FileLocalizable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func addSubCard() {
-        card.image = #imageLiteral(resourceName: "SpecifiedPlanCard")
-        addSubview(card)
-        card.translatesAutoresizingMaskIntoConstraints = false
-        card.leftAnchor.constraint(equalTo: leftAnchor, constant: 82).isActive = true
-        card.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
-        card.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
-        card.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
-        let heightConstraint = card.heightAnchor.constraint(equalTo: card.widthAnchor, multiplier: 0.49)
+    private func addSubCardContainer() {
+        addSubview(cardContainer)
+        cardContainer.translatesAutoresizingMaskIntoConstraints = false
+        cardContainer.leftAnchor.constraint(equalTo: leftAnchor, constant: 82).isActive = true
+        cardContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
+        cardContainer.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
+        cardContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
+        let heightConstraint = cardContainer.heightAnchor.constraint(equalTo: cardContainer.widthAnchor, multiplier: 0.49)
         heightConstraint.priority = UILayoutPriority(rawValue: 999)
         heightConstraint.isActive = true
     }
 
+    private func addSubCard() {
+        cardContainer.addSubview(card)
+        card.addAllConstraints(equalTo: cardContainer)
+    }
+
     private func addSubThumb() {
         thumb.contentMode = .scaleAspectFill
-        card.addSubview(thumb)
+        cardContainer.addSubview(thumb)
         thumb.translatesAutoresizingMaskIntoConstraints = false
-        thumb.leftAnchor.constraint(equalTo: card.leftAnchor, constant: 1).isActive = true
-        thumb.topAnchor.constraint(equalTo: card.topAnchor, constant: 1).isActive = true
-        thumb.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -2).isActive = true
-        thumb.widthAnchor.constraint(equalTo: card.widthAnchor, multiplier: 0.346).isActive = true
+        thumb.leftAnchor.constraint(equalTo: cardContainer.leftAnchor, constant: 1).isActive = true
+        thumb.topAnchor.constraint(equalTo: cardContainer.topAnchor, constant: 1).isActive = true
+        thumb.bottomAnchor.constraint(equalTo: cardContainer.bottomAnchor, constant: -2).isActive = true
+        thumb.widthAnchor.constraint(equalTo: cardContainer.widthAnchor, multiplier: 0.346).isActive = true
     }
 
     private func addSubMenu() {
         menu.setImage(#imageLiteral(resourceName: "ic_more_vert_black_24px"), for: .normal)
         menu.tintColor = UIColor.white
+        menu.addTarget(self, action: #selector(menuPressed(_:)), for: .touchUpInside)
         menu.setContentCompressionResistancePriority(.required, for: .horizontal)
-        card.addSubview(menu)
+        cardContainer.addSubview(menu)
         menu.translatesAutoresizingMaskIntoConstraints = false
-        menu.rightAnchor.constraint(equalTo: card.rightAnchor, constant: -9).isActive = true
-        menu.topAnchor.constraint(equalTo: card.topAnchor, constant: 8).isActive = true
+        menu.rightAnchor.constraint(equalTo: cardContainer.rightAnchor, constant: -9).isActive = true
+        menu.topAnchor.constraint(equalTo: cardContainer.topAnchor, constant: 8).isActive = true
     }
 
     private func addSubNameLabel() {
         nameLabel.textColor = UIColor.white
         nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         nameLabel.numberOfLines = 0
-        card.addSubview(nameLabel)
+        cardContainer.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.topAnchor.constraint(equalTo: menu.topAnchor).isActive = true
         nameLabel.leftAnchor.constraint(equalTo: thumb.rightAnchor, constant: 8).isActive = true
@@ -136,16 +146,16 @@ class MapPointCell: UITableViewCell, FileLocalizable {
     private func addSubCostTimeLabel() {
         costTimeLabel.textColor = UIColor.white
         costTimeLabel.font = UIFont.systemFont(ofSize: 14)
-        card.addSubview(costTimeLabel)
+        cardContainer.addSubview(costTimeLabel)
         costTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        costTimeLabel.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -10).isActive = true
+        costTimeLabel.bottomAnchor.constraint(equalTo: cardContainer.bottomAnchor, constant: -10).isActive = true
         costTimeLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor).isActive = true
     }
 
     private func addSubWaitTimeLabel() {
         waitTimeLabel.textColor = UIColor.white
         waitTimeLabel.font = UIFont.systemFont(ofSize: 14)
-        card.addSubview(waitTimeLabel)
+        cardContainer.addSubview(waitTimeLabel)
         waitTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         waitTimeLabel.bottomAnchor.constraint(equalTo: costTimeLabel.topAnchor, constant: -4).isActive = true
         waitTimeLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor).isActive = true
@@ -182,6 +192,11 @@ class MapPointCell: UITableViewCell, FileLocalizable {
         guidewire.bottomAnchor.constraint(equalTo: endTimeLabel.topAnchor, constant: -4).isActive = true
         guidewire.widthAnchor.constraint(equalToConstant: 1).isActive = true
         guidewire.centerXAnchor.constraint(equalTo: categoryIcon.centerXAnchor).isActive = true
+    }
+
+    @objc
+    private func menuPressed(_ sender: UIButton) {
+        menuPressedHandler?()
     }
 
     class LeftRoundedCornerImageView: UIImageView {
