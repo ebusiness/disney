@@ -240,6 +240,9 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if tableView.numberOfRows(inSection: section) == 0 {
+            return nil
+        }
         let headerSize = CGSize(width: UIScreen.main.bounds.width, height: 30)
         let headerFrame = CGRect(origin: CGPoint.zero, size: headerSize)
         let header = AttractionBriefHeader(frame: headerFrame)
@@ -258,6 +261,9 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource {
         return view
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if tableView.numberOfRows(inSection: section) == 0 {
+            return 1
+        }
         return 34
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
