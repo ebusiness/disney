@@ -35,8 +35,16 @@
         <attribute name="timeCost" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timeToNext" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="waitTime" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="fastpass" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SpecifiedPlanRouteFastpass" inverseName="route" inverseEntity="SpecifiedPlanRouteFastpass" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="SpecifiedPlanRouteImage" inverseName="route" inverseEntity="SpecifiedPlanRouteImage" syncable="YES"/>
-        <relationship name="plan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SpecifiedPlan" inverseName="routes" inverseEntity="SpecifiedPlan" syncable="YES"/>
+        <relationship name="plan" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SpecifiedPlan" inverseName="routes" inverseEntity="SpecifiedPlan" syncable="YES"/>
+    </entity>
+    <entity name="SpecifiedPlanRouteFastpass" representedClassName="SpecifiedPlanRouteFastpass" syncable="YES" codeGenerationType="class">
+        <attribute name="begin" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="beginString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="endString" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="route" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SpecifiedPlanRoute" inverseName="fastpass" inverseEntity="SpecifiedPlanRoute" syncable="YES"/>
     </entity>
     <entity name="SpecifiedPlanRouteImage" representedClassName="SpecifiedPlanRouteImage" syncable="YES" codeGenerationType="class">
         <attribute name="url" attributeType="String" syncable="YES"/>
@@ -47,7 +55,8 @@
         <element name="CustomPlanRoute" positionX="-1325" positionY="-387" width="128" height="118"/>
         <element name="CustomPlanRouteImage" positionX="-1071" positionY="-270" width="128" height="73"/>
         <element name="SpecifiedPlan" positionX="-1341" positionY="-333" width="128" height="90"/>
-        <element name="SpecifiedPlanRoute" positionX="-1332" positionY="-324" width="128" height="210"/>
+        <element name="SpecifiedPlanRoute" positionX="-1332" positionY="-324" width="128" height="225"/>
         <element name="SpecifiedPlanRouteImage" positionX="-1323" positionY="-297" width="128" height="75"/>
+        <element name="SpecifiedPlanRouteFastpass" positionX="-1350" positionY="-297" width="128" height="120"/>
     </elements>
 </model>

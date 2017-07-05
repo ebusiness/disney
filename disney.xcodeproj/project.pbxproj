@@ -60,6 +60,8 @@
 		1FAA019B1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */; };
 		1FAA873C1F01238C00478E7D /* ImageBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA873B1F01238C00478E7D /* ImageBrowserController.swift */; };
 		1FC93F941EFA1F6D00FEB2F9 /* DefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC93F931EFA1F6D00FEB2F9 /* DefaultStyle.swift */; };
+		1FCA03531F0B2675002D5336 /* MapAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCA03521F0B2675002D5336 /* MapAlertController.swift */; };
+		1FCA03551F0B2C67002D5336 /* SettingFastpass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCA03541F0B2C67002D5336 /* SettingFastpass.swift */; };
 		1FD1CF4C1ECD8C6B004A72B7 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */; };
 		1FDF06C31EEE3CC1003B7580 /* DisneyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF06C11EEE3CC1003B7580 /* DisneyModel.xcdatamodeld */; };
 		1FDF06C51EEE3D26003B7580 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF06C41EEE3D26003B7580 /* DataManager.swift */; };
@@ -159,6 +161,8 @@
 		1FAA019A1EF3884400B8FA7D /* CustomPlanAttractionsOfGradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfGradeCell.swift; sourceTree = "<group>"; };
 		1FAA873B1F01238C00478E7D /* ImageBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBrowserController.swift; sourceTree = "<group>"; };
 		1FC93F931EFA1F6D00FEB2F9 /* DefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStyle.swift; sourceTree = "<group>"; };
+		1FCA03521F0B2675002D5336 /* MapAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAlertController.swift; sourceTree = "<group>"; };
+		1FCA03541F0B2C67002D5336 /* SettingFastpass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFastpass.swift; sourceTree = "<group>"; };
 		1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		1FDF06C21EEE3CC1003B7580 /* DisneyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DisneyModel.xcdatamodel; sourceTree = "<group>"; };
 		1FDF06C41EEE3D26003B7580 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -282,6 +286,7 @@
 			children = (
 				1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */,
 				1F1691A51F09F2C700433416 /* MapCells.swift */,
+				1FCA03521F0B2675002D5336 /* MapAlertController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 				1F266CCB1EFCF5B200FDA5CC /* SettingParkVC.swift */,
 				1F89C29A1F00B59B00421FC0 /* SettingDateVC.swift */,
 				1F53FB611F00BBD700871F5B /* SettingDateCells.swift */,
+				1FCA03541F0B2C67002D5336 /* SettingFastpass.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -600,6 +606,7 @@
 				1F1AAA8B1ED5643800FB867B /* RxExtension.swift in Sources */,
 				1F7DFB821ECAEFE9004FA058 /* HomepageModels.swift in Sources */,
 				1F4F73961F0344380009F4C1 /* PhotoSaveAssistant.swift in Sources */,
+				1FCA03531F0B2675002D5336 /* MapAlertController.swift in Sources */,
 				1FDF06C31EEE3CC1003B7580 /* DisneyModel.xcdatamodeld in Sources */,
 				1F6D1A021EB0BBFC00A9C70F /* Localize.swift in Sources */,
 				1F46F5E01F06423900ABF913 /* SpecifiedPlan.swift in Sources */,
@@ -616,6 +623,7 @@
 				1F266CCA1EFCDEF100FDA5CC /* SettingTagVC.swift in Sources */,
 				1F18EB6F1EC6CFFF00FCB523 /* WaittimeChart.swift in Sources */,
 				1F6559501EC16C7A005BC235 /* AttractionModels.swift in Sources */,
+				1FCA03551F0B2C67002D5336 /* SettingFastpass.swift in Sources */,
 				1F7DFB841ECAF7C9004FA058 /* HomepageCells.swift in Sources */,
 				1F24BE981ED820E300E37727 /* CustomPlanModels.swift in Sources */,
 				1FAA873C1F01238C00478E7D /* ImageBrowserController.swift in Sources */,

@@ -13,35 +13,7 @@ class MapPointCell: UITableViewCell, FileLocalizable {
 
     var data: SpecifiedPlanRoute? {
         didSet {
-            if let data = data {
-                // 背景颜色
-                switch data.eCategory {
-                case .attraction:
-                    card.image = #imageLiteral(resourceName: "SpecifiedPlanCardAttraction")
-                    categoryIcon.tintColor = DefaultStyle.attraction
-                    categoryIcon.image = #imageLiteral(resourceName: "ic_toys_black_24px")
-                case .show:
-                    card.image = #imageLiteral(resourceName: "SpecifiedPlanCardShow")
-                    categoryIcon.tintColor = DefaultStyle.show
-                    categoryIcon.image = #imageLiteral(resourceName: "ic_parade_black_24px")
-                case .greeting:
-                    card.image = #imageLiteral(resourceName: "SpecifiedPlanCardGreeting")
-                    categoryIcon.tintColor = DefaultStyle.greeting
-                    categoryIcon.image = #imageLiteral(resourceName: "ic_local_see_black_24px")
-                }
-                // 缩略图
-                if let image = data.images?.firstObject as? SpecifiedPlanRouteImage {
-                    thumb.kf.setImage(with: URL(string: image.url!))
-                }
-                // 项目名
-                nameLabel.text = data.name
-                // 排队时间和项目时间
-                waitTimeLabel.text = localize(for: "Predicted queue time: %d minute(s)", arguments: data.waitTime)
-                costTimeLabel.text = localize(for: "Predicted cost time: %d minute(s)", arguments: data.timeCost)
-                // 开始时间
-                startTimeLabel.text = data.startTimeText
-                endTimeLabel.text = data.endTimeText
-            }
+            dataDidSet()
         }
     }
 
@@ -94,7 +66,7 @@ class MapPointCell: UITableViewCell, FileLocalizable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func addSubCardContainer() {
+    func addSubCardContainer() {
         addSubview(cardContainer)
         cardContainer.translatesAutoresizingMaskIntoConstraints = false
         cardContainer.leftAnchor.constraint(equalTo: leftAnchor, constant: 82).isActive = true
@@ -199,6 +171,38 @@ class MapPointCell: UITableViewCell, FileLocalizable {
         menuPressedHandler?()
     }
 
+    func dataDidSet() {
+        if let data = data {
+            // 背景颜色
+            switch data.eCategory {
+            case .attraction:
+                card.image = #imageLiteral(resourceName: "SpecifiedPlanCardAttraction")
+                categoryIcon.tintColor = DefaultStyle.attraction
+                categoryIcon.image = #imageLiteral(resourceName: "ic_toys_black_24px")
+            case .show:
+                card.image = #imageLiteral(resourceName: "SpecifiedPlanCardShow")
+                categoryIcon.tintColor = DefaultStyle.show
+                categoryIcon.image = #imageLiteral(resourceName: "ic_parade_black_24px")
+            case .greeting:
+                card.image = #imageLiteral(resourceName: "SpecifiedPlanCardGreeting")
+                categoryIcon.tintColor = DefaultStyle.greeting
+                categoryIcon.image = #imageLiteral(resourceName: "ic_local_see_black_24px")
+            }
+            // 缩略图
+            if let image = data.images?.firstObject as? SpecifiedPlanRouteImage {
+                thumb.kf.setImage(with: URL(string: image.url!))
+            }
+            // 项目名
+            nameLabel.text = data.name
+            // 排队时间和项目时间
+            waitTimeLabel.text = localize(for: "Predicted queue time: %d minute(s)", arguments: data.waitTime)
+            costTimeLabel.text = localize(for: "Predicted cost time: %d minute(s)", arguments: data.timeCost)
+            // 开始时间
+            startTimeLabel.text = data.startTimeText
+            endTimeLabel.text = data.endTimeText
+        }
+    }
+
     class LeftRoundedCornerImageView: UIImageView {
         override func layoutSubviews() {
             super.layoutSubviews()
@@ -208,6 +212,73 @@ class MapPointCell: UITableViewCell, FileLocalizable {
             let maskLayer = CAShapeLayer()
             maskLayer.path = path.cgPath
             layer.mask = maskLayer
+        }
+    }
+}
+
+class MapFastpassPointCell: MapPointCell {
+    let fastpassContainer: UIView
+    let fastpassIcon: UIImageView
+    let fastpassLabel: UILabel
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        fastpassContainer = UIView(frame: .zero)
+        fastpassIcon = UIImageView(image: #imageLiteral(resourceName: "FastPass"))
+        fastpassLabel = UILabel(frame: .zero)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        addSubFastpassContainer()
+        addSubFastpassIcon()
+        addSubFastpassLabel()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func addSubCardContainer() {
+        addSubview(cardContainer)
+        cardContainer.translatesAutoresizingMaskIntoConstraints = false
+        cardContainer.leftAnchor.constraint(equalTo: leftAnchor, constant: 82).isActive = true
+        cardContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
+        cardContainer.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
+        let heightConstraint = cardContainer.heightAnchor.constraint(equalTo: cardContainer.widthAnchor, multiplier: 0.49)
+        heightConstraint.priority = UILayoutPriority(rawValue: 999)
+        heightConstraint.isActive = true
+    }
+
+    private func addSubFastpassContainer() {
+        addSubview(fastpassContainer)
+        fastpassContainer.translatesAutoresizingMaskIntoConstraints = false
+        fastpassContainer.leftAnchor.constraint(equalTo: cardContainer.leftAnchor, constant: 12).isActive = true
+        fastpassContainer.topAnchor.constraint(equalTo: cardContainer.bottomAnchor, constant: 4).isActive = true
+        let bottomConstraint = fastpassContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        bottomConstraint.priority = UILayoutPriority(rawValue: 999)
+        bottomConstraint.isActive = true
+    }
+
+    private func addSubFastpassIcon() {
+        fastpassContainer.addSubview(fastpassIcon)
+        fastpassIcon.translatesAutoresizingMaskIntoConstraints = false
+        fastpassIcon.leftAnchor.constraint(equalTo: fastpassContainer.leftAnchor).isActive = true
+        fastpassIcon.topAnchor.constraint(equalTo: fastpassContainer.topAnchor).isActive = true
+        fastpassIcon.bottomAnchor.constraint(equalTo: fastpassContainer.bottomAnchor).isActive = true
+    }
+
+    private func addSubFastpassLabel() {
+        fastpassLabel.textColor = DefaultStyle.textLightGray
+        fastpassContainer.addSubview(fastpassLabel)
+        fastpassLabel.translatesAutoresizingMaskIntoConstraints = false
+        fastpassLabel.leftAnchor.constraint(equalTo: fastpassIcon.rightAnchor, constant: 8).isActive = true
+        fastpassLabel.centerYAnchor.constraint(equalTo: fastpassIcon.centerYAnchor).isActive = true
+    }
+
+    override func dataDidSet() {
+        super.dataDidSet()
+        if let data = data,
+            let begin = data.fastpass?.begin,
+            let end = data.fastpass?.end {
+            fastpassLabel.text = begin.format(pattern: "H:mm") + " ~ " + end.format(pattern: "H:mm")
         }
     }
 }

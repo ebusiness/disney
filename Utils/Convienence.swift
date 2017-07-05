@@ -24,18 +24,6 @@ enum UserDefaultKeys: String {
     case visitorTags = "visitor_tags"
 }
 
-//fileprivate struct UserDefaultCaches {
-//    static var visitDateTimeCache: Date?
-//    static var exitDateTimeCache: Date?
-//    static var visitParkCache: TokyoDisneyPark?
-//
-//    static func clear() {
-//        visitDateTimeCache = nil
-//        exitDateTimeCache = nil
-//        visitParkCache = nil
-//    }
-//}
-
 extension UserDefaults {
     subscript(key: UserDefaultKeys) -> Any? {
         get {
@@ -45,63 +33,6 @@ extension UserDefaults {
             set(newValue, forKey: key.rawValue)
         }
     }
-
-//    var visitDateTime: Date? {
-//        if UserDefaultCaches.visitDateTimeCache != nil { return UserDefaultCaches.visitDateTimeCache }
-//
-//        guard let year = object(forKey: UserDefaultKeys.visitYear.rawValue) as? Int else { return nil }
-//        guard let month = object(forKey: UserDefaultKeys.visitMonth.rawValue) as? Int else { return nil }
-//        guard let day = object(forKey: UserDefaultKeys.visitDay.rawValue) as? Int else { return nil }
-//        guard let hour = object(forKey: UserDefaultKeys.visitHour.rawValue) as? Int else { return nil }
-//        guard let minute = object(forKey: UserDefaultKeys.visitMinute.rawValue) as? Int else { return nil }
-//
-//        var dateComponents = DateComponents()
-//        dateComponents.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
-//        dateComponents.year = year
-//        dateComponents.month = month
-//        dateComponents.day = day
-//        dateComponents.hour = hour
-//        dateComponents.minute = minute
-//        dateComponents.second = 0
-//
-//        let calendar = Calendar.current
-//        let date = calendar.date(from: dateComponents)
-//        UserDefaultCaches.visitDateTimeCache = date
-//        return date
-//    }
-
-//    var exitDateTime: Date? {
-//        if UserDefaultCaches.exitDateTimeCache != nil { return UserDefaultCaches.exitDateTimeCache }
-//
-//        guard let year = object(forKey: UserDefaultKeys.visitYear.rawValue) as? Int else { return nil }
-//        guard let month = object(forKey: UserDefaultKeys.visitMonth.rawValue) as? Int else { return nil }
-//        guard let day = object(forKey: UserDefaultKeys.visitDay.rawValue) as? Int else { return nil }
-//        guard let hour = object(forKey: UserDefaultKeys.exitHour.rawValue) as? Int else { return nil }
-//        guard let minute = object(forKey: UserDefaultKeys.exitMinute.rawValue) as? Int else { return nil }
-//
-//        var dateComponents = DateComponents()
-//        dateComponents.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
-//        dateComponents.year = year
-//        dateComponents.month = month
-//        dateComponents.day = day
-//        dateComponents.hour = hour
-//        dateComponents.minute = minute
-//        dateComponents.second = 0
-//
-//        let calendar = Calendar.current
-//        let date = calendar.date(from: dateComponents)
-//        UserDefaultCaches.exitDateTimeCache = date
-//        return date
-//    }
-//
-//    var visitPark: TokyoDisneyPark? {
-//        if UserDefaultCaches.visitParkCache != nil { return UserDefaultCaches.visitParkCache }
-//
-//        guard let parkString = UserDefaults.standard[.visitPark] as? String else { return nil }
-//        let park = TokyoDisneyPark(rawValue: parkString)
-//        UserDefaultCaches.visitParkCache = park
-//        return park
-//    }
 }
 
 extension UIColor {

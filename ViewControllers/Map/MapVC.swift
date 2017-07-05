@@ -13,9 +13,33 @@ class MapVC: UIViewController {
 
     let tableView: UITableView
     let pointCellIdentifier = "pointCellIdentifier"
+    let fastpassPointCellIdentifier = "fastpassPointCellIdentifier"
     let lineCellIdentifier = "lineCellIdentifier"
 
     let fetchedResultsController: NSFetchedResultsController<SpecifiedPlan>
+
+    var menuLock = false
+    var menuIndexPath: IndexPath?
+    lazy var menu: UIAlertController = {
+        return MapAlertController()
+            .fastpassAction({ _ in
+                defer {
+                    if let indexPath = self.menuIndexPath ,
+                        let route = self.fetchedResultsController.fetchedObjects?.first?.routes?.object(at: indexPath.row / 2) as? SpecifiedPlanRoute {
+                        let fastpassSetting = SettingFastpass(route: route)
+                        let navigation = NavigationVC(rootViewController: fastpassSetting)
+                        self.present(navigation, animated: true)
+                    }
+                }
+                defer { self.menuLock = false }
+                return
+            })
+            .cancelAction({ _ in
+                defer { self.menuLock = false }
+                return
+            })
+            .asAlertController()
+    }()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: .zero, style: .plain)
@@ -49,6 +73,7 @@ class MapVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MapPointCell.self, forCellReuseIdentifier: pointCellIdentifier)
+        tableView.register(MapFastpassPointCell.self, forCellReuseIdentifier: fastpassPointCellIdentifier)
         tableView.register(MapLineCell.self, forCellReuseIdentifier: lineCellIdentifier)
         tableView.rowHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
@@ -68,7 +93,10 @@ class MapVC: UIViewController {
     }
 
     fileprivate func menuPressed(at indexPath: IndexPath) {
-        print("menu pressed at :\(indexPath)")
+        guard !menuLock else { return }
+        menuIndexPath = indexPath
+        menuLock = true
+        present(menu, animated: true)
     }
 
 }
@@ -82,22 +110,24 @@ extension MapVC: UITableViewDelegate, UITableViewDataSource {
         return routes.count * 2 - 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let data = fetchedResultsController.fetchedObjects?.first?.routes?.object(at: indexPath.row / 2) as? SpecifiedPlanRoute
+            else { return UITableViewCell() }
         if indexPath.row % 2 == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: pointCellIdentifier, for: indexPath) as? MapPointCell else { fatalError("Unknown cell type") }
-            if let data = fetchedResultsController.fetchedObjects?.first?.routes?.object(at: indexPath.row / 2) as? SpecifiedPlanRoute {
-                cell.data = data
-                cell.menuPressedHandler = { [weak self] in
-                    self?.menuPressed(at: indexPath)
-                }
+            var cell: MapPointCell!
+            if data.fastpass != nil {
+                cell = tableView.dequeueReusableCell(withIdentifier: fastpassPointCellIdentifier, for: indexPath) as? MapFastpassPointCell
             } else {
-                cell.menuPressedHandler = nil
+                cell = tableView.dequeueReusableCell(withIdentifier: pointCellIdentifier, for: indexPath) as? MapPointCell
+            }
+            cell.data = data
+            cell.menuPressedHandler = { [weak self] in
+                self?.menuPressed(at: indexPath)
             }
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: lineCellIdentifier, for: indexPath) as? MapLineCell else { fatalError("Unknown cell type") }
-            if let data = fetchedResultsController.fetchedObjects?.first?.routes?.object(at: indexPath.row / 2) as? SpecifiedPlanRoute {
-                cell.data = data
-            }
+            cell.data = data
+
             return cell
         }
     }

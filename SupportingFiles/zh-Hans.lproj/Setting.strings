@@ -7,6 +7,7 @@
 */
 
 "Settings" = "个人设置";
+"Fastpass settings" = "Fastpass设置";
 
 "setting tags" = "选择标签";
 
@@ -14,6 +15,9 @@
 "setting date" = "变更日期";
 "setting time in" = "入园时间";
 "setting time out" = "退园时间";
+"setting fastpass begin" = "开始时间";
+"setting fastpass end" = "截止时间";
+"setting fastpass none" = "未设置";
 
 "setting feedback" = "意见反馈";
 "setting about us" = "关于我们";

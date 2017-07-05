@@ -14,7 +14,7 @@ class NavigationVC: UINavigationController {
         super.viewDidLoad()
         navigationBar.barStyle = .black
         navigationBar.isTranslucent = true
-        navigationBar.barTintColor = UIColor(hex: "0091EA")
+        navigationBar.barTintColor = DefaultStyle.primaryColor
         navigationBar.tintColor = UIColor.white
     }
 

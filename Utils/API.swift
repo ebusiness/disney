@@ -137,6 +137,8 @@ extension API {
             switch self {
             case .customize(let customizeParameter):
                 return customizeParameter.asParameter()
+            case .map:
+                return ["withbg": 1]
             default:
                 return nil
             }
@@ -145,12 +147,12 @@ extension API {
         //swiftlint:disable:next nesting
         struct CustomizeParameter {
             let start: Date
-            let route: [[String: String]]
+            let route: [[String: Any]]
             func asParameter() -> [String: Any] {
-                var ans = [String: Any]()
-                ans["start"] = start.zFormat()
-                ans["route"] = route
-                return ans
+                var params = [String: Any]()
+                params["start"] = start.zFormat()
+                params["route"] = route
+                return params
             }
         }
     }

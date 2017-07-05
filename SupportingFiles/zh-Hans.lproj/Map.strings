@@ -9,3 +9,6 @@
 "Predicted queue time: %d minute(s)" = "预计排队时间: %d分钟";
 "Predicted cost time: %d minute(s)" = "项目所需时间: %d分钟";
 "Walk %d minute(s) to arrive" = "步行%d分钟到达";
+
+"Edit Menu Cancel" = "取消";
+"Edit Menu Fastpass" = "Fastpass";

@@ -172,6 +172,7 @@ struct PlanDetail: SwiftJSONDecodable {
         let id: String
         let category: SpotCategory
         let start: Date
+        let fastpass: Fastpass?
 
         /* 计算属性 */
         fileprivate(set) var timeStart: Date?
@@ -212,6 +213,21 @@ struct PlanDetail: SwiftJSONDecodable {
 
             guard let start = Date(iso8601str: json["schedule"]["startTime"].string) else { return nil }
             self.start = start
+
+            self.fastpass = Fastpass(json["fastpass"])
+        }
+    }
+
+    struct Fastpass: SwiftJSONDecodable {
+        let begin: Date
+        let end: Date
+
+        init?(_ json: JSON) {
+            guard let begin = Date(iso8601str: json["begin"].string) else { return nil }
+            self.begin = begin
+
+            guard let end = Date(iso8601str: json["end"].string) else { return nil }
+            self.end = end
         }
     }
 

@@ -56,10 +56,17 @@ extension SpecifiedPlanRoute {
         let endTime = route.start.addingTimeInterval(Double(timeForPlay))
         myRoute.startTimeText = route.start.format(pattern: "H:mm")
         myRoute.endTimeText = endTime.format(pattern: "H:mm")
+
+        // 缩略图
         route
             .images
             .map { SpecifiedPlanRouteImage.from(url: $0) }
             .forEach { $0.route = myRoute }
+
+        // Fastpass
+        if let fastpass = route.fastpass {
+            myRoute.fastpass = SpecifiedPlanRouteFastpass.from(fastpass: fastpass)
+        }
         return myRoute
     }
 }
@@ -73,5 +80,24 @@ extension SpecifiedPlanRouteImage {
                                             insertInto: context)
         image.url = url
         return image
+    }
+}
+
+extension SpecifiedPlanRouteFastpass {
+    static func make(begin: Date, end: Date) -> SpecifiedPlanRouteFastpass {
+        let context = DataManager.shared.context
+        let entity = NSEntityDescription.entity(forEntityName: "SpecifiedPlanRouteFastpass",
+                                                in: context)!
+        let fastpass = SpecifiedPlanRouteFastpass(entity: entity,
+                                                  insertInto: context)
+        fastpass.begin = begin
+        fastpass.end = end
+        fastpass.beginString = begin.format(pattern: "H:mm")
+        fastpass.endString = end.format(pattern: "H:mm")
+        return fastpass
+    }
+
+    static func from(fastpass: PlanDetail.Fastpass) -> SpecifiedPlanRouteFastpass {
+        return SpecifiedPlanRouteFastpass.make(begin: fastpass.begin, end: fastpass.end)
     }
 }

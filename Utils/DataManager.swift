@@ -45,6 +45,42 @@ class SpecifyPlanManager {
         requestPlanDetail()
     }
 
+    func updateFastpass(route: SpecifiedPlanRoute, begin: Date, end: Date, completionHandler: (() -> Swift.Void)? = nil) {
+        guard let sId = route.id else { return }
+        guard let date = Preferences.shared.visitStart.value else { return }
+        let sRouteParameter: [String: Any] = ["str_id": sId,
+                                              "fastpass": [
+                                                "begin": begin.zFormat(),
+                                                "end": end.zFormat()]]
+        guard let otherRoutes = route
+            .plan?
+            .routes?
+            .map ({ $0 as? SpecifiedPlanRoute })
+            .flatMap({ $0 })
+            .filter({ ($0.id != nil) && ($0.id != sId) })
+            else { return }
+        let otherRouteParameter: [[String: Any]] = otherRoutes
+            .map({
+                if let fp = $0.fastpass,
+                    let begin = fp.begin,
+                    let end = fp.end {
+                    return ["str_id": $0.id!,
+                            "fastpass": ["begin": begin.zFormat(),
+                                         "end": end.zFormat()]]
+                } else {
+                    return ["str_id": $0.id!]
+                }
+            })
+        let routes = [sRouteParameter] + otherRouteParameter
+        let parameter = API.Plans.CustomizeParameter(start: date, route: routes)
+        let requester = API.Plans.customize(parameter)
+        requester.request { data in
+            guard let planDetail = PlanDetail(data) else { return }
+            self.replaceInDB(plan: planDetail)
+            completionHandler?()
+        }
+    }
+
     private func requestPlanDetail() {
         if type == .custom {
             let fetchRequest = NSFetchRequest<CustomPlan>(entityName: "CustomPlan")
