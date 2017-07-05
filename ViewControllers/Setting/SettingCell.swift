@@ -6,11 +6,16 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import RxCocoa
+import RxSwift
 import UIKit
 
 class SettingCell: UITableViewCell, FileLocalizable {
 
     let localizeFileName = "Setting"
+
+    private var detailTextDisposable: Disposable?
+    private var disposeBag = DisposeBag()
 
     var category: Category? {
         didSet {
@@ -36,13 +41,23 @@ class SettingCell: UITableViewCell, FileLocalizable {
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_date_range_black_24px")
                 textLabel?.text = localize(for: "setting date")
-                if let visitDate = Preferences.shared.visitStart.value {
-                    detailTextLabel?.text = DateFormatter.localizedString(from: visitDate,
-                                                                          dateStyle: .medium,
-                                                                          timeStyle: .none)
-                } else {
-                    detailTextLabel?.text = nil
-                }
+                guard let detailTextLabel = detailTextLabel else { break }
+                detailTextDisposable?.dispose()
+                detailTextDisposable = Preferences
+                    .shared
+                    .visitStart
+                    .asObservable()
+                    .map { (date: Date?) -> String? in
+                        if let date = date {
+                            return DateFormatter.localizedString(from: date,
+                                                                 dateStyle: .medium,
+                                                                 timeStyle: .none)
+                        } else {
+                            return nil
+                        }
+                    }
+                    .bind(to: detailTextLabel.rx.text)
+                detailTextDisposable?.disposed(by: disposeBag)
             case .timeIn:
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_timer_black_24px")
