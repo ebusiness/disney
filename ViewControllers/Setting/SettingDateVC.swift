@@ -6,12 +6,14 @@
 //  Copyright © 2017年 e-business. All rights reserved.
 //
 
+import RxSwift
 import UIKit
 
 class SettingDateVC: UIViewController, FileLocalizable {
 
     let localizeFileName = "Setting"
 
+    let disposeBag = DisposeBag()
     let tableView: UITableView
     let settingDateCell: SettingDateCell
 
@@ -39,6 +41,8 @@ class SettingDateVC: UIViewController, FileLocalizable {
         tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .none
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -48,7 +52,7 @@ class SettingDateVC: UIViewController, FileLocalizable {
     }
 
     private func configNavigationItems() {
-        title = localize(for: "setting tags")
+        title = localize(for: "setting date and time")
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
                                          target: self,
                                          action: #selector(saveHandler(_:)))
@@ -60,6 +64,20 @@ class SettingDateVC: UIViewController, FileLocalizable {
         navigationController?.popViewController(animated: true)
     }
 
+    fileprivate func presentDatePicker() {
+        guard let visitDate = Preferences.shared.visitStart.value else { return }
+        let datepicker = VisitdatePickVC(date: visitDate)
+        datepicker
+            .subject
+            .subscribe { dateEvent in
+                guard let date = dateEvent.element else {
+                    return
+                }
+                Preferences.shared.visitStart.value = date
+            }
+            .disposed(by: disposeBag)
+        present(datepicker, animated: false, completion: nil)
+    }
 }
 
 extension SettingDateVC: UITableViewDelegate, UITableViewDataSource {
@@ -69,7 +87,18 @@ extension SettingDateVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return settingDateCell
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 80
+        } else if indexPath.row == 1 {
+            return 80
+        } else {
+            return 400
+        }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            presentDatePicker()
+        }
     }
 }
