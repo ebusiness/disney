@@ -16,10 +16,12 @@ class SettingDateVC: UIViewController, FileLocalizable {
     let disposeBag = DisposeBag()
     let tableView: UITableView
     let settingDateCell: SettingDateCell
+    let settingTimeCell: SettingTimeCell
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: .zero, style: .plain)
         settingDateCell = SettingDateCell(style: .default, reuseIdentifier: nil)
+        settingTimeCell = SettingTimeCell(style: .default, reuseIdentifier: nil)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         hidesBottomBarWhenPushed = true
@@ -82,10 +84,14 @@ class SettingDateVC: UIViewController, FileLocalizable {
 
 extension SettingDateVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return settingDateCell
+        if indexPath.row == 0 {
+            return settingDateCell
+        } else {
+            return settingTimeCell
+        }
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
