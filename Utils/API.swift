@@ -183,3 +183,26 @@ extension API {
     }
 
 }
+
+// MARK: - Schedule
+extension API {
+    enum Schedule: Requestable {
+        case openTime(date: Date)
+
+        var path: String {
+            switch self {
+            case .openTime(let date):
+                let dateString = date.format(pattern: "yyyy-MM-dd")
+                return "schedule/\(dateString)"
+            }
+        }
+
+        var method: RouteMethod {
+            return .GET
+        }
+
+        var parameters: [String : Any]? {
+            return nil
+        }
+    }
+}

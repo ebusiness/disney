@@ -61,6 +61,7 @@ class VisitdatePickVC: UIViewController {
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .ended {
             if !pickerView.frame.contains(gesture.location(in: view)) {
+                subject.onCompleted()
                 dismiss(animated: false, completion: nil)
             }
         }

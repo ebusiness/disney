@@ -36,6 +36,8 @@
 		1F6D69A91EDBCBF300BEF4C2 /* CustomPlanAttractionsOfTagVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D69A81EDBCBF300BEF4C2 /* CustomPlanAttractionsOfTagVC.swift */; };
 		1F6D69AB1EDC052B00BEF4C2 /* CustomPlanAttractionsOfTagCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D69AA1EDC052B00BEF4C2 /* CustomPlanAttractionsOfTagCells.swift */; };
 		1F6E0CE41F0CD508005E08E9 /* MaterialDesignColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E0CE31F0CD508005E08E9 /* MaterialDesignColors.swift */; };
+		1F6E0CE61F0CDEF4005E08E9 /* SettingTimePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E0CE51F0CDEF4005E08E9 /* SettingTimePanel.swift */; };
+		1F6E0CE81F0DD020005E08E9 /* SettingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E0CE71F0DD020005E08E9 /* SettingModels.swift */; };
 		1F7634401EB07FE100509B38 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F76343F1EB07FE100509B38 /* BaseModel.swift */; };
 		1F7DFB791ECACA1C004FA058 /* Homepage.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F7DFB7B1ECACA1C004FA058 /* Homepage.strings */; };
 		1F7DFB801ECAE4CD004FA058 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7DFB7F1ECAE4CD004FA058 /* SettingCell.swift */; };
@@ -136,6 +138,8 @@
 		1F6D69A81EDBCBF300BEF4C2 /* CustomPlanAttractionsOfTagVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfTagVC.swift; sourceTree = "<group>"; };
 		1F6D69AA1EDC052B00BEF4C2 /* CustomPlanAttractionsOfTagCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlanAttractionsOfTagCells.swift; sourceTree = "<group>"; };
 		1F6E0CE31F0CD508005E08E9 /* MaterialDesignColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialDesignColors.swift; sourceTree = "<group>"; };
+		1F6E0CE51F0CDEF4005E08E9 /* SettingTimePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTimePanel.swift; sourceTree = "<group>"; };
+		1F6E0CE71F0DD020005E08E9 /* SettingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModels.swift; sourceTree = "<group>"; };
 		1F76343F1EB07FE100509B38 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		1F7DFB7C1ECACA1E004FA058 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Homepage.strings"; sourceTree = "<group>"; };
 		1F7DFB7D1ECACA1E004FA058 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Homepage.strings"; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 				1F266CCB1EFCF5B200FDA5CC /* SettingParkVC.swift */,
 				1F89C29A1F00B59B00421FC0 /* SettingDateVC.swift */,
 				1F53FB611F00BBD700871F5B /* SettingDateCells.swift */,
+				1F6E0CE51F0CDEF4005E08E9 /* SettingTimePanel.swift */,
+				1F6E0CE71F0DD020005E08E9 /* SettingModels.swift */,
 				1FCA03541F0B2C67002D5336 /* SettingFastpass.swift */,
 			);
 			path = Setting;
@@ -580,6 +586,7 @@
 				1FDF06C51EEE3D26003B7580 /* DataManager.swift in Sources */,
 				1FF6CDF61EF1488400367802 /* CustomPlanAttractionsOfAreaCells.swift in Sources */,
 				1F43F7AD1EC433E4009D0104 /* AttractionDetailVC.swift in Sources */,
+				1F6E0CE61F0CDEF4005E08E9 /* SettingTimePanel.swift in Sources */,
 				1F90DD0E1EB04919004463B9 /* API.swift in Sources */,
 				1F266CCC1EFCF5B200FDA5CC /* SettingParkVC.swift in Sources */,
 				1F6E0CE41F0CD508005E08E9 /* MaterialDesignColors.swift in Sources */,
@@ -611,6 +618,7 @@
 				1F7DFB821ECAEFE9004FA058 /* HomepageModels.swift in Sources */,
 				1F4F73961F0344380009F4C1 /* PhotoSaveAssistant.swift in Sources */,
 				1FCA03531F0B2675002D5336 /* MapAlertController.swift in Sources */,
+				1F6E0CE81F0DD020005E08E9 /* SettingModels.swift in Sources */,
 				1FDF06C31EEE3CC1003B7580 /* DisneyModel.xcdatamodeld in Sources */,
 				1F6D1A021EB0BBFC00A9C70F /* Localize.swift in Sources */,
 				1F46F5E01F06423900ABF913 /* SpecifiedPlan.swift in Sources */,

@@ -17,11 +17,13 @@ class SettingDateVC: UIViewController, FileLocalizable {
     let tableView: UITableView
     let settingDateCell: SettingDateCell
     let settingTimeCell: SettingTimeCell
+    let settingPanelCell: SettingPanelCell
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: .zero, style: .plain)
         settingDateCell = SettingDateCell(style: .default, reuseIdentifier: nil)
         settingTimeCell = SettingTimeCell(style: .default, reuseIdentifier: nil)
+        settingPanelCell = SettingPanelCell(style: .default, reuseIdentifier: nil)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         hidesBottomBarWhenPushed = true
@@ -63,34 +65,62 @@ class SettingDateVC: UIViewController, FileLocalizable {
 
     @objc
     private func saveHandler(_ sender: UIBarButtonItem) {
+        // 保存日期
+        if Preferences.shared.visitStart.value != settingDateCell.date.value {
+            Preferences.shared.visitStart.value = settingDateCell.date.value
+        }
         navigationController?.popViewController(animated: true)
     }
 
     fileprivate func presentDatePicker() {
-        guard let visitDate = Preferences.shared.visitStart.value else { return }
+        guard let visitDate = settingDateCell.date.value else { return }
         let datepicker = VisitdatePickVC(date: visitDate)
         datepicker
             .subject
-            .subscribe { dateEvent in
-                guard let date = dateEvent.element else {
-                    return
+            .subscribe { [weak self] dateEvent in
+                switch dateEvent {
+                case .completed:
+                    // 更新园区营业时间
+                    self?.requestOpenTimeAndUpdatePanel()
+                case .next(let date):
+                    // 更新cell显示
+                    self?.settingDateCell.date.value = date
+                case .error:
+                    break
                 }
-                Preferences.shared.visitStart.value = date
             }
             .disposed(by: disposeBag)
         present(datepicker, animated: false, completion: nil)
+    }
+
+    fileprivate func requestOpenTimeAndUpdatePanel() {
+        guard let dateTime = settingDateCell.date.value else { return }
+        let openTimeRequest = API.Schedule.openTime(date: dateTime)
+        openTimeRequest.request { [weak self] data in
+            guard let openTime = OpenTime(data) else { return }
+            let openHour = openTime.open.hour
+            let openMinute = openTime.open.minute
+            let closeHour = openTime.close.hour
+            let closeMinute = openTime.close.minute
+            let open = Float(openHour) + Float(openMinute) / 60
+            let close = Float(closeHour) + Float(closeMinute) / 60
+
+            self?.settingPanelCell.panel.openCloseTime.value = (open, close)
+        }
     }
 }
 
 extension SettingDateVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             return settingDateCell
-        } else {
+        } else if indexPath.row == 1 {
             return settingTimeCell
+        } else {
+            return settingPanelCell
         }
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -103,6 +133,7 @@ extension SettingDateVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == 0 {
             presentDatePicker()
         }

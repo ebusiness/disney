@@ -20,6 +20,7 @@ class SettingDateCell: UITableViewCell, FileLocalizable {
     let dateLabel: UILabel
 
     let disposeBag = DisposeBag()
+    let date: Variable<Date?> = Variable(Preferences.shared.visitStart.value)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         container = UIView(frame: .zero)
@@ -80,9 +81,7 @@ class SettingDateCell: UITableViewCell, FileLocalizable {
     private func addSubDateLabel() {
         dateLabel.textColor = UIColor.white
         dateLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        Preferences
-            .shared
-            .visitStart
+        date
             .asObservable()
             .map { (date: Date?) -> String? in
                 if let date = date {
@@ -93,7 +92,6 @@ class SettingDateCell: UITableViewCell, FileLocalizable {
                     return nil
                 }
             }
-            .asObservable()
             .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
         container.addSubview(dateLabel)
@@ -107,6 +105,8 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
     let localizeFileName = "Setting"
 
     let disposeBag = DisposeBag()
+    let inTime: Variable<Date?> = Variable(Preferences.shared.visitStart.value)
+    let outTime: Variable<Date?> = Variable(Preferences.shared.visitEnd.value)
 
     let stackView: UIStackView
     let inContainer: UIView
@@ -146,7 +146,7 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
         contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 12).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12).isActive = true
         stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
 
@@ -176,9 +176,7 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
         inTextLabel.textColor = DefaultStyle.darkPrimaryColor
         inTextLabel.text = localize(for: "setting time in")
         inTimeLabel.textColor = DefaultStyle.darkPrimaryColor
-        Preferences
-            .shared
-            .visitStart
+        inTime
             .asObservable()
             .map { (date: Date?) -> String? in
                 if let date = date {
@@ -215,11 +213,9 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
     private func addSubOutIconAndLabels() {
         outIcon.tintColor = DefaultStyle.darkPrimaryColor
         outTextLabel.textColor = DefaultStyle.darkPrimaryColor
-        outTextLabel.text = localize(for: "setting time in")
+        outTextLabel.text = localize(for: "setting time out")
         outTimeLabel.textColor = DefaultStyle.darkPrimaryColor
-        Preferences
-            .shared
-            .visitEnd
+        outTime
             .asObservable()
             .map { (date: Date?) -> String? in
                 if let date = date {
@@ -251,4 +247,26 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
 
 class SettingPanelCell: UITableViewCell {
 
+    let panel: SettingTimePanel
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        panel = SettingTimePanel(frame: .zero)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        selectionStyle = .none
+        backgroundColor = DefaultStyle.viewBackgroundColor
+        addSubPanel()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addSubPanel() {
+        contentView.addSubview(panel)
+        panel.translatesAutoresizingMaskIntoConstraints = false
+        panel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        panel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        panel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
 }

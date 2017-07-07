@@ -87,6 +87,7 @@ extension Date {
     }
     func format(pattern: String = "yyyy-MM-dd'T'HH:mm:ssZ") -> String {
         let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(secondsFromGMT: 3600 * 9)!
         formatter.dateFormat = pattern
         return formatter.string(from: self)
     }
@@ -95,6 +96,26 @@ extension Date {
         formatter.timeZone = TimeZone(secondsFromGMT: 0)!
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         return formatter.string(from: self) + "Z"
+    }
+
+    func hourAt(timeZone: TimeZone) -> Int {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents(in: timeZone, from: self)
+        return dateComponents.hour!
+    }
+
+    var hour: Int {
+        return hourAt(timeZone: TimeZone(secondsFromGMT: 3600 * 9)!)
+    }
+
+    func minuteAt(timeZone: TimeZone) -> Int {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents(in: timeZone, from: self)
+        return dateComponents.minute!
+    }
+
+    var minute: Int {
+        return minuteAt(timeZone: TimeZone(secondsFromGMT: 3600 * 9)!)
     }
 }
 
@@ -118,5 +139,13 @@ extension UIView {
     var rectInWindow: CGRect {
         guard let superView = self.superview else { fatalError("view not in window") }
         return superView.convert(frame, to: nil)
+    }
+}
+
+extension CGRect {
+    init(center: CGPoint, size: CGSize) {
+        let origin = CGPoint(x: center.x - size.width / 2,
+                             y: center.y - size.height / 2)
+        self.init(origin: origin, size: size)
     }
 }
