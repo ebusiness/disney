@@ -62,25 +62,44 @@ class SettingCell: UITableViewCell, FileLocalizable {
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_timer_black_24px")
                 textLabel?.text = localize(for: "setting time in")
-                if let visitDate = Preferences.shared.visitStart.value {
-                    detailTextLabel?.text = DateFormatter.localizedString(from: visitDate,
-                                                                          dateStyle: .none,
-                                                                          timeStyle: .short)
-                } else {
-                    detailTextLabel?.text = nil
-                }
+                guard let detailTextLabel = detailTextLabel else { break }
+                detailTextDisposable?.dispose()
+                detailTextDisposable = Preferences
+                    .shared
+                    .visitStart
+                    .asObservable()
+                    .map { (date: Date?) -> String? in
+                        if let date = date {
+                            return DateFormatter.localizedString(from: date,
+                                                                 dateStyle: .none,
+                                                                 timeStyle: .short)
+                        } else {
+                            return nil
+                        }
+                    }
+                    .bind(to: detailTextLabel.rx.text)
+                detailTextDisposable?.disposed(by: disposeBag)
             case .timeOut:
                 imageView?.tintColor = DefaultStyle.settingImageTint1
                 imageView?.image = #imageLiteral(resourceName: "ic_timer_off_black_24px")
                 textLabel?.text = localize(for: "setting time out")
-                if let exitDate = Preferences.shared.visitEnd.value {
-                    detailTextLabel?.text = DateFormatter.localizedString(from: exitDate,
-                                                                          dateStyle: .none,
-                                                                          timeStyle: .short)
-                } else {
-                    detailTextLabel?.text = nil
-                }
-
+                guard let detailTextLabel = detailTextLabel else { break }
+                detailTextDisposable?.dispose()
+                detailTextDisposable = Preferences
+                    .shared
+                    .visitEnd
+                    .asObservable()
+                    .map { (date: Date?) -> String? in
+                        if let date = date {
+                            return DateFormatter.localizedString(from: date,
+                                                                 dateStyle: .none,
+                                                                 timeStyle: .short)
+                        } else {
+                            return nil
+                        }
+                    }
+                    .bind(to: detailTextLabel.rx.text)
+                detailTextDisposable?.disposed(by: disposeBag)
             case .feedback:
                 imageView?.tintColor = DefaultStyle.settingImageTint2
                 imageView?.image = #imageLiteral(resourceName: "ic_feedback_black_24px")

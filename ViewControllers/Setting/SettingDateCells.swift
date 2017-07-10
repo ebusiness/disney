@@ -105,8 +105,8 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
     let localizeFileName = "Setting"
 
     let disposeBag = DisposeBag()
-    let inTime: Variable<Date?> = Variable(Preferences.shared.visitStart.value)
-    let outTime: Variable<Date?> = Variable(Preferences.shared.visitEnd.value)
+    let inTime: Variable<Float?> = Variable(nil)
+    let outTime: Variable<Float?> = Variable(nil)
 
     let stackView: UIStackView
     let inContainer: UIView
@@ -178,11 +178,13 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
         inTimeLabel.textColor = DefaultStyle.darkPrimaryColor
         inTime
             .asObservable()
-            .map { (date: Date?) -> String? in
-                if let date = date {
-                    return DateFormatter.localizedString(from: date,
-                                                         dateStyle: .none,
-                                                         timeStyle: .short)
+            .map { (value: Float?) -> String? in
+                if let value = value {
+                    let intPart = floor(value)
+                    let decPart = value - intPart
+                    let hour = Int(intPart)
+                    let minute = Int(decPart * 60)
+                    return String(format: "%d:%02d", hour, minute)
                 } else {
                     return nil
                 }
@@ -217,11 +219,13 @@ class SettingTimeCell: UITableViewCell, FileLocalizable {
         outTimeLabel.textColor = DefaultStyle.darkPrimaryColor
         outTime
             .asObservable()
-            .map { (date: Date?) -> String? in
-                if let date = date {
-                    return DateFormatter.localizedString(from: date,
-                                                         dateStyle: .none,
-                                                         timeStyle: .short)
+            .map { (value: Float?) -> String? in
+                if let value = value {
+                    let intPart = floor(value)
+                    let decPart = value - intPart
+                    let hour = Int(intPart)
+                    let minute = Int(decPart * 60)
+                    return String(format: "%d:%02d", hour, minute)
                 } else {
                     return nil
                 }

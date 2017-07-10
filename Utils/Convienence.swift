@@ -149,3 +149,10 @@ extension CGRect {
         self.init(origin: origin, size: size)
     }
 }
+
+extension CGPoint {
+    //swiftlint:disable:next identifier_name
+    static func midOf(x: CGPoint, y: CGPoint) -> CGPoint {
+        return CGPoint(x: (x.x + y.x) * 0.5, y: (x.y + y.y) * 0.5)
+    }
+}

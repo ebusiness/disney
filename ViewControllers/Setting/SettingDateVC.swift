@@ -30,6 +30,7 @@ class SettingDateVC: UIViewController, FileLocalizable {
         view.backgroundColor = DefaultStyle.viewBackgroundColor
 
         addSubTableView()
+        bindTimeCellToPanel()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -55,6 +56,28 @@ class SettingDateVC: UIViewController, FileLocalizable {
         tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
     }
 
+    private func bindTimeCellToPanel() {
+        settingPanelCell
+            .panel
+            .inOutTime
+            .asObservable()
+            .map {
+                $0.in
+            }
+            .bind(to: settingTimeCell.inTime)
+            .disposed(by: disposeBag)
+        settingPanelCell
+            .panel
+            .inOutTime
+            .asObservable()
+            .map {
+                $0.out
+            }
+            .bind(to: settingTimeCell.outTime)
+            .disposed(by: disposeBag)
+        requestOpenTimeAndUpdatePanel()
+    }
+
     private func configNavigationItems() {
         title = localize(for: "setting date and time")
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
@@ -65,11 +88,48 @@ class SettingDateVC: UIViewController, FileLocalizable {
 
     @objc
     private func saveHandler(_ sender: UIBarButtonItem) {
-        // 保存日期
-        if Preferences.shared.visitStart.value != settingDateCell.date.value {
-            Preferences.shared.visitStart.value = settingDateCell.date.value
+        defer { navigationController?.popViewController(animated: true) }
+        // 计算时间
+        guard let date = settingDateCell.date.value else { return }
+        guard let inTime = settingTimeCell.inTime.value else { return }
+        guard let outTime = settingTimeCell.outTime.value else { return }
+        let calendar = Calendar.current
+        let ymd = calendar.dateComponents(in: TimeZone(secondsFromGMT: 3600 * 9)!, from: date)
+        let year = ymd.year
+        let month = ymd.month
+        let day = ymd.day
+        let inHour = Int(floor(inTime))
+        let inMinute = Int(60 * (inTime - floor(inTime)))
+        let outHour = Int(floor(outTime))
+        let outMinute = Int(60 * (outTime - floor(outTime)))
+        var inComponents = DateComponents()
+        inComponents.calendar = calendar
+        inComponents.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
+        inComponents.year = year
+        inComponents.month = month
+        inComponents.day = day
+        inComponents.hour = inHour
+        inComponents.minute = inMinute
+        inComponents.second = 0
+        let inDate = calendar.date(from: inComponents)
+        var outComponents = DateComponents()
+        outComponents.calendar = calendar
+        outComponents.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
+        outComponents.year = year
+        outComponents.month = month
+        outComponents.day = day
+        outComponents.hour = outHour
+        outComponents.minute = outMinute
+        outComponents.second = 0
+        let outDate = calendar.date(from: outComponents)
+
+        if Preferences.shared.visitStart.value != inDate {
+            Preferences.shared.visitStart.value = inDate
         }
-        navigationController?.popViewController(animated: true)
+
+        if Preferences.shared.visitEnd.value != outDate {
+            Preferences.shared.visitEnd.value = outDate
+        }
     }
 
     fileprivate func presentDatePicker() {
