@@ -27,6 +27,7 @@
 		1F46F5E01F06423900ABF913 /* SpecifiedPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F46F5DF1F06423900ABF913 /* SpecifiedPlan.swift */; };
 		1F4F73961F0344380009F4C1 /* PhotoSaveAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4F73951F0344380009F4C1 /* PhotoSaveAssistant.swift */; };
 		1F53FB621F00BBD700871F5B /* SettingDateCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53FB611F00BBD700871F5B /* SettingDateCells.swift */; };
+		1F54388A1F14CA13005197DF /* CreatePlanMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5438891F14CA13005197DF /* CreatePlanMenu.swift */; };
 		1F5913411EFA70C0004F2FCD /* Setting.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F5913431EFA70C0004F2FCD /* Setting.strings */; };
 		1F5BADCF1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5BADCE1EF77D810074467A /* CustomPlanAttractionsOfCategoryVC.swift */; };
 		1F6559501EC16C7A005BC235 /* AttractionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F65594F1EC16C7A005BC235 /* AttractionModels.swift */; };
@@ -68,6 +69,9 @@
 		1FD1CF4C1ECD8C6B004A72B7 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */; };
 		1FDF06C31EEE3CC1003B7580 /* DisneyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF06C11EEE3CC1003B7580 /* DisneyModel.xcdatamodeld */; };
 		1FDF06C51EEE3D26003B7580 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF06C41EEE3D26003B7580 /* DataManager.swift */; };
+		1FEB714A1F14B616003082BD /* CreatePlanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEB71491F14B616003082BD /* CreatePlanVC.swift */; };
+		1FEB714C1F14C13B003082BD /* CreatePlanAttractionsOfGradeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEB714B1F14C13B003082BD /* CreatePlanAttractionsOfGradeVC.swift */; };
+		1FEB714E1F14C45A003082BD /* CreatePlanAttractionsOfGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEB714D1F14C45A003082BD /* CreatePlanAttractionsOfGradeCell.swift */; };
 		1FF1C4DE1EAEF03C005A87A9 /* VisitorTag.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E01EAEF03C005A87A9 /* VisitorTag.strings */; };
 		1FF1C4E91EAF2C25005A87A9 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4E81EAF2C25005A87A9 /* SettingVC.swift */; };
 		1FF1C4EB1EAF2C4B005A87A9 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1C4EA1EAF2C4B005A87A9 /* MapVC.swift */; };
@@ -121,6 +125,7 @@
 		1F46F5DF1F06423900ABF913 /* SpecifiedPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecifiedPlan.swift; sourceTree = "<group>"; };
 		1F4F73951F0344380009F4C1 /* PhotoSaveAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveAssistant.swift; sourceTree = "<group>"; };
 		1F53FB611F00BBD700871F5B /* SettingDateCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDateCells.swift; sourceTree = "<group>"; };
+		1F5438891F14CA13005197DF /* CreatePlanMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlanMenu.swift; sourceTree = "<group>"; };
 		1F5913421EFA70C0004F2FCD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Setting.strings"; sourceTree = "<group>"; };
 		1F5913441EFA70C3004F2FCD /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Setting.strings"; sourceTree = "<group>"; };
 		1F5913451EFA70C4004F2FCD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Setting.strings; sourceTree = "<group>"; };
@@ -172,6 +177,9 @@
 		1FD1CF4B1ECD8C6B004A72B7 /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		1FDF06C21EEE3CC1003B7580 /* DisneyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DisneyModel.xcdatamodel; sourceTree = "<group>"; };
 		1FDF06C41EEE3D26003B7580 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		1FEB71491F14B616003082BD /* CreatePlanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlanVC.swift; sourceTree = "<group>"; };
+		1FEB714B1F14C13B003082BD /* CreatePlanAttractionsOfGradeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlanAttractionsOfGradeVC.swift; sourceTree = "<group>"; };
+		1FEB714D1F14C45A003082BD /* CreatePlanAttractionsOfGradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlanAttractionsOfGradeCell.swift; sourceTree = "<group>"; };
 		1FF1C4E11EAEF042005A87A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
 		1FF1C4E21EAEF047005A87A9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/VisitorTag.strings"; sourceTree = "<group>"; };
 		1FF1C4E31EAEF048005A87A9 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/VisitorTag.strings; sourceTree = "<group>"; };
@@ -231,6 +239,7 @@
 		1FA8112C1EADA871000A7F2D /* Homepage */ = {
 			isa = PBXGroup;
 			children = (
+				1FEB71481F14B5B8003082BD /* CreatePlan */,
 				1FA8112D1EADA8AA000A7F2D /* HomepageVC.swift */,
 				1F7DFB831ECAF7C9004FA058 /* HomepageCells.swift */,
 				1F7DFB811ECAEFE9004FA058 /* HomepageModels.swift */,
@@ -273,6 +282,17 @@
 				1F46F5DF1F06423900ABF913 /* SpecifiedPlan.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		1FEB71481F14B5B8003082BD /* CreatePlan */ = {
+			isa = PBXGroup;
+			children = (
+				1FEB71491F14B616003082BD /* CreatePlanVC.swift */,
+				1F5438891F14CA13005197DF /* CreatePlanMenu.swift */,
+				1FEB714B1F14C13B003082BD /* CreatePlanAttractionsOfGradeVC.swift */,
+				1FEB714D1F14C45A003082BD /* CreatePlanAttractionsOfGradeCell.swift */,
+			);
+			path = CreatePlan;
 			sourceTree = "<group>";
 		};
 		1FF1C4E41EAF2A8C005A87A9 /* Attraction */ = {
@@ -585,12 +605,14 @@
 				1FF6CDF41EF1316D00367802 /* CustomPlanAttractionsOfAreaModel.swift in Sources */,
 				1FDF06C51EEE3D26003B7580 /* DataManager.swift in Sources */,
 				1FF6CDF61EF1488400367802 /* CustomPlanAttractionsOfAreaCells.swift in Sources */,
+				1FEB714E1F14C45A003082BD /* CreatePlanAttractionsOfGradeCell.swift in Sources */,
 				1F43F7AD1EC433E4009D0104 /* AttractionDetailVC.swift in Sources */,
 				1F6E0CE61F0CDEF4005E08E9 /* SettingTimePanel.swift in Sources */,
 				1F90DD0E1EB04919004463B9 /* API.swift in Sources */,
 				1F266CCC1EFCF5B200FDA5CC /* SettingParkVC.swift in Sources */,
 				1F6E0CE41F0CD508005E08E9 /* MaterialDesignColors.swift in Sources */,
 				1F8E2C9E1EF37A36004B439D /* CustomPlanAttractionsOfGradeVC.swift in Sources */,
+				1FEB714C1F14C13B003082BD /* CreatePlanAttractionsOfGradeVC.swift in Sources */,
 				1F836EDF1EE57D170019640E /* CustomPlanCell.swift in Sources */,
 				1F90DD0C1EB036DB004463B9 /* Network.swift in Sources */,
 				1FA811301EADA8BC000A7F2D /* Main.swift in Sources */,
@@ -602,6 +624,7 @@
 				1F43F7AF1EC47253009D0104 /* AttractionDetailCell.swift in Sources */,
 				D0340C6F1EA98B7200BD8428 /* AppDelegate.swift in Sources */,
 				1F6D1A001EB0AC0800A9C70F /* Convienence.swift in Sources */,
+				1F54388A1F14CA13005197DF /* CreatePlanMenu.swift in Sources */,
 				1F13D0A01ED01C0000121C80 /* CustomPlanVC.swift in Sources */,
 				1FC93F941EFA1F6D00FEB2F9 /* DefaultStyle.swift in Sources */,
 				1FA096B61EB200D400A26174 /* VisitdatePickVC.swift in Sources */,
@@ -611,6 +634,7 @@
 				1FF1C4EB1EAF2C4B005A87A9 /* MapVC.swift in Sources */,
 				1FF1C4ED1EAF2C5E005A87A9 /* AttractionVC.swift in Sources */,
 				1F7DFB881ECB258A004FA058 /* HomepageDetailCells.swift in Sources */,
+				1FEB714A1F14B616003082BD /* CreatePlanVC.swift in Sources */,
 				1F7DFB861ECB2014004FA058 /* HomepageDetailVC.swift in Sources */,
 				1F24BE961ED81A2600E37727 /* CustomPlanCategoryVC.swift in Sources */,
 				1F6559521EC1CB4E005BC235 /* VisitorTagModels.swift in Sources */,

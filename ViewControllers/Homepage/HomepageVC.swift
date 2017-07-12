@@ -157,7 +157,9 @@ class HomepageVC: UIViewController, FileLocalizable {
 
     @objc
     func newPlanButtonHandler(_ sender: UIBarButtonItem) {
-        let destination = CustomPlanViewController()
+//        let destination = CustomPlanViewController()
+//        navigationController?.pushViewController(destination, animated: true)
+        let destination = CreatePlanVC()
         navigationController?.pushViewController(destination, animated: true)
     }
 

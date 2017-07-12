@@ -52,7 +52,6 @@ class ImageBrowserController: UIViewController, FileLocalizable {
     }
 
     deinit {
-        print("Image browser deinited")
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
