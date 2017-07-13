@@ -20,6 +20,8 @@ class CreatePlanAttractionsOfGradeVC: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView(frame: .zero, style: .plain)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+        automaticallyAdjustsScrollViewInsets = false
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,12 +39,11 @@ class CreatePlanAttractionsOfGradeVC: UIViewController {
         tableView.backgroundColor = DefaultStyle.viewBackgroundColor
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 150
         tableView.separatorStyle = .none
-        tableView.sectionHeaderHeight = 44
-        tableView.sectionFooterHeight = 0.001
-        tableView.register(CustomPlanAttractionsOfGradeCell.self, forCellReuseIdentifier: identifier)
+        tableView.rowHeight = UIScreen.main.bounds.width / 2
+        tableView.register(CreatePlanAttractionsOfGradeCell.self, forCellReuseIdentifier: identifier)
+        view.addSubview(tableView)
+        tableView.addAllConstraints(equalTo: view)
     }
 
     private func requestAttractionList() {
@@ -56,21 +57,25 @@ class CreatePlanAttractionsOfGradeVC: UIViewController {
 }
 
 extension CreatePlanAttractionsOfGradeVC: UITableViewDelegate, UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listData?.count ?? 0
     }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? CustomPlanAttractionsOfGradeCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? CreatePlanAttractionsOfGradeCell else {
             fatalError("Unknown cell type")
         }
         cell.data = listData?[safe: indexPath.row]
         return cell
     }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         guard var data = listData?[safe: indexPath.row] else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) as? CreatePlanAttractionsOfGradeCell else { return }
         data.selected = !data.selected
         listData?[indexPath.row] = data
-        tableView.reloadRows(at: [indexPath], with: .none)
+        cell.data = data
     }
 }

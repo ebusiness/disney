@@ -13,6 +13,10 @@ class CreatePlanVC: UIViewController {
     let planMenu: CreatePlanMenu
     let tableContainer: UIView
 
+    lazy var gradeVC: UIViewController = {
+        return CreatePlanAttractionsOfGradeVC()
+    }()
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         planMenu = CreatePlanMenu(frame: .zero)
         tableContainer = UIView(frame: .zero)
@@ -23,6 +27,7 @@ class CreatePlanVC: UIViewController {
         automaticallyAdjustsScrollViewInsets = false
 
         addSubPlanMenu()
+        addSubTableContainer()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -32,6 +37,9 @@ class CreatePlanVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        switchContentView(to: gradeVC.view)
+        switchContentView(to: gradeVC.view)
+        switchContentView(to: gradeVC.view)
     }
 
     private func addSubPlanMenu() {
@@ -40,6 +48,21 @@ class CreatePlanVC: UIViewController {
         planMenu.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         planMenu.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         planMenu.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+    }
+
+    private func addSubTableContainer() {
+        view.addSubview(tableContainer)
+        tableContainer.translatesAutoresizingMaskIntoConstraints = false
+        tableContainer.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableContainer.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableContainer.topAnchor.constraint(equalTo: planMenu.bottomAnchor).isActive = true
+        tableContainer.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
+    }
+
+    private func switchContentView(to subView: UIView) {
+        tableContainer.subviews.forEach { $0.removeFromSuperview() }
+        tableContainer.addSubview(subView)
+        subView.addAllConstraints(equalTo: tableContainer)
     }
 
 }
