@@ -12,6 +12,7 @@ class CreatePlanVC: UIViewController {
 
     let planMenu: CreatePlanMenu
     let tableContainer: UIView
+    let awesomeList: CreatePlanAwesomeList
 
     lazy var gradeVC: UIViewController = {
         return CreatePlanAttractionsOfGradeVC()
@@ -20,6 +21,7 @@ class CreatePlanVC: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         planMenu = CreatePlanMenu(frame: .zero)
         tableContainer = UIView(frame: .zero)
+        awesomeList = CreatePlanAwesomeList()
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         view.backgroundColor = DefaultStyle.viewBackgroundColor
@@ -28,6 +30,7 @@ class CreatePlanVC: UIViewController {
 
         addSubPlanMenu()
         addSubTableContainer()
+        addSubAwesomeList()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,6 +60,12 @@ class CreatePlanVC: UIViewController {
         tableContainer.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableContainer.topAnchor.constraint(equalTo: planMenu.bottomAnchor).isActive = true
         tableContainer.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor).isActive = true
+    }
+
+    private func addSubAwesomeList() {
+        let frame = CGRect(origin: CGPoint(x: 0, y: 100), size: UIScreen.main.bounds.size)
+        awesomeList.frame = frame
+        view.addSubview(awesomeList)
     }
 
     private func switchContentView(to subView: UIView) {
