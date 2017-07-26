@@ -1,5 +1,5 @@
 github "Alamofire/Alamofire" "4.5.0"
-github "ReactiveX/RxSwift" "3.5.0"
+github "ReactiveX/RxSwift" "3.6.1"
 github "SwiftyJSON/SwiftyJSON" "3.1.4"
 github "onevcat/Kingfisher" "3.10.3"
 github "starboychina/AlamofireSwiftyJSON" "1.0.0"

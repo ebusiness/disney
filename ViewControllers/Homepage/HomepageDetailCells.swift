@@ -21,7 +21,7 @@ class HomepageDetailCellTop: HomepageDetailCellBase {
                 }
 
                 // 行走花费时间
-                toNextDescriptionLabel.text = localize(for: "Walk cost time:") + " \(data.timeToNext)" + localize(for: "minute(s)")
+                toNextDescriptionLabel.text = localize(for: "Walk cost time:") + " " + "\(data.timeToNext)" + localize(for: "minute(s)")
             }
         }
     }
@@ -53,7 +53,7 @@ class HomepageDetailCellMid: HomepageDetailCellBase {
                 }
 
                 // 行走花费时间
-                toNextDescriptionLabel.text = localize(for: "Walk cost time:") + " \(data.timeToNext)" + localize(for: "minute(s)")
+                toNextDescriptionLabel.text = localize(for: "Walk cost time:") + " " + "\(data.timeToNext)" + localize(for: "minute(s)")
             }
         }
     }
